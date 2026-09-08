@@ -1,0 +1,44 @@
+name: Bootstrap Sparesjekk V30
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Rebuild V30 source
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat .bootstrap/v30.part* | base64 -d > /tmp/sparesjekk-v30.tar.xz
+          mkdir -p /tmp/sparesjekk-v30
+          tar -xJf /tmp/sparesjekk-v30.tar.xz -C /tmp/sparesjekk-v30
+
+          rsync -a --delete \
+            --exclude='.git/' \
+            --exclude='.bootstrap/' \
+            --exclude='.github/workflows/sparesjekk-bootstrap-v30-20260908.yml' \
+            /tmp/sparesjekk-v30/ ./
+
+          rm -rf .bootstrap
+          rm -f README.md
+          rm -f .github/workflows/sparesjekk-bootstrap-v30-20260908.yml
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          git commit -m "Import Sparesjekk V30 source of truth"
+          git push
