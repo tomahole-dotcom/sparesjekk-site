@@ -1,0 +1,103 @@
+name: Sparesjekk Site Release V31 FTP
+
+on:
+  workflow_dispatch:
+    inputs:
+      deploy:
+        description: 'Deploy to production after all QA gates pass'
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sparesjekk-production-deploy
+  cancel-in-progress: false
+
+jobs:
+  build-qa-release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+          cache-dependency-path: requirements-site-builder.txt
+
+      - name: Dependencies
+        run: pip install -r requirements-site-builder.txt
+
+      - name: Build generated commercial blocks and sitemap
+        run: python tools/build_site.py
+
+      - name: Full QA and SEO hard gate
+        run: python tools/qa_site.py
+
+      - name: Verify GA4 on every public HTML page
+        shell: python
+        run: |
+          from pathlib import Path
+          import json, sys
+          root = Path('.')
+          ga4 = json.loads((root/'site-config.json').read_text())['site']['ga4']
+          pages = list(root.rglob('*.html'))
+          missing = [str(p) for p in pages if ga4 not in p.read_text(encoding='utf-8')]
+          if missing:
+              print('GA4 missing:', *missing, sep='\n- ')
+              sys.exit(1)
+          print(f'GA4 PASS: {len(pages)} pages')
+
+      - name: Create deploy package
+        run: |
+          mkdir -p release
+          rsync -a ./ release/site/ \
+            --exclude '.git/' --exclude '.github/' --exclude 'release/' \
+            --exclude 'tools/' --exclude 'seo-baseline.json' \
+            --exclude 'requirements-site-builder.txt' --exclude 'site-config.json'
+          (cd release/site && zip -qr ../sparesjekk-site-release.zip .)
+
+      - name: Upload tested release artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sparesjekk-tested-site-v31
+          path: release/sparesjekk-site-release.zip
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Validate FTP deploy secrets
+        if: ${{ inputs.deploy }}
+        shell: bash
+        env:
+          FTP_HOST: ${{ secrets.SPARESJEKK_FTP_HOST }}
+          FTP_USER: ${{ secrets.SPARESJEKK_FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.SPARESJEKK_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          for v in FTP_HOST FTP_USER FTP_PASSWORD; do
+            [ -n "${!v:-}" ] || { echo "Missing required deploy secret: $v"; exit 1; }
+          done
+
+      - name: Deploy tested site over FTP
+        if: ${{ inputs.deploy }}
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+        with:
+          server: ${{ secrets.SPARESJEKK_FTP_HOST }}
+          username: ${{ secrets.SPARESJEKK_FTP_USER }}
+          password: ${{ secrets.SPARESJEKK_FTP_PASSWORD }}
+          protocol: ftp
+          port: 21
+          local-dir: ./release/site/
+          server-dir: ./
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            .well-known/**
