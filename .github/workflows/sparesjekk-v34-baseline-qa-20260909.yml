@@ -1,0 +1,84 @@
+name: Sparesjekk V34 Baseline Refresh QA
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sparesjekk-v34-baseline-qa
+  cancel-in-progress: false
+
+jobs:
+  baseline-build-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout V34 branch
+        uses: actions/checkout@v4
+        with:
+          ref: seo-content-v34-master
+
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+          cache-dependency-path: requirements-site-builder.txt
+
+      - name: Dependencies
+        run: pip install -r requirements-site-builder.txt
+
+      - name: Accept reviewed V34 SEO as new baseline
+        run: python tools/seo_guard.py snapshot
+
+      - name: Build generated blocks and sitemap
+        run: python tools/build_site.py
+
+      - name: Full QA against refreshed V34 baseline
+        run: python tools/qa_site.py
+
+      - name: Verify GA4 on every public HTML page
+        shell: python
+        run: |
+          from pathlib import Path
+          import json, sys
+          root=Path('.')
+          ga4=json.loads((root/'site-config.json').read_text(encoding='utf-8'))['site']['ga4']
+          pages=list(root.rglob('*.html'))
+          missing=[str(p) for p in pages if ga4 not in p.read_text(encoding='utf-8')]
+          if missing:
+              print('GA4 missing:', *missing, sep='\n- ')
+              sys.exit(1)
+          print(f'GA4 PASS: {len(pages)} pages')
+
+      - name: Ensure deprecated FX URL stays out of sitemap
+        shell: python
+        run: |
+          from pathlib import Path
+          import sys
+          s=Path('sitemap.xml').read_text(encoding='utf-8')
+          old='https://sparesjekk.no/kredittkort-valutapaslag.html'
+          new='https://sparesjekk.no/valutapaslag-kredittkort.html'
+          if old in s:
+              print('Deprecated FX URL is still in sitemap')
+              sys.exit(1)
+          if new not in s:
+              print('Canonical FX URL missing from sitemap')
+              sys.exit(1)
+          print('FX sitemap consolidation PASS')
+
+      - name: Commit refreshed baseline and deterministic build outputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add seo-baseline.json sitemap.xml
+          if git diff --cached --quiet; then
+            echo 'No baseline/build changes to commit'
+          else
+            git commit -m 'Refresh V34 SEO baseline after reviewed optimization batch'
+            git push origin HEAD:seo-content-v34-master
+          fi
