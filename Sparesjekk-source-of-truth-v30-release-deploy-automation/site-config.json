@@ -1,0 +1,54 @@
+{
+  "site": {
+    "name": "Sparesjekk",
+    "base_url": "https://sparesjekk.no",
+    "ga4": "G-XYRPP78DJ5"
+  },
+  "categories": [
+    {
+      "key": "boliglan",
+      "label": "Boliglån",
+      "page": "boliglan.html",
+      "landing": "sjekk/boliglan/"
+    },
+    {
+      "key": "forbrukslan",
+      "label": "Forbrukslån",
+      "page": "forbrukslan.html",
+      "landing": "sjekk/forbrukslan/"
+    },
+    {
+      "key": "omstartslan",
+      "label": "Omstartslån",
+      "page": "omstartslan.html",
+      "landing": "sjekk/omstartslan/"
+    },
+    {
+      "key": "kredittkort",
+      "label": "Kredittkort",
+      "page": "kredittkort.html",
+      "landing": "sjekk/kredittkort/"
+    }
+  ],
+  "partners": [],
+  "rules": {
+    "only_approved_partners": true,
+    "preserve_existing_seo": true,
+    "affiliate_disclosure_required": true
+  },
+  "automation": {
+    "generated_blocks": [
+      "commercial partner cards on /sjekk/ landing pages",
+      "sitemap.xml"
+    ],
+    "seo_fields_locked": [
+      "title",
+      "meta description",
+      "canonical",
+      "robots",
+      "h1",
+      "JSON-LD"
+    ],
+    "release_rule": "build + full QA must pass"
+  }
+}
