@@ -1,0 +1,48 @@
+/* Sparesjekk V34 shared design polish. Visual/UX only; no SEO content. */
+:root{--shadow-soft:0 14px 38px rgba(16,47,64,.07);--shadow-hover:0 16px 36px rgba(16,47,64,.10)}
+body{overflow-x:hidden}
+.header{position:relative;z-index:30;border-bottom:1px solid rgba(220,229,224,.7)}
+.topnav a{border-radius:9px;padding:8px 9px;transition:background .15s,color .15s}
+.topnav a:hover{background:var(--soft);color:var(--green-dark)}
+.cta,.secondary-cta{transition:transform .15s,box-shadow .15s,background .15s,border-color .15s}
+.cta:hover,.secondary-cta:hover{transform:translateY(-1px)}
+.secondary-cta:hover{border-color:#bdd8ca;background:#f8fcfa}
+.premium-hero,.campaign-hero,.about-card,.calculator,.guide-card-v13,.guide-row-v14,.featured-grid a,.big-category,.topic-cards-v32 a{transition:box-shadow .18s,transform .18s,border-color .18s}
+.premium-visual,.campaign-panel{box-shadow:var(--shadow-soft)}
+.guide-card-v13:hover,.featured-grid a:hover,.big-category:hover,.topic-cards-v32 a:hover{box-shadow:var(--shadow-hover);transform:translateY(-2px);border-color:#c8ddd2}
+.article.cornerstone{font-size:1rem}
+.article.cornerstone section{padding-bottom:4px}
+.article.cornerstone h2{max-width:760px}
+.article.cornerstone p,.article.cornerstone li{max-width:760px}
+.hub-editorial,.editorial-review-v21{border-top:1px solid var(--line);padding-top:30px!important}
+.hub-all-guides{border:1px solid #dbe7e1}
+.seo-related{padding-top:24px!important;border-top:1px solid var(--line)}
+.campaign-content .comparison-table{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:14px;background:#fff}
+.campaign-content table{width:100%;border-collapse:collapse;min-width:620px}
+.campaign-content th,.campaign-content td{padding:14px 16px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+.campaign-content th{background:var(--soft);color:var(--navy)}
+.campaign-content tr:last-child td{border-bottom:0}
+.partner-preview{box-shadow:0 10px 28px rgba(16,47,64,.045)}
+footer{border-top:1px solid #e5ebe7}
+@media(max-width:800px){
+ .header{height:66px;padding:0 18px}.menu-btn{width:44px;height:44px;border-radius:10px;cursor:pointer}.menu-btn:hover{background:var(--soft)}
+ .topnav{left:10px;right:10px;top:61px;padding:7px;border-radius:13px}.topnav a{padding:12px 14px}
+ .premium-copy h1,.campaign-hero h1{overflow-wrap:anywhere}
+ .premium-visual,.campaign-panel{box-shadow:none}
+ .premium-benefits>div{min-width:0}
+ .article{padding-left:20px;padding-right:20px}
+ .article.cornerstone section{margin:30px 0}
+ .hub-all-guides,.category-bottom{border-radius:15px}
+ .campaign-content .comparison-table{margin-left:-2px;margin-right:-2px}
+ footer nav{gap:10px 16px}
+}
+@media(max-width:520px){
+ .logo{font-size:24px}
+ .premium-copy h1,.campaign-hero h1{font-size:30px!important;line-height:1.08!important}
+ .premium-lead,.campaign-lead{font-size:16px;line-height:1.6}
+ .premium-benefits>div{padding:17px 16px}
+ .campaign-shell{padding-left:12px;padding-right:12px}
+ .campaign-hero{padding:20px 16px}
+ .partner-card{padding:20px 17px}
+ .about-page .about-intro h1{font-size:36px!important}
+}
