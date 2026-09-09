@@ -1,0 +1,90 @@
+name: Sparesjekk Layout Fix V32
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/sparesjekk-layout-fix-v32-20260909.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  normalize-layout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Apply V32 layout fixes
+        shell: python
+        run: |
+          from pathlib import Path
+
+          # 1) Omstartslan: opt into the same premium category-page layout
+          # used by boliglan/forbrukslan/kredittkort.
+          p = Path('omstartslan.html')
+          s = p.read_text(encoding='utf-8')
+          old = '<body><header class="header">'
+          new = '<body class="main-category-page"><header class="header">'
+          if old not in s and new not in s:
+              raise SystemExit('Unexpected omstartslan body markup')
+          s = s.replace(old, new, 1)
+          s = s.replace('<p class="lead">Omstartslån brukes ofte', '<p class="premium-lead">Omstartslån brukes ofte', 1)
+          p.write_text(s, encoding='utf-8')
+
+          # 2) Alle guider: replace mixed pills + oversized Omstartslan card
+          # with four equal category cards.
+          p = Path('guider.html')
+          s = p.read_text(encoding='utf-8')
+          old = '<div class="topic-jumps"><a href="boliglan-guider.html?v=15">Boliglån (37)</a><a href="forbrukslan-guider.html?v=15">Forbrukslån (11)</a><a href="omstartslan-guider.html"><small>OMSTARTSLÅN</small><h3>Omstartslån og sikkerhet i bolig</h3><p>Guider om refinansiering med sikkerhet, løpetid og totalkostnad.</p><span>Se guider →</span></a><a href="kredittkort-guider.html?v=15">Kredittkort (13)</a></div>'
+          new = '''<div class="topic-jumps topic-cards-v32">
+          <a href="boliglan-guider.html?v=15"><small>BOLIGLÅN</small><strong>Boliglån (37)</strong><span>Renter, boligkjøp og bankbytte.</span><b>Se guider →</b></a>
+          <a href="forbrukslan-guider.html?v=15"><small>FORBRUKSLÅN</small><strong>Forbrukslån (11)</strong><span>Renter, kostnader og nedbetaling.</span><b>Se guider →</b></a>
+          <a href="omstartslan-guider.html"><small>OMSTARTSLÅN</small><strong>Omstartslån (4)</strong><span>Refinansiering med sikkerhet, løpetid og totalkostnad.</span><b>Se guider →</b></a>
+          <a href="kredittkort-guider.html?v=15"><small>KREDITTKORT</small><strong>Kredittkort (13)</strong><span>Renter, fordeler, gebyrer og bruk.</span><b>Se guider →</b></a>
+          </div>'''
+          if old not in s and 'topic-cards-v32' not in s:
+              raise SystemExit('Unexpected guider topic markup')
+          s = s.replace(old, new, 1)
+          p.write_text(s, encoding='utf-8')
+
+          # 3) Scoped CSS only; preserve all existing styling.
+          p = Path('style.css')
+          s = p.read_text(encoding='utf-8')
+          marker = '/* V32 category consistency + guide category cards */'
+          css = r'''
+
+          /* V32 category consistency + guide category cards */
+          .topic-jumps.topic-cards-v32{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:24px}
+          .topic-jumps.topic-cards-v32 a{min-width:0;min-height:178px;padding:22px;border:1px solid var(--line);border-radius:18px;background:#fff;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;font-weight:400;transition:transform .15s,box-shadow .15s,border-color .15s}
+          .topic-jumps.topic-cards-v32 a:hover{transform:translateY(-2px);border-color:#c8ddd2;box-shadow:0 12px 28px rgba(16,47,64,.07)}
+          .topic-jumps.topic-cards-v32 small{display:block;color:var(--green-dark);font-size:10px;font-weight:850;letter-spacing:1px;margin-bottom:8px}
+          .topic-jumps.topic-cards-v32 strong{display:block;color:var(--navy);font-size:18px;line-height:1.25;margin-bottom:9px}
+          .topic-jumps.topic-cards-v32 span{display:block;color:var(--muted);font-size:13px;line-height:1.5;margin-bottom:16px}
+          .topic-jumps.topic-cards-v32 b{display:block;margin-top:auto;color:var(--green-dark);font-size:13px;font-weight:850}
+          body.main-category-page main>.article.cornerstone{max-width:1040px;padding-left:24px;padding-right:24px}
+          body.main-category-page main>.hub-all-guides{max-width:992px}
+          @media(max-width:900px){.topic-jumps.topic-cards-v32{grid-template-columns:1fr 1fr}}
+          @media(max-width:560px){.topic-jumps.topic-cards-v32{grid-template-columns:1fr}.topic-jumps.topic-cards-v32 a{min-height:0}}
+          '''
+          if marker not in s:
+              s += css
+          p.write_text(s, encoding='utf-8')
+
+      - name: Install QA dependency
+        run: pip install -r requirements-site-builder.txt
+      - name: Full QA before commit
+        run: python tools/qa_site.py
+      - name: Commit normalized layout
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add omstartslan.html guider.html style.css
+          git diff --cached --quiet && exit 0
+          git commit -m "Normalize Omstartslan and guide category layouts"
+          git push
