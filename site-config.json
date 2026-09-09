@@ -41,6 +41,9 @@
       "commercial partner cards on /sjekk/ landing pages",
       "sitemap.xml"
     ],
+    "sitemap_exclude": [
+      "kredittkort-valutapaslag.html"
+    ],
     "seo_fields_locked": [
       "title",
       "meta description",
