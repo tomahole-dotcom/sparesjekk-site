@@ -42,12 +42,13 @@ def render_landing(cat):
     return len(ps)
 
 def sitemap():
-    # Keep every existing public HTML URL; deterministic generation.
+    # Keep public HTML URLs except URLs explicitly consolidated into another canonical page.
     urls=[]
     base=CFG['site']['base_url'].rstrip('/')
+    excluded=set(CFG.get('automation',{}).get('sitemap_exclude',[]))
     for p in sorted(ROOT.rglob('*.html')):
         rel=p.relative_to(ROOT).as_posix()
-        if rel.startswith('tools/') or rel.startswith('.'): continue
+        if rel.startswith('tools/') or rel.startswith('.') or rel in excluded: continue
         if rel=='index.html': url=base+'/'
         elif rel.endswith('/index.html'): url=base+'/'+rel[:-10]
         else: url=base+'/'+rel
