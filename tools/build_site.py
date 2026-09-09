@@ -5,7 +5,8 @@ import json, html, sys
 ROOT=Path(__file__).resolve().parents[1]
 CFG=json.loads((ROOT/'site-config.json').read_text(encoding='utf-8'))
 
-# Only generated commercial blocks are touched. Editorial/SEO fields are deliberately untouched.
+# Generated commercial blocks and presentation helpers are touched here.
+# Editorial/SEO fields are deliberately untouched.
 def active_partners(cat):
     out=[]
     for p in CFG.get('partners',[]):
@@ -41,6 +42,43 @@ def render_landing(cat):
     path.write_text(str(soup),encoding='utf-8')
     return len(ps)
 
+def apply_design_layer():
+    changed=0
+    design_name='design-v34.css'
+    for path in sorted(ROOT.rglob('*.html')):
+        rel=path.relative_to(ROOT).as_posix()
+        if rel.startswith('tools/') or rel.startswith('.'):
+            continue
+        soup=BeautifulSoup(path.read_text(encoding='utf-8'),'html.parser')
+        dirty=False
+
+        # Add the shared visual layer without touching SEO metadata/content.
+        if not soup.find('link',href=lambda x:isinstance(x,str) and design_name in x):
+            depth=len(path.relative_to(ROOT).parents)-1
+            href=('../'*depth)+design_name
+            link=soup.new_tag('link',rel='stylesheet',href=href)
+            if soup.head:
+                soup.head.append(link)
+                dirty=True
+
+        # Ensure all standard headers have the same usable mobile navigation.
+        header=soup.select_one('header.header')
+        nav=header.select_one('.topnav') if header else None
+        if header and nav and not header.select_one('.menu-btn'):
+            btn=soup.new_tag('button')
+            btn['class']=['menu-btn']
+            btn['aria-label']='Åpne meny'
+            btn['type']='button'
+            btn['onclick']="document.querySelector('.topnav').classList.toggle('open')"
+            btn.string='☰'
+            nav.insert_before(btn)
+            dirty=True
+
+        if dirty:
+            path.write_text(str(soup),encoding='utf-8')
+            changed+=1
+    return changed
+
 def sitemap():
     # Keep public HTML URLs except URLs explicitly consolidated into another canonical page.
     urls=[]
@@ -59,4 +97,5 @@ def sitemap():
 
 counts={c['key']:render_landing(c['key']) for c in CFG['categories']}
 print('Partner cards:',counts)
+print('Design-normalized pages:',apply_design_layer())
 print('Sitemap URLs:',sitemap())
