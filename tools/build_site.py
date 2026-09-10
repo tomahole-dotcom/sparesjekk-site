@@ -44,7 +44,8 @@ def render_landing(cat):
 
 def apply_design_layer():
     changed=0
-    design_name='design-v34.css'
+    design_name='design-v35.css'
+    old_design_names={'design-v34.css'}
     for path in sorted(ROOT.rglob('*.html')):
         rel=path.relative_to(ROOT).as_posix()
         if rel.startswith('tools/') or rel.startswith('.'):
@@ -52,7 +53,13 @@ def apply_design_layer():
         soup=BeautifulSoup(path.read_text(encoding='utf-8'),'html.parser')
         dirty=False
 
-        # Add the shared visual layer without touching SEO metadata/content.
+        # Keep exactly one current shared visual layer. SEO metadata/content is untouched.
+        for link in list(soup.find_all('link',href=True)):
+            href=link.get('href','')
+            if any(old in href for old in old_design_names):
+                link.decompose()
+                dirty=True
+
         if not soup.find('link',href=lambda x:isinstance(x,str) and design_name in x):
             depth=len(path.relative_to(ROOT).parents)-1
             href=('../'*depth)+design_name
@@ -73,6 +80,14 @@ def apply_design_layer():
             btn.string='☰'
             nav.insert_before(btn)
             dirty=True
+
+        # Mark the all-guides page so V35 can polish the library without changing content.
+        if rel=='guider.html' and soup.body:
+            classes=list(soup.body.get('class',[]))
+            if 'guide-library-v35' not in classes:
+                classes.append('guide-library-v35')
+                soup.body['class']=classes
+                dirty=True
 
         if dirty:
             path.write_text(str(soup),encoding='utf-8')
