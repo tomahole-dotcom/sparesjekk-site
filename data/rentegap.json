@@ -1,0 +1,34 @@
+{
+  "name": "Sparesjekk Rentegap-indeks",
+  "checked_date": "2026-09-11",
+  "reference_period": "2026-07",
+  "policy_rate": 4.25,
+  "new_mortgage_rate": 5.29,
+  "outstanding_mortgage_rate": 5.31,
+  "deposit_rate": 3.12,
+  "metrics": {
+    "new_mortgage_minus_policy_pp": 1.04,
+    "outstanding_mortgage_minus_policy_pp": 1.06,
+    "outstanding_minus_new_mortgage_pp": 0.02,
+    "policy_minus_deposit_pp": 1.13
+  },
+  "sources": [
+    {
+      "name": "Norges Bank – styringsrenten",
+      "url": "https://www.norges-bank.no/tema/pengepolitikk/Styringsrenten/",
+      "value": "4,25 %",
+      "published": "2026-08-13"
+    },
+    {
+      "name": "SSB – renter i banker og kredittforetak",
+      "url": "https://www.ssb.no/bank-og-finansmarked/finansinstitusjoner-og-andre-finansielle-foretak/statistikk/renter-i-banker-og-kredittforetak",
+      "reference_period": "2026-07",
+      "published": "2026-08-27"
+    }
+  ],
+  "next_updates": {
+    "norges_bank": "2026-09-24",
+    "ssb": "2026-09-25"
+  },
+  "method_note": "Rentegap er en enkel differanse i prosentpoeng mellom offisielle renteserier. Det er ikke det samme som bankenes utlånsmargin, finansieringskostnad eller fortjeneste."
+}
