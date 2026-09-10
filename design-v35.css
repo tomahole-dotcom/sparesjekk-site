@@ -1,0 +1,74 @@
+/* V35 visual polish layer — presentation only, SEO-neutral */
+:root{--v35-shadow:0 16px 42px rgba(16,47,64,.08);--v35-shadow-soft:0 8px 24px rgba(16,47,64,.055)}
+
+/* Shared rhythm */
+body.main-category-page main,body.campaign-page main{overflow:hidden}
+body.main-category-page .premium-hero{margin-top:28px;margin-bottom:18px;box-shadow:var(--v35-shadow-soft)}
+body.main-category-page .premium-copy h1{max-width:720px;text-wrap:balance}
+body.main-category-page .premium-lead{max-width:700px}
+body.main-category-page .premium-visual{box-shadow:var(--v35-shadow)}
+body.main-category-page .premium-benefits{margin-bottom:50px}
+body.main-category-page .article.cornerstone{padding-top:34px;padding-bottom:58px}
+body.main-category-page .article.cornerstone>section{padding:0 2px}
+body.main-category-page .article.cornerstone>section+section{padding-top:8px}
+body.main-category-page .article.cornerstone h2{text-wrap:balance}
+body.main-category-page .hub-editorial{padding:28px!important;border:1px solid var(--line);border-radius:18px;background:#fbfdfc}
+body.main-category-page .decision-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:20px}
+body.main-category-page .decision-grid article{padding:20px;border:1px solid var(--line);border-radius:15px;background:#fff}
+body.main-category-page .decision-grid h3{margin:0 0 8px;color:var(--navy);font-size:18px;line-height:1.25}
+body.main-category-page .decision-grid p{margin:0 0 12px;font-size:14px;line-height:1.6;color:var(--muted)}
+body.main-category-page .decision-grid a{color:var(--green-dark);font-weight:800;text-decoration:none}
+body.main-category-page .hub-all-guides{box-shadow:var(--v35-shadow-soft)}
+body.main-category-page .seo-related{padding-top:26px!important;border-top:1px solid var(--line)}
+
+/* Campaign/commercial pages */
+.campaign-page .header{background:#fff;border-bottom:1px solid #edf2ef}
+.campaign-page .campaign-shell{max-width:1120px;padding-top:30px}
+.campaign-page .campaign-hero{box-shadow:var(--v35-shadow-soft);padding:36px}
+.campaign-page .campaign-hero h1{text-wrap:balance}
+.campaign-page .campaign-panel{box-shadow:var(--v35-shadow)}
+.campaign-page .campaign-content{max-width:880px}
+.campaign-page .comparison-table,.campaign-page .comparison-table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:#fff;box-shadow:var(--v35-shadow-soft)}
+.campaign-page table{width:100%;border-collapse:collapse;min-width:620px}
+.campaign-page th,.campaign-page td{padding:15px 16px;text-align:left;vertical-align:top;border-bottom:1px solid #e8eeeb;line-height:1.5}
+.campaign-page th{background:#f2f8f4;color:var(--navy);font-size:13px}
+.campaign-page tr:last-child td{border-bottom:0}
+.campaign-page .partner-preview{box-shadow:var(--v35-shadow-soft)}
+.campaign-page .partner-card{padding:28px}
+.campaign-page .compliance-box{margin-top:28px}
+.campaign-page .campaign-alt{margin-top:28px;border:1px solid #dcebe3}
+
+/* Guide library */
+.guide-library-v35 .category-hero{padding-top:8px}
+.guide-library-v35 .category-hero h1{text-wrap:balance}
+.guide-library-v35 .topic-cards-v32 a{box-shadow:0 4px 14px rgba(16,47,64,.025)}
+.guide-library-v35 .all-guides-v14{max-width:1060px}
+.guide-library-v35 .guide-row-v14{padding:20px;border:1px solid transparent;border-bottom-color:var(--line);border-radius:12px;transition:.15s}
+.guide-library-v35 .guide-row-v14:hover{border-color:var(--line);background:#fbfdfc;box-shadow:var(--v35-shadow-soft);transform:translateY(-1px)}
+.guide-library-v35 .guide-row-v14 h2{line-height:1.3}
+
+/* About page refinement */
+.about-page .about-card,.about-page .about-section{box-shadow:0 6px 18px rgba(16,47,64,.035)}
+
+@media(max-width:850px){
+ body.main-category-page .premium-benefits{margin-bottom:36px}
+ body.main-category-page .article.cornerstone{padding-top:22px}
+ body.main-category-page .decision-grid{grid-template-columns:1fr}
+ body.main-category-page .hub-editorial{padding:22px!important}
+ .campaign-page .campaign-shell{padding-left:12px;padding-right:12px}
+ .campaign-page .campaign-hero{padding:22px 18px}
+ .campaign-page .campaign-content{padding:0 8px}
+ .guide-library-v35 .guide-row-v14{padding:18px 4px}
+}
+
+@media(max-width:520px){
+ body.main-category-page .premium-hero{border-radius:16px}
+ body.main-category-page .premium-copy h1{font-size:30px}
+ body.main-category-page .premium-visual{padding:17px}
+ body.main-category-page .premium-benefits>div{padding:17px}
+ .campaign-page .campaign-hero h1{font-size:31px}
+ .campaign-page .campaign-lead{font-size:16px}
+ .campaign-page .campaign-trust{display:grid;grid-template-columns:1fr;gap:7px}
+ .campaign-page .campaign-panel{padding:17px}
+ .campaign-page th,.campaign-page td{padding:13px 12px;font-size:14px}
+}
