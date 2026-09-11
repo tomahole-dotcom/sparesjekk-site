@@ -13,6 +13,64 @@
       "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"name\":\"Annuitetslån eller serielån – hva er forskjellen?\",\"headline\":\"Annuitetslån eller serielån – hva er forskjellen?\",\"description\":\"Forskjellen på annuitetslån og serielån forklart enkelt, med fokus på terminbeløp, avdrag og rentekostnad over tid.\",\"url\":\"https://sparesjekk.no/annuitetslan-serielan.html\",\"inLanguage\":\"nb-NO\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"dateModified\":\"2026-08-26\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/redaksjon.html\"},\"keywords\":[\"annuitetslan serielan\",\"boliglån\"]}"
     ]
   },
+  "avslag-refinansiering-hva-na.html": {
+    "title": "Avslag på refinansiering – hva gjør du nå? | Sparesjekk",
+    "description": "Fått avslag på refinansiering? Se hva du bør kartlegge før du søker igjen, hvilke alternativer som kan være relevante og når du bør søke gratis gjeldsrådgivning.",
+    "canonical": "https://sparesjekk.no/avslag-refinansiering-hva-na.html",
+    "robots": "index,follow,max-image-preview:large,max-snippet:-1",
+    "h1": [
+      "Fått avslag på refinansiering – hva gjør du nå?"
+    ],
+    "schemas": []
+  },
+  "bankbytte-break-even.html": {
+    "title": "Lønner det seg å bytte bank? Break-even for boliglån | Sparesjekk",
+    "description": "Regn ut hvor lang tid det tar før en lavere boliglånsrente har dekket kostnadene ved å bytte bank. Gratis break-even-sjekk.",
+    "canonical": "https://sparesjekk.no/bankbytte-break-even.html",
+    "robots": "index,follow,max-image-preview:large,max-snippet:-1",
+    "h1": [
+      "Hvor raskt tjener du inn kostnaden ved å bytte bank?"
+    ],
+    "schemas": [
+      "{\"@context\":\"https://schema.org\",\"@type\":\"WebApplication\",\"name\":\"Bankbytte break-even\",\"url\":\"https://sparesjekk.no/bankbytte-break-even.html\",\"applicationCategory\":\"FinanceApplication\",\"operatingSystem\":\"Any\",\"offers\":{\"@type\":\"Offer\",\"price\":\"0\",\"priceCurrency\":\"NOK\"},\"inLanguage\":\"nb-NO\"}"
+    ]
+  },
+  "banken-satte-ikke-ned-renten.html": {
+    "title": "Banken satte ikke ned renten – hva gjør du? | Sparesjekk",
+    "description": "Har banken ikke satt ned boliglånsrenten slik du forventet? Sjekk renten mot markedet, belåningsgraden og hvilke steg du kan ta videre.",
+    "canonical": "https://sparesjekk.no/banken-satte-ikke-ned-renten.html",
+    "robots": "index,follow,max-image-preview:large,max-snippet:-1",
+    "h1": [
+      "Banken satte ikke ned boliglånsrenten – hva gjør du?"
+    ],
+    "schemas": [
+      "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"headline\":\"Banken satte ikke ned renten – hva gjør du?\",\"url\":\"https://sparesjekk.no/banken-satte-ikke-ned-renten.html\",\"inLanguage\":\"nb-NO\",\"dateModified\":\"2026-09-11\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\"},\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\"}}"
+    ]
+  },
+  "belaningsgrad-sjekk.html": {
+    "title": "Belåningsgrad kalkulator – sjekk boliglånet | Sparesjekk",
+    "description": "Regn ut belåningsgraden fra boligverdi og lån med pant i boligen. Se hva nivået betyr og hvilke spørsmål du kan ta med til banken.",
+    "canonical": "https://sparesjekk.no/belaningsgrad-sjekk.html",
+    "robots": "index,follow,max-image-preview:large,max-snippet:-1",
+    "h1": [
+      "Hva er belåningsgraden din?"
+    ],
+    "schemas": [
+      "{\"@context\":\"https://schema.org\",\"@type\":\"WebApplication\",\"name\":\"Belåningsgrad-sjekk\",\"url\":\"https://sparesjekk.no/belaningsgrad-sjekk.html\",\"applicationCategory\":\"FinanceApplication\",\"operatingSystem\":\"Any\",\"offers\":{\"@type\":\"Offer\",\"price\":\"0\",\"priceCurrency\":\"NOK\"},\"inLanguage\":\"nb-NO\"}"
+    ]
+  },
+  "boligen-har-steget-i-verdi-boliglan.html": {
+    "title": "Boligen har steget i verdi – kan du få bedre rente? | Sparesjekk",
+    "description": "Har boligen steget i verdi? Se hvordan det kan påvirke belåningsgraden, hva du bør regne ut og hvordan du tar det videre med banken.",
+    "canonical": "https://sparesjekk.no/boligen-har-steget-i-verdi-boliglan.html",
+    "robots": "index,follow,max-image-preview:large,max-snippet:-1",
+    "h1": [
+      "Boligen har steget i verdi – kan det gi bedre boliglånsrente?"
+    ],
+    "schemas": [
+      "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"headline\":\"Boligen har steget i verdi – kan du få bedre rente?\",\"url\":\"https://sparesjekk.no/boligen-har-steget-i-verdi-boliglan.html\",\"inLanguage\":\"nb-NO\",\"dateModified\":\"2026-09-11\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\"},\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\"}}"
+    ]
+  },
   "boliglan-guider.html": {
     "title": "Alle guider om boliglån | Sparesjekk",
     "description": "Her er hele oversikten over Sparesjekks boliglånsguider. Ingen utvalg eller forkortet liste.",
@@ -68,16 +126,16 @@
     ]
   },
   "boliglanskalkulator-renteforskjell.html": {
-    "title": "Boliglånskalkulator: Hva betyr renteforskjellen i kr | Sparesjekk",
-    "description": "Se eksempler på hvordan 0,10, 0,25, 0,50 og 1,00 prosentpoeng kan slå ut på ulike boliglån.",
+    "title": "Boliglånskalkulator – renteforskjell i kroner | Sparesjekk",
+    "description": "Regn ut hva forskjellen mellom to boliglånsrenter betyr i kroner per år og måned. Gratis kalkulator uten registrering.",
     "canonical": "https://sparesjekk.no/boliglanskalkulator-renteforskjell.html",
     "robots": "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
     "h1": [
-      "Boliglånskalkulator: Hva betyr renteforskjellen i kroner?"
+      "Hva betyr renteforskjellen på boliglånet i kroner?"
     ],
     "schemas": [
-      "{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Sparesjekk\",\"item\":\"https://sparesjekk.no/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Boliglån\",\"item\":\"https://sparesjekk.no/boliglan.html\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Boliglånskalkulator: Hva betyr renteforskjellen i kroner?\",\"item\":\"https://sparesjekk.no/boliglanskalkulator-renteforskjell.html\"}]}",
-      "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"name\":\"Boliglånskalkulator: Hva betyr renteforskjellen i kroner?\",\"headline\":\"Boliglånskalkulator: Hva betyr renteforskjellen i kroner?\",\"description\":\"Se eksempler på hvordan 0,10, 0,25, 0,50 og 1,00 prosentpoeng kan slå ut på ulike boliglån.\",\"url\":\"https://sparesjekk.no/boliglanskalkulator-renteforskjell.html\",\"inLanguage\":\"nb-NO\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"dateModified\":\"2026-08-13\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/redaksjon.html\"},\"keywords\":[\"boliglanskalkulator renteforskjell\",\"boliglån\"]}"
+      "{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Sparesjekk\",\"item\":\"https://sparesjekk.no/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Boliglån\",\"item\":\"https://sparesjekk.no/boliglan.html\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Boliglånskalkulator – renteforskjell i kroner\",\"item\":\"https://sparesjekk.no/boliglanskalkulator-renteforskjell.html\"}]}",
+      "{\"@context\":\"https://schema.org\",\"@type\":\"WebApplication\",\"name\":\"Boliglånskalkulator – renteforskjell i kroner\",\"description\":\"Gratis kalkulator som viser et forenklet overslag på forskjellen mellom to boliglånsrenter i kroner.\",\"url\":\"https://sparesjekk.no/boliglanskalkulator-renteforskjell.html\",\"applicationCategory\":\"FinanceApplication\",\"operatingSystem\":\"Web\",\"offers\":{\"@type\":\"Offer\",\"price\":\"0\",\"priceCurrency\":\"NOK\"},\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"}}"
     ]
   },
   "boliglansordbok.html": {
@@ -91,6 +149,18 @@
     "schemas": [
       "{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Sparesjekk\",\"item\":\"https://sparesjekk.no/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Boliglån\",\"item\":\"https://sparesjekk.no/boliglan.html\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Boliglånsordbok – viktige begreper forklart\",\"item\":\"https://sparesjekk.no/boliglansordbok.html\"}]}",
       "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"name\":\"Boliglånsordbok – viktige begreper forklart\",\"headline\":\"Boliglånsordbok – viktige begreper forklart\",\"description\":\"En enkel ordliste for boliglån, renter, egenkapital, belåningsgrad og bankbytte.\",\"url\":\"https://sparesjekk.no/boliglansordbok.html\",\"inLanguage\":\"nb-NO\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"dateModified\":\"2026-08-13\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/redaksjon.html\"},\"keywords\":[\"boliglansordbok\",\"boliglån\"]}"
+    ]
+  },
+  "boliglansrente-for-hoy.html": {
+    "title": "Boliglånsrenten min er for høy – hva gjør jeg? | Sparesjekk",
+    "description": "Synes du boliglånsrenten er for høy? Sjekk renten mot markedet, belåningsgraden, forhandle med banken og vurder bankbytte i riktig rekkefølge.",
+    "canonical": "https://sparesjekk.no/boliglansrente-for-hoy.html",
+    "robots": "index,follow,max-image-preview:large,max-snippet:-1",
+    "h1": [
+      "Boliglånsrenten min er for høy – hva gjør jeg?"
+    ],
+    "schemas": [
+      "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"headline\":\"Boliglånsrenten min er for høy – hva gjør jeg?\",\"url\":\"https://sparesjekk.no/boliglansrente-for-hoy.html\",\"inLanguage\":\"nb-NO\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"dateModified\":\"2026-09-11\"}"
     ]
   },
   "boliglansrente-komplett-guide.html": {
@@ -107,7 +177,7 @@
     ]
   },
   "boligverdi-og-boliglansrente.html": {
-    "title": "Boligverdi og boliglånsrente – hvorfor verdien kan h | Sparesjekk",
+    "title": "Boligverdi og boliglånsrente – hva betyr verdien? | Sparesjekk",
     "description": "Boligens verdi påvirker belåningsgraden. Se hvorfor en ny verdivurdering i noen tilfeller kan være relevant når renten vurderes.",
     "canonical": "https://sparesjekk.no/boligverdi-og-boliglansrente.html",
     "robots": "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
@@ -129,8 +199,8 @@
       "Bytte bank med boliglån – komplett guide"
     ],
     "schemas": [
-      "{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Sparesjekk\",\"item\":\"https://sparesjekk.no/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Boliglån\",\"item\":\"https://sparesjekk.no/boliglan.html\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Bytte bank med boliglån – komplett guide\",\"item\":\"https://sparesjekk.no/bytte-bank-boliglan-komplett.html\"}]}",
-      "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"name\":\"Bytte bank med boliglån – komplett guide\",\"headline\":\"Bytte bank med boliglån – komplett guide\",\"description\":\"Hva skjer når du flytter boliglånet, hva bør du sammenligne og hvilke spørsmål bør du stille før du bytter bank?\",\"url\":\"https://sparesjekk.no/bytte-bank-boliglan-komplett.html\",\"inLanguage\":\"nb-NO\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"dateModified\":\"2026-08-13\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/redaksjon.html\"},\"keywords\":[\"bytte bank boliglån komplett\",\"boliglån\"]}"
+      "{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Sparesjekk\",\"item\":\"https://sparesjekk.no/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Boliglån\",\"item\":\"https://sparesjekk.no/boliglan.html\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Bytte bank med boliglån\",\"item\":\"https://sparesjekk.no/bytte-bank-boliglan-komplett.html\"}]}",
+      "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"headline\":\"Bytte bank med boliglån – komplett guide\",\"url\":\"https://sparesjekk.no/bytte-bank-boliglan-komplett.html\",\"inLanguage\":\"nb-NO\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"dateModified\":\"2026-09-11\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/redaksjon.html\"}}"
     ]
   },
   "cashback-bonus-kredittkort.html": {
@@ -160,16 +230,16 @@
     ]
   },
   "egenkapital-bolig.html": {
-    "title": "Egenkapital ved boligkjøp – hva betyr det? | Sparesjekk",
-    "description": "Egenkapital er den delen av boligkjøpet som ikke finansieres med boliglån.",
+    "title": "Egenkapital ved boligkjøp – hvor mye trenger du? | Sparesjekk",
+    "description": "Se hvor mye egenkapital du normalt trenger ved boligkjøp, hva som kan inngå, hvilke kostnader som kommer i tillegg og muligheter hvis egenkapitalen ikke strekker til.",
     "canonical": "https://sparesjekk.no/egenkapital-bolig.html",
     "robots": "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
     "h1": [
-      "Egenkapital ved boligkjøp – hvor mye trenger du og hva teller med?"
+      "Egenkapital ved boligkjøp – hvor mye trenger du?"
     ],
     "schemas": [
-      "{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Sparesjekk\",\"item\":\"https://sparesjekk.no/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Boliglån\",\"item\":\"https://sparesjekk.no/boliglan.html\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Egenkapital ved boligkjøp – hva betyr det?\",\"item\":\"https://sparesjekk.no/egenkapital-bolig.html\"}]}",
-      "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"name\":\"Egenkapital ved boligkjøp – hva betyr det?\",\"headline\":\"Egenkapital ved boligkjøp – hva betyr det?\",\"description\":\"Egenkapital er den delen av boligkjøpet som ikke finansieres med boliglån.\",\"url\":\"https://sparesjekk.no/egenkapital-bolig.html\",\"inLanguage\":\"nb-NO\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"dateModified\":\"2026-08-13\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/redaksjon.html\"},\"keywords\":[\"egenkapital bolig\",\"boliglån\"]}"
+      "{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Sparesjekk\",\"item\":\"https://sparesjekk.no/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Boliglån\",\"item\":\"https://sparesjekk.no/boliglan.html\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Egenkapital ved boligkjøp\",\"item\":\"https://sparesjekk.no/egenkapital-bolig.html\"}]}",
+      "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"name\":\"Egenkapital ved boligkjøp – hvor mye trenger du?\",\"headline\":\"Egenkapital ved boligkjøp – hvor mye trenger du?\",\"description\":\"Se hvor mye egenkapital du normalt trenger ved boligkjøp, hva som kan inngå og hvilke alternativer som finnes.\",\"url\":\"https://sparesjekk.no/egenkapital-bolig.html\",\"inLanguage\":\"nb-NO\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"dateModified\":\"2026-09-10\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/redaksjon.html\"}}"
     ]
   },
   "ekstra-nedbetaling-boliglan.html": {
@@ -183,6 +253,18 @@
     "schemas": [
       "{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Sparesjekk\",\"item\":\"https://sparesjekk.no/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Boliglån\",\"item\":\"https://sparesjekk.no/boliglan.html\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Ekstra nedbetaling på boliglånet – hva betyr det?\",\"item\":\"https://sparesjekk.no/ekstra-nedbetaling-boliglan.html\"}]}",
       "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"name\":\"Ekstra nedbetaling på boliglånet – hva betyr det?\",\"headline\":\"Ekstra nedbetaling på boliglånet – hva betyr det?\",\"description\":\"Ekstra innbetaling reduserer restgjelden og kan redusere fremtidige rentekostnader.\",\"url\":\"https://sparesjekk.no/ekstra-nedbetaling-boliglan.html\",\"inLanguage\":\"nb-NO\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"dateModified\":\"2026-08-25\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/redaksjon.html\"},\"keywords\":[\"ekstra nedbetaling boliglån\",\"boliglån\"]}"
+    ]
+  },
+  "far-ikke-betalt-regninger-hva-gjor-jeg.html": {
+    "title": "Får ikke betalt regningene – hva gjør jeg først? | Sparesjekk",
+    "description": "En konkret rekkefølge når pengene ikke strekker til: få oversikt, prioriter nødvendige utgifter, kontakt kreditorer tidlig og vurder gratis gjeldsrådgivning.",
+    "canonical": "https://sparesjekk.no/far-ikke-betalt-regninger-hva-gjor-jeg.html",
+    "robots": "index,follow,max-image-preview:large,max-snippet:-1",
+    "h1": [
+      "Får du ikke betalt regningene? Start her"
+    ],
+    "schemas": [
+      "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"headline\":\"Får ikke betalt regningene – hva gjør jeg først?\",\"url\":\"https://sparesjekk.no/far-ikke-betalt-regninger-hva-gjor-jeg.html\",\"inLanguage\":\"nb-NO\",\"dateModified\":\"2026-09-11\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/redaksjon.html\"}}"
     ]
   },
   "flytte-boliglan.html": {
@@ -223,7 +305,7 @@
     ],
     "schemas": [
       "{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Sparesjekk\",\"item\":\"https://sparesjekk.no/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Forbrukslån\",\"item\":\"https://sparesjekk.no/forbrukslan.html\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Alle guider om forbrukslån og refinansiering\",\"item\":\"https://sparesjekk.no/forbrukslan-guider.html\"}]}",
-      "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"name\":\"Alle guider om forbrukslån og refinansiering\",\"headline\":\"Alle guider om forbrukslån og refinansiering\",\"description\":\"Hele oversikten over Sparesjekks guider om forbrukslån, refinansiering og usikret gjeld.\",\"url\":\"https://sparesjekk.no/forbrukslan-guider.html\",\"inLanguage\":\"nb-NO\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"dateModified\":\"2026-08-13\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/redaksjon.html\"},\"keywords\":[\"forbrukslån guider\",\"forbrukslån\"]}"
+      "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"name\":\"Alle guider om forbrukslån og refinansiering\",\"headline\":\"Alle guider om forbrukslån og refinansiering\",\"description\":\"Hele oversikten over Sparesjekks guider om forbrukslån, refinansiering og usikret gjeld.\",\"url\":\"https://sparesjekk.no/forbrukslan-guider.html\",\"inLanguage\":\"nb-NO\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"dateModified\":\"2026-09-10\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/redaksjon.html\"},\"keywords\":[\"forbrukslån guider\",\"forbrukslån\"]}"
     ]
   },
   "forbrukslan-komplett-guide.html": {
@@ -278,6 +360,18 @@
       "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"name\":\"Gjeldsgrad forklart enkelt\",\"headline\":\"Gjeldsgrad forklart enkelt\",\"description\":\"Gjeldsgrad setter samlet gjeld opp mot inntekt og er et viktig mål når banker vurderer hvor mye gjeld økonomien kan bære.\",\"url\":\"https://sparesjekk.no/gjeldsgrad-forklart.html\",\"inLanguage\":\"nb-NO\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"dateModified\":\"2026-08-25\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/redaksjon.html\"},\"keywords\":[\"gjeldsgrad forklart\",\"boliglån\"]}"
     ]
   },
+  "gjeldsmiks-sjekk.html": {
+    "title": "Gjeldsmiks-sjekk – få oversikt over forbruksgjeld | Sparesjekk",
+    "description": "Legg inn kredittkort og smålån og få samlet restgjeld, vektet nominell rente, oppgitt månedsbelastning og et bedre grunnlag for å sammenligne alternativer.",
+    "canonical": "https://sparesjekk.no/gjeldsmiks-sjekk.html",
+    "robots": "index,follow,max-image-preview:large,max-snippet:-1",
+    "h1": [
+      "Få oversikt over gjeldsmiksen din"
+    ],
+    "schemas": [
+      "{\"@context\":\"https://schema.org\",\"@type\":\"WebApplication\",\"name\":\"Gjeldsmiks-sjekk\",\"url\":\"https://sparesjekk.no/gjeldsmiks-sjekk.html\",\"applicationCategory\":\"FinanceApplication\",\"operatingSystem\":\"Any\",\"offers\":{\"@type\":\"Offer\",\"price\":\"0\",\"priceCurrency\":\"NOK\"},\"inLanguage\":\"nb-NO\"}"
+    ]
+  },
   "gjeldsregisteret-forbrukslan.html": {
     "title": "Gjeldsregisteret og usikret gjeld – hva bør du vite? | Sparesjekk",
     "description": "Gjeldsopplysninger brukes som del av kredittvurderingen. Her forklarer vi hvorfor oversikt over usikret gjeld og kredittrammer er viktig.",
@@ -306,16 +400,16 @@
     ]
   },
   "guide-belaningsgrad.html": {
-    "title": "Belåningsgrad: Derfor kan boligverdien påvirke rente | Sparesjekk",
-    "description": "Belåningsgrad er forholdet mellom boliglånet ditt og verdien på boligen.",
+    "title": "Belåningsgrad – slik påvirker den boliglånsrenten | Sparesjekk",
+    "description": "Slik regner du belåningsgrad, hvilke grenser som gjelder og hvorfor boligverdi og restgjeld kan påvirke boliglånsrenten.",
     "canonical": "https://sparesjekk.no/guide-belaningsgrad.html",
     "robots": "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
     "h1": [
-      "Belåningsgrad: Derfor kan boligverdien påvirke renten"
+      "Belåningsgrad – slik påvirker den boliglånsrenten"
     ],
     "schemas": [
-      "{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Sparesjekk\",\"item\":\"https://sparesjekk.no/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Boliglån\",\"item\":\"https://sparesjekk.no/boliglan.html\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Belåningsgrad: Derfor kan boligverdien påvirke renten\",\"item\":\"https://sparesjekk.no/guide-belaningsgrad.html\"}]}",
-      "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"name\":\"Belåningsgrad: Derfor kan boligverdien påvirke renten\",\"headline\":\"Belåningsgrad: Derfor kan boligverdien påvirke renten\",\"description\":\"Belåningsgrad er forholdet mellom boliglånet ditt og verdien på boligen.\",\"url\":\"https://sparesjekk.no/guide-belaningsgrad.html\",\"inLanguage\":\"nb-NO\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"dateModified\":\"2026-08-25\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/redaksjon.html\"},\"keywords\":[\"guide belaningsgrad\",\"boliglån\"]}"
+      "{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Sparesjekk\",\"item\":\"https://sparesjekk.no/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Boliglån\",\"item\":\"https://sparesjekk.no/boliglan.html\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Belåningsgrad\",\"item\":\"https://sparesjekk.no/guide-belaningsgrad.html\"}]}",
+      "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"name\":\"Belåningsgrad – slik påvirker den boliglånsrenten\",\"headline\":\"Belåningsgrad – slik påvirker den boliglånsrenten\",\"description\":\"Slik regner du belåningsgrad, hvilke grenser som gjelder og hvorfor boligverdi og restgjeld kan påvirke boliglånsrenten.\",\"url\":\"https://sparesjekk.no/guide-belaningsgrad.html\",\"inLanguage\":\"nb-NO\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"dateModified\":\"2026-09-11\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/redaksjon.html\"}}"
     ]
   },
   "guide-bytte-bank-steg.html": {
@@ -410,16 +504,16 @@
     ]
   },
   "guide-prosentpoeng.html": {
-    "title": "Hva betyr 0,25 prosentpoeng? | Sparesjekk",
-    "description": "På store lån blir små renteforskjeller fort synlige i kroner.",
+    "title": "Prosentpoeng forklart – hva betyr 0,25? | Sparesjekk",
+    "description": "Lær forskjellen på prosent og prosentpoeng, og hva en renteendring på 0,25 prosentpoeng faktisk betyr.",
     "canonical": "https://sparesjekk.no/guide-prosentpoeng.html",
     "robots": "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
     "h1": [
-      "Hva betyr 0,25 prosentpoeng på boliglånet?"
+      "Prosentpoeng forklart – hva betyr 0,25?"
     ],
     "schemas": [
-      "{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Sparesjekk\",\"item\":\"https://sparesjekk.no/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Boliglån\",\"item\":\"https://sparesjekk.no/boliglan.html\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Hva betyr 0,25 prosentpoeng på boliglånet?\",\"item\":\"https://sparesjekk.no/guide-prosentpoeng.html\"}]}",
-      "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"name\":\"Hva betyr 0,25 prosentpoeng på boliglånet?\",\"headline\":\"Hva betyr 0,25 prosentpoeng på boliglånet?\",\"description\":\"På store lån blir små renteforskjeller fort synlige i kroner.\",\"url\":\"https://sparesjekk.no/guide-prosentpoeng.html\",\"inLanguage\":\"nb-NO\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"dateModified\":\"2026-09-09\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/redaksjon.html\"}}"
+      "{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Sparesjekk\",\"item\":\"https://sparesjekk.no/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Boliglån\",\"item\":\"https://sparesjekk.no/boliglan.html\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Prosentpoeng forklart\",\"item\":\"https://sparesjekk.no/guide-prosentpoeng.html\"}]}",
+      "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"name\":\"Prosentpoeng forklart – hva betyr 0,25?\",\"headline\":\"Prosentpoeng forklart – hva betyr 0,25?\",\"description\":\"Lær forskjellen på prosent og prosentpoeng, og hva en renteendring på 0,25 prosentpoeng faktisk betyr.\",\"url\":\"https://sparesjekk.no/guide-prosentpoeng.html\",\"inLanguage\":\"nb-NO\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"dateModified\":\"2026-09-10\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/redaksjon.html\"}}"
     ]
   },
   "guide-refinansiering.html": {
@@ -554,6 +648,16 @@
       "{\"@context\":\"https://schema.org\",\"@type\":\"WebPage\",\"name\":\"Få bedre oversikt over lån, renter og kreditt\",\"headline\":\"Få bedre oversikt over lån, renter og kreditt\",\"description\":\"Sparesjekk gjør boliglån, forbrukslån, omstartslån og kredittkort enklere å forstå. Gratis kalkulatorer og guider uten registrering.\",\"url\":\"https://sparesjekk.no/\",\"inLanguage\":\"nb-NO\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"}}"
     ]
   },
+  "inkassovarsel-hva-gjor-jeg.html": {
+    "title": "Fått inkassovarsel – hva gjør du nå? | Sparesjekk",
+    "description": "Har du fått inkassovarsel? Se hva du bør gjøre først, hvordan du får oversikt og når du bør kontakte kreditor eller gratis gjeldsrådgivning.",
+    "canonical": "https://sparesjekk.no/inkassovarsel-hva-gjor-jeg.html",
+    "robots": "index,follow,max-image-preview:large,max-snippet:-1",
+    "h1": [
+      "Fått inkassovarsel – hva gjør du nå?"
+    ],
+    "schemas": []
+  },
   "kalkulatorer.html": {
     "title": "Kalkulatorer for lån og kreditt | Sparesjekk",
     "description": "Gratis kalkulatorer for forbrukslån, kredittkortsaldo og renteforskjell.",
@@ -607,7 +711,7 @@
     ]
   },
   "kredittkort-effektiv-rente.html": {
-    "title": "Effektiv rente på kredittkort – hva betyr den egentl | Sparesjekk",
+    "title": "Effektiv rente på kredittkort – hva betyr den? | Sparesjekk",
     "description": "Kredittkortrenter kan være høye. Se hvordan effektiv rente fungerer og hvorfor rentefri periode og betalingsvaner betyr mye.",
     "canonical": "https://sparesjekk.no/kredittkort-effektiv-rente.html",
     "robots": "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
@@ -642,7 +746,7 @@
     ],
     "schemas": [
       "{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Sparesjekk\",\"item\":\"https://sparesjekk.no/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Kredittkort\",\"item\":\"https://sparesjekk.no/kredittkort.html\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Kredittkortgebyrer – dette bør du se etter\",\"item\":\"https://sparesjekk.no/kredittkort-gebyrer.html\"}]}",
-      "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"name\":\"Kredittkortgebyrer – dette bør du se etter\",\"headline\":\"Kredittkortgebyrer – dette bør du se etter\",\"description\":\"Årsgebyr, kontantuttak, valuta og andre gebyrer forklart. Se hvilke kostnader som kan være relevante for ditt bruksmønster.\",\"url\":\"https://sparesjekk.no/kredittkort-gebyrer.html\",\"inLanguage\":\"nb-NO\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"dateModified\":\"2026-09-09\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/redaksjon.html\"},\"keywords\":[\"kredittkort gebyrer\",\"kredittkort\"]}"
+      "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"name\":\"Kredittkortgebyrer – dette bør du se etter\",\"headline\":\"Kredittkortgebyrer – dette bør du se etter\",\"description\":\"Årsgebyr, kontantuttak, valuta og andre gebyrer forklart. Se hvilke kostnader som kan være relevante for ditt bruksmønster.\",\"url\":\"https://sparesjekk.no/kredittkort-gebyrer.html\",\"inLanguage\":\"nb-NO\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"dateModified\":\"2026-09-11\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/redaksjon.html\"},\"keywords\":[\"kredittkort gebyrer\",\"kredittkort\"]}"
     ]
   },
   "kredittkort-guider.html": {
@@ -671,6 +775,28 @@
       "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"name\":\"Kredittkort – komplett guide\",\"headline\":\"Kredittkort – komplett guide\",\"description\":\"Alt du bør forstå om kredittgrense, rentefri periode, effektiv rente, gebyrer, fordeler og tilbakebetaling.\",\"url\":\"https://sparesjekk.no/kredittkort-komplett-guide.html\",\"inLanguage\":\"nb-NO\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"dateModified\":\"2026-09-09\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/redaksjon.html\"},\"keywords\":[\"kredittkort komplett guide\",\"kredittkort\"]}"
     ]
   },
+  "kredittkort-kostnadssjekk.html": {
+    "title": "Hva koster kredittkortet ditt? Regn på faktisk bruk | Sparesjekk",
+    "description": "Regn ut en enkel årlig kostnad for kredittkortet ditt basert på årsgebyr, valutabruk, kontantuttak og rentebærende saldo.",
+    "canonical": "https://sparesjekk.no/kredittkort-kostnadssjekk.html",
+    "robots": "index,follow,max-image-preview:large,max-snippet:-1",
+    "h1": [
+      "Hva koster kredittkortet ditt i måten du faktisk bruker det?"
+    ],
+    "schemas": [
+      "{\"@context\":\"https://schema.org\",\"@type\":\"WebApplication\",\"name\":\"Kredittkort kostnadssjekk\",\"url\":\"https://sparesjekk.no/kredittkort-kostnadssjekk.html\",\"applicationCategory\":\"FinanceApplication\",\"operatingSystem\":\"Any\",\"offers\":{\"@type\":\"Offer\",\"price\":\"0\",\"priceCurrency\":\"NOK\"},\"inLanguage\":\"nb-NO\"}"
+    ]
+  },
+  "kredittkort-minstebelop-fellen.html": {
+    "title": "Betaler du bare minstebeløpet på kredittkortet? | Sparesjekk",
+    "description": "Se hvorfor minstebeløpet kan gjøre kredittkortgjeld langvarig og dyr, og hvilke tall du bør sjekke før du velger neste steg.",
+    "canonical": "https://sparesjekk.no/kredittkort-minstebelop-fellen.html",
+    "robots": "index,follow,max-image-preview:large,max-snippet:-1",
+    "h1": [
+      "Betaler du bare minstebeløpet på kredittkortet?"
+    ],
+    "schemas": []
+  },
   "kredittkort-rentefri-periode.html": {
     "title": "Rentefri periode på kredittkort – slik fungerer den | Sparesjekk",
     "description": "Rentefrihet kan gjøre kredittkort billig i bruk når fakturaen betales fullt, men vilkårene må være oppfylt.",
@@ -683,6 +809,16 @@
       "{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Sparesjekk\",\"item\":\"https://sparesjekk.no/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Kredittkort\",\"item\":\"https://sparesjekk.no/kredittkort.html\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Rentefri periode på kredittkort – slik fungerer den\",\"item\":\"https://sparesjekk.no/kredittkort-rentefri-periode.html\"}]}",
       "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"name\":\"Rentefri periode på kredittkort – slik fungerer den\",\"headline\":\"Rentefri periode på kredittkort – slik fungerer den\",\"description\":\"Rentefrihet kan gjøre kredittkort billig i bruk når fakturaen betales fullt, men vilkårene må være oppfylt.\",\"url\":\"https://sparesjekk.no/kredittkort-rentefri-periode.html\",\"inLanguage\":\"nb-NO\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"dateModified\":\"2026-09-09\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/redaksjon.html\"},\"keywords\":[\"kredittkort rentefri periode\",\"kredittkort\"]}"
     ]
+  },
+  "kredittkort-utlandet-dyrt.html": {
+    "title": "Hvorfor blir kortet dyrt i utlandet? | Sparesjekk",
+    "description": "Valutapåslag, lokal valuta, minibank og kortgebyrer: finn ut hvorfor kortbruken i utlandet koster mer enn du forventet.",
+    "canonical": "https://sparesjekk.no/kredittkort-utlandet-dyrt.html",
+    "robots": "index,follow,max-image-preview:large,max-snippet:-1",
+    "h1": [
+      "Hvorfor blir kortet dyrt i utlandet?"
+    ],
+    "schemas": []
   },
   "kredittkort-valutapaslag.html": {
     "title": "Valutapåslag på kredittkort – guiden er samlet | Sparesjekk",
@@ -737,6 +873,18 @@
       "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"name\":\"Lånekostnader forklart: renter, gebyrer og totalpris\",\"headline\":\"Lånekostnader forklart: renter, gebyrer og totalpris\",\"description\":\"Forstå hva et lån faktisk koster. Vi går gjennom renter, etableringsgebyr, termingebyr, løpetid og samlet tilbakebetaling.\",\"url\":\"https://sparesjekk.no/lanekostnader-forklart.html\",\"inLanguage\":\"nb-NO\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"dateModified\":\"2026-08-25\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/redaksjon.html\"},\"keywords\":[\"lanekostnader forklart\",\"forbrukslån\"]}"
     ]
   },
+  "lavere-manedsbelop-hoyere-totalpris.html": {
+    "title": "Lavere månedsbeløp, men dyrere lån? Sjekk løpetidsfellen | Sparesjekk",
+    "description": "Et refinansieringstilbud kan gi lavere månedsbeløp og samtidig høyere totalpris. Se hva du må kontrollere før du velger lengre løpetid.",
+    "canonical": "https://sparesjekk.no/lavere-manedsbelop-hoyere-totalpris.html",
+    "robots": "index,follow,max-image-preview:large,max-snippet:-1",
+    "h1": [
+      "Lavere månedsbeløp – men blir lånet egentlig billigere?"
+    ],
+    "schemas": [
+      "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"headline\":\"Lavere månedsbeløp, men høyere totalpris?\",\"url\":\"https://sparesjekk.no/lavere-manedsbelop-hoyere-totalpris.html\",\"inLanguage\":\"nb-NO\",\"dateModified\":\"2026-09-11\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/redaksjon.html\"}}"
+    ]
+  },
   "medlantaker-boliglan.html": {
     "title": "Medlåntaker på boliglån – hva innebærer det? | Sparesjekk",
     "description": "En medlåntaker er medansvarlig for lånet og bør forstå både betalingsansvaret og konsekvensene før avtalen inngås.",
@@ -748,6 +896,18 @@
     "schemas": [
       "{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Sparesjekk\",\"item\":\"https://sparesjekk.no/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Boliglån\",\"item\":\"https://sparesjekk.no/boliglan.html\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Medlåntaker på boliglån – hva innebærer det?\",\"item\":\"https://sparesjekk.no/medlantaker-boliglan.html\"}]}",
       "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"name\":\"Medlåntaker på boliglån – hva innebærer det?\",\"headline\":\"Medlåntaker på boliglån – hva innebærer det?\",\"description\":\"En medlåntaker er medansvarlig for lånet og bør forstå både betalingsansvaret og konsekvensene før avtalen inngås.\",\"url\":\"https://sparesjekk.no/medlantaker-boliglan.html\",\"inLanguage\":\"nb-NO\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"dateModified\":\"2026-08-13\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/redaksjon.html\"},\"keywords\":[\"medlantaker boliglån\",\"boliglån\"]}"
+    ]
+  },
+  "min-rente-vs-markedet.html": {
+    "title": "Er boliglånsrenten din høy? Sammenlign med markedet | Sparesjekk",
+    "description": "Legg inn boliglånsrenten og restgjelden din. Sammenlign med siste offisielle SSB-rente for nye boliglån og se renteforskjellen i kroner.",
+    "canonical": "https://sparesjekk.no/min-rente-vs-markedet.html",
+    "robots": "index,follow,max-image-preview:large,max-snippet:-1",
+    "h1": [
+      "Ligger boliglånsrenten din over markedet?"
+    ],
+    "schemas": [
+      "{\"@context\":\"https://schema.org\",\"@type\":\"WebApplication\",\"name\":\"Min rente vs. markedet\",\"url\":\"https://sparesjekk.no/min-rente-vs-markedet.html\",\"applicationCategory\":\"FinanceApplication\",\"operatingSystem\":\"Any\",\"offers\":{\"@type\":\"Offer\",\"price\":\"0\",\"priceCurrency\":\"NOK\"},\"inLanguage\":\"nb-NO\"}"
     ]
   },
   "minimumsbetaling-kredittkort.html": {
@@ -831,7 +991,7 @@
   },
   "omstartslan-guider.html": {
     "title": "Guider om omstartslån og refinansiering med sikkerhet | Sparesjekk",
-    "description": "Guider om omstartslån, refinansiering med sikkerhet i bolig, kostnader og løpetid.",
+    "description": "Guider om omstartslån, pant i bolig, refinansiering med sikkerhet, løpetid, gjeldsgrad og boligverdi.",
     "canonical": "https://sparesjekk.no/omstartslan-guider.html",
     "robots": "index,follow",
     "h1": [
@@ -864,6 +1024,18 @@
       "{\"@context\":\"https://schema.org\",\"@type\":\"WebPage\",\"name\":\"Personvern\",\"headline\":\"Personvern\",\"description\":\"Les hvordan Sparesjekk håndterer personvern, kalkulatoropplysninger, e-post og eventuell fremtidig sporing.\",\"url\":\"https://sparesjekk.no/personvern.html\",\"inLanguage\":\"nb-NO\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"}}"
     ]
   },
+  "problemloser.html": {
+    "title": "Hva bør jeg gjøre med økonomien? Problemløser | Sparesjekk",
+    "description": "Start med problemet: høy boliglånsrente, mange smålån, dyr kredittkortbruk, avslag på refinansiering, inkasso eller betalingsproblemer. Få riktig neste steg.",
+    "canonical": "https://sparesjekk.no/problemloser.html",
+    "robots": "index,follow,max-image-preview:large,max-snippet:-1",
+    "h1": [
+      "Hva prøver du å løse akkurat nå?"
+    ],
+    "schemas": [
+      "{\"@context\":\"https://schema.org\",\"@type\":\"WebPage\",\"name\":\"Sparesjekk Problemløser\",\"url\":\"https://sparesjekk.no/problemloser.html\",\"inLanguage\":\"nb-NO\"}"
+    ]
+  },
   "rammelan-bolig.html": {
     "title": "Rammelån – fleksibelt boliglån forklart | Sparesjekk",
     "description": "Rammelån gir en kredittramme med sikkerhet i bolig og større fleksibilitet enn et tradisjonelt nedbetalingslån.",
@@ -891,16 +1063,28 @@
     ]
   },
   "refinansiere-forbruksgjeld.html": {
-    "title": "Refinansiering av forbruksgjeld – hva bør du se ette | Sparesjekk",
-    "description": "Refinansiering kan samle eksisterende gjeld, men lavere månedsbeløp betyr ikke automatisk lavere totalkostnad.",
+    "title": "Refinansiere forbruksgjeld – sammenlign før og etter | Sparesjekk",
+    "description": "Slik vurderer du om refinansiering av forbruksgjeld faktisk blir billigere. Sammenlign effektiv rente, total kostnad, løpetid og månedsbeløp før og etter.",
     "canonical": "https://sparesjekk.no/refinansiere-forbruksgjeld.html",
     "robots": "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
     "h1": [
-      "Refinansiering av forbruksgjeld – hva bør du se etter?"
+      "Refinansiere forbruksgjeld – sammenlign før og etter"
     ],
     "schemas": [
-      "{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Sparesjekk\",\"item\":\"https://sparesjekk.no/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Forbrukslån\",\"item\":\"https://sparesjekk.no/forbrukslan.html\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Refinansiering av forbruksgjeld – hva bør du se etter?\",\"item\":\"https://sparesjekk.no/refinansiere-forbruksgjeld.html\"}]}",
-      "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"name\":\"Refinansiering av forbruksgjeld – hva bør du se etter?\",\"headline\":\"Refinansiering av forbruksgjeld – hva bør du se etter?\",\"description\":\"Refinansiering kan samle eksisterende gjeld, men lavere månedsbeløp betyr ikke automatisk lavere totalkostnad.\",\"url\":\"https://sparesjekk.no/refinansiere-forbruksgjeld.html\",\"inLanguage\":\"nb-NO\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"dateModified\":\"2026-09-09\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/redaksjon.html\"}}"
+      "{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Sparesjekk\",\"item\":\"https://sparesjekk.no/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Forbrukslån\",\"item\":\"https://sparesjekk.no/forbrukslan.html\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Refinansiere forbruksgjeld – sammenlign før og etter\",\"item\":\"https://sparesjekk.no/refinansiere-forbruksgjeld.html\"}]}",
+      "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"name\":\"Refinansiere forbruksgjeld – sammenlign før og etter\",\"headline\":\"Refinansiere forbruksgjeld – sammenlign før og etter\",\"description\":\"Slik vurderer du om refinansiering av forbruksgjeld faktisk blir billigere ved å sammenligne før og etter.\",\"url\":\"https://sparesjekk.no/refinansiere-forbruksgjeld.html\",\"inLanguage\":\"nb-NO\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"dateModified\":\"2026-09-11\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/redaksjon.html\"}}"
+    ]
+  },
+  "refinansiering-kalkulator.html": {
+    "title": "Refinansiering kalkulator – før og etter | Sparesjekk",
+    "description": "Sammenlign dagens gjeld med et refinansieringstilbud. Se estimert månedsbeløp, total tilbakebetaling og om lavere månedsbeløp faktisk kan bli dyrere totalt.",
+    "canonical": "https://sparesjekk.no/refinansiering-kalkulator.html",
+    "robots": "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
+    "h1": [
+      "Refinansiering kalkulator – før og etter"
+    ],
+    "schemas": [
+      "{\"@context\":\"https://schema.org\",\"@type\":\"WebApplication\",\"name\":\"Refinansiering før/etter-kalkulator\",\"url\":\"https://sparesjekk.no/refinansiering-kalkulator.html\",\"applicationCategory\":\"FinanceApplication\",\"operatingSystem\":\"Any\",\"inLanguage\":\"nb-NO\",\"offers\":{\"@type\":\"Offer\",\"price\":\"0\",\"priceCurrency\":\"NOK\"},\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"}}"
     ]
   },
   "refinansiering-lopetid.html": {
@@ -917,31 +1101,41 @@
     ]
   },
   "refinansiering-med-sikkerhet.html": {
-    "title": "Refinansiering med sikkerhet i bolig – dette bør du | Sparesjekk",
-    "description": "Hva innebærer refinansiering med sikkerhet i bolig, hvilke kostnader bør sammenlignes og hvorfor løpetiden er viktig?",
+    "title": "Refinansiering med sikkerhet i bolig – risiko og pant | Sparesjekk",
+    "description": "Forstå hva som endres når usikret gjeld refinansieres med pant i bolig. Se risiko, belåningsgrad, løpetid og hva du bør kontrollere før du går videre.",
     "canonical": "https://sparesjekk.no/refinansiering-med-sikkerhet.html",
     "robots": "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
     "h1": [
-      "Refinansiering med sikkerhet i bolig – dette bør du forstå"
+      "Refinansiering med sikkerhet i bolig – risiko og pant"
     ],
     "schemas": [
-      "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"headline\":\"Refinansiering med sikkerhet i bolig – dette bør du forstå\",\"inLanguage\":\"nb-NO\",\"dateModified\":\"2026-08-13\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"mainEntityOfPage\":\"https://sparesjekk.no/refinansiering-med-sikkerhet.html\",\"keywords\":[\"refinansiering med sikkerhet\",\"omstartslån\"]}",
-      "{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Sparesjekk\",\"item\":\"https://sparesjekk.no/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Omstartslån\",\"item\":\"https://sparesjekk.no/omstartslan.html\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Refinansiering med sikkerhet i bolig – dette bør du forstå\",\"item\":\"https://sparesjekk.no/refinansiering-med-sikkerhet.html\"}]}",
-      "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"name\":\"Refinansiering med sikkerhet i bolig – dette bør du forstå\",\"headline\":\"Refinansiering med sikkerhet i bolig – dette bør du forstå\",\"description\":\"Hva innebærer refinansiering med sikkerhet i bolig, hvilke kostnader bør sammenlignes og hvorfor løpetiden er viktig?\",\"url\":\"https://sparesjekk.no/refinansiering-med-sikkerhet.html\",\"inLanguage\":\"nb-NO\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"dateModified\":\"2026-08-13\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/redaksjon.html\"},\"keywords\":[\"refinansiering med sikkerhet\",\"omstartslån\"]}"
+      "{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Sparesjekk\",\"item\":\"https://sparesjekk.no/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Omstartslån\",\"item\":\"https://sparesjekk.no/omstartslan.html\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Refinansiering med sikkerhet i bolig – risiko og pant\",\"item\":\"https://sparesjekk.no/refinansiering-med-sikkerhet.html\"}]}",
+      "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"name\":\"Refinansiering med sikkerhet i bolig – risiko og pant\",\"headline\":\"Refinansiering med sikkerhet i bolig – risiko og pant\",\"description\":\"Forstå hva som endres når usikret gjeld refinansieres med pant i bolig.\",\"url\":\"https://sparesjekk.no/refinansiering-med-sikkerhet.html\",\"inLanguage\":\"nb-NO\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"dateModified\":\"2026-09-10\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/redaksjon.html\"},\"keywords\":[\"refinansiering med sikkerhet\",\"pant i bolig\",\"omstartslån\"]}"
     ]
   },
   "rente-prosentpoeng-kalkulator-guide.html": {
-    "title": "Prosentpoeng og rente – slik regner du forskjellen i | Sparesjekk",
-    "description": "Forskjellen mellom 5,5 og 5,0 prosent rente er 0,5 prosentpoeng. Slik gjør du renteforskjellen om til kroner.",
+    "title": "Renteendring på boliglån – slik slår den ut | Sparesjekk",
+    "description": "Se hva som avgjør når en renteendring faktisk påvirker boliglånet, månedsbeløpet og rentekostnaden over tid.",
     "canonical": "https://sparesjekk.no/rente-prosentpoeng-kalkulator-guide.html",
     "robots": "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
     "h1": [
-      "Prosentpoeng og rente – slik regner du forskjellen i kroner"
+      "Renteendring på boliglån – slik påvirkes kostnaden over tid"
     ],
     "schemas": [
-      "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"headline\":\"Prosentpoeng og rente – slik regner du forskjellen i kroner\",\"description\":\"Forskjellen mellom 5,5 og 5,0 prosent rente er 0,5 prosentpoeng. Slik gjør du renteforskjellen om til kroner.\",\"dateModified\":\"2026-08-25\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\"},\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\"},\"keywords\":[\"rente prosentpoeng kalkulator guide\",\"boliglån\"]}",
-      "{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Sparesjekk\",\"item\":\"https://sparesjekk.no/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Boliglån\",\"item\":\"https://sparesjekk.no/boliglan.html\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Prosentpoeng og rente – slik regner du forskjellen i kroner\",\"item\":\"https://sparesjekk.no/rente-prosentpoeng-kalkulator-guide.html\"}]}",
-      "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"name\":\"Prosentpoeng og rente – slik regner du forskjellen i kroner\",\"headline\":\"Prosentpoeng og rente – slik regner du forskjellen i kroner\",\"description\":\"Forskjellen mellom 5,5 og 5,0 prosent rente er 0,5 prosentpoeng. Slik gjør du renteforskjellen om til kroner.\",\"url\":\"https://sparesjekk.no/rente-prosentpoeng-kalkulator-guide.html\",\"inLanguage\":\"nb-NO\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"dateModified\":\"2026-08-25\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/redaksjon.html\"},\"keywords\":[\"rente prosentpoeng kalkulator guide\",\"boliglån\"]}"
+      "{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Sparesjekk\",\"item\":\"https://sparesjekk.no/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Boliglån\",\"item\":\"https://sparesjekk.no/boliglan.html\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Renteendring på boliglån – slik slår den ut\",\"item\":\"https://sparesjekk.no/rente-prosentpoeng-kalkulator-guide.html\"}]}",
+      "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"name\":\"Renteendring på boliglån – slik slår den ut\",\"headline\":\"Renteendring på boliglån – slik slår den ut\",\"description\":\"Se hva som avgjør når en renteendring faktisk påvirker boliglånet, månedsbeløpet og rentekostnaden over tid.\",\"url\":\"https://sparesjekk.no/rente-prosentpoeng-kalkulator-guide.html\",\"inLanguage\":\"nb-NO\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"dateModified\":\"2026-09-10\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/redaksjon.html\"},\"keywords\":[\"renteendring boliglån\",\"renteendring lån\",\"boliglån\"]}"
+    ]
+  },
+  "rentegap-indeks.html": {
+    "title": "Rentegap-indeks: styringsrente vs boliglånsrente | Sparesjekk",
+    "description": "Sparesjekk Rentegap viser avstanden mellom styringsrenten og faktiske boliglånsrenter i Norge. Se siste offisielle tall, utvikling og hva gapet betyr.",
+    "canonical": "https://sparesjekk.no/rentegap-indeks.html",
+    "robots": "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
+    "h1": [
+      "Hvor langt ligger boliglånsrenten fra styringsrenten?"
+    ],
+    "schemas": [
+      "{\"@context\":\"https://schema.org\",\"@type\":\"Dataset\",\"name\":\"Sparesjekk Rentegap-indeks\",\"description\":\"Månedlig oversikt over differansen mellom styringsrenten og offisielle gjennomsnittsrenter på boliglån i Norge.\",\"url\":\"https://sparesjekk.no/rentegap-indeks.html\",\"inLanguage\":\"nb-NO\",\"creator\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"dateModified\":\"2026-09-11\",\"temporalCoverage\":\"2026-07\"}"
     ]
   },
   "rentehistorikk-boliglan.html": {
@@ -958,16 +1152,16 @@
     ]
   },
   "rentemote-hva-betyr-det.html": {
-    "title": "Rentemøte: Hva betyr Norges Banks beslutning for bol | Sparesjekk",
-    "description": "Et rentemøte kan påvirke forventningene til bankenes renter, men din rente endres ikke nødvendigvis umiddelbart.",
+    "title": "Rentepuls: styringsrente og boliglånsrente | Sparesjekk",
+    "description": "Følg styringsrenten og gjennomsnittlig boliglånsrente i Norge, og se hva renteendringer betyr i kroner for boliglånet.",
     "canonical": "https://sparesjekk.no/rentemote-hva-betyr-det.html",
     "robots": "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
     "h1": [
-      "Rentemøte: Hva betyr Norges Banks beslutning for boliglånet?"
+      "Styringsrente og boliglånsrente – hva skjer med lånet ditt?"
     ],
     "schemas": [
-      "{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Sparesjekk\",\"item\":\"https://sparesjekk.no/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Boliglån\",\"item\":\"https://sparesjekk.no/boliglan.html\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Rentemøte: Hva betyr Norges Banks beslutning for boliglånet?\",\"item\":\"https://sparesjekk.no/rentemote-hva-betyr-det.html\"}]}",
-      "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"name\":\"Rentemøte: Hva betyr Norges Banks beslutning for boliglånet?\",\"headline\":\"Rentemøte: Hva betyr Norges Banks beslutning for boliglånet?\",\"description\":\"Et rentemøte kan påvirke forventningene til bankenes renter, men din rente endres ikke nødvendigvis umiddelbart.\",\"url\":\"https://sparesjekk.no/rentemote-hva-betyr-det.html\",\"inLanguage\":\"nb-NO\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"dateModified\":\"2026-08-25\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/redaksjon.html\"},\"keywords\":[\"rentemote hva betyr det\",\"boliglån\"]}"
+      "{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Sparesjekk\",\"item\":\"https://sparesjekk.no/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Boliglån\",\"item\":\"https://sparesjekk.no/boliglan.html\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Rentepuls\",\"item\":\"https://sparesjekk.no/rentemote-hva-betyr-det.html\"}]}",
+      "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"name\":\"Rentepuls: styringsrente og boliglånsrente\",\"headline\":\"Rentepuls: styringsrente og boliglånsrente\",\"description\":\"Følg styringsrenten og gjennomsnittlig boliglånsrente i Norge, og se hva renteendringer betyr i kroner for boliglånet.\",\"url\":\"https://sparesjekk.no/rentemote-hva-betyr-det.html\",\"inLanguage\":\"nb-NO\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"dateModified\":\"2026-09-11\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/redaksjon.html\"},\"keywords\":[\"styringsrente\",\"boliglånsrente\",\"renteendring\",\"rentemøte\"]}"
     ]
   },
   "samle-smalan-kredittkortgjeld.html": {
@@ -997,16 +1191,16 @@
     ]
   },
   "sammenligne-forbrukslan.html": {
-    "title": "Slik sammenligner du forbrukslån | Sparesjekk",
-    "description": "Sammenlign effektiv rente, løpetid, gebyrer og samlet tilbakebetaling – ikke bare månedsbeløpet.",
+    "title": "Sammenligne forbrukslån – steg for steg | Sparesjekk",
+    "description": "Slik sammenligner du konkrete forbrukslånstilbud steg for steg: samme beløp og løpetid, effektiv rente, total tilbakebetaling, gebyrer og fleksibilitet.",
     "canonical": "https://sparesjekk.no/sammenligne-forbrukslan.html",
     "robots": "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
     "h1": [
-      "Slik sammenligner du forbrukslån"
+      "Sammenligne forbrukslån – steg for steg"
     ],
     "schemas": [
-      "{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Sparesjekk\",\"item\":\"https://sparesjekk.no/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Forbrukslån\",\"item\":\"https://sparesjekk.no/forbrukslan.html\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Slik sammenligner du forbrukslån\",\"item\":\"https://sparesjekk.no/sammenligne-forbrukslan.html\"}]}",
-      "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"name\":\"Slik sammenligner du forbrukslån\",\"headline\":\"Slik sammenligner du forbrukslån\",\"description\":\"Sammenlign effektiv rente, løpetid, gebyrer og samlet tilbakebetaling – ikke bare månedsbeløpet.\",\"url\":\"https://sparesjekk.no/sammenligne-forbrukslan.html\",\"inLanguage\":\"nb-NO\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"dateModified\":\"2026-08-25\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/redaksjon.html\"},\"keywords\":[\"sammenligne forbrukslån\",\"forbrukslån\"]}"
+      "{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Sparesjekk\",\"item\":\"https://sparesjekk.no/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Forbrukslån\",\"item\":\"https://sparesjekk.no/forbrukslan.html\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Sammenligne forbrukslån – steg for steg\",\"item\":\"https://sparesjekk.no/sammenligne-forbrukslan.html\"}]}",
+      "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"name\":\"Sammenligne forbrukslån – steg for steg\",\"headline\":\"Sammenligne forbrukslån – steg for steg\",\"description\":\"En praktisk fremgangsmåte for å sammenligne konkrete forbrukslånstilbud på like vilkår.\",\"url\":\"https://sparesjekk.no/sammenligne-forbrukslan.html\",\"inLanguage\":\"nb-NO\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"dateModified\":\"2026-09-10\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/redaksjon.html\"}}"
     ]
   },
   "sammenligne-kredittkort.html": {
