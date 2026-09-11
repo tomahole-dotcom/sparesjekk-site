@@ -1,0 +1,125 @@
+name: Sparesjekk Traffic Launch QA 20260912
+
+on:
+  push:
+    branches: [seo-content-v34-master]
+    paths:
+      - '.github/workflows/sparesjekk-traffic-launch-qa-20260912.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sparesjekk-traffic-launch-qa
+  cancel-in-progress: false
+
+jobs:
+  qa-build-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout traffic branch
+        uses: actions/checkout@v4
+        with:
+          ref: seo-content-v34-master
+
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+          cache-dependency-path: requirements-site-builder.txt
+
+      - name: Dependencies
+        run: pip install -r requirements-site-builder.txt
+
+      - name: Snapshot reviewed SEO before hard gate
+        run: python tools/seo_guard.py snapshot
+
+      - name: Build design layer, partner blocks and fresh sitemap
+        run: python tools/build_site.py
+
+      - name: Full QA
+        run: python tools/qa_site.py
+
+      - name: Verify GA4 on all public HTML
+        shell: python
+        run: |
+          from pathlib import Path
+          import json, sys
+          root=Path('.')
+          ga4=json.loads((root/'site-config.json').read_text(encoding='utf-8'))['site']['ga4']
+          pages=[p for p in root.rglob('*.html') if not any(x.startswith('.') for x in p.parts)]
+          missing=[str(p) for p in pages if ga4 not in p.read_text(encoding='utf-8')]
+          if missing:
+              print('GA4 missing:', *missing, sep='\n- ')
+              sys.exit(1)
+          print(f'GA4 PASS: {len(pages)} pages')
+
+      - name: Verify traffic-critical URLs in sitemap
+        shell: python
+        run: |
+          from pathlib import Path
+          import sys
+          s=Path('sitemap.xml').read_text(encoding='utf-8')
+          must=[
+            'https://sparesjekk.no/problemloser.html',
+            'https://sparesjekk.no/min-rente-vs-markedet.html',
+            'https://sparesjekk.no/rentegap-indeks.html',
+            'https://sparesjekk.no/gjeldsmiks-sjekk.html',
+            'https://sparesjekk.no/bankbytte-break-even.html',
+            'https://sparesjekk.no/kredittkort-kostnadssjekk.html'
+          ]
+          missing=[u for u in must if u not in s]
+          if missing:
+              print('Traffic URLs missing from sitemap:', *missing, sep='\n- ')
+              sys.exit(1)
+          print('TRAFFIC SITEMAP PASS')
+
+      - name: Validate FTP secrets
+        shell: bash
+        env:
+          FTP_HOST: ${{ secrets.SPARESJEKK_FTP_HOST }}
+          FTP_USER: ${{ secrets.SPARESJEKK_FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.SPARESJEKK_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          for v in FTP_HOST FTP_USER FTP_PASSWORD; do
+            [ -n "${!v:-}" ] || { echo "Missing required deploy secret: $v"; exit 1; }
+          done
+
+      - name: Prepare tested release
+        run: |
+          mkdir -p release/site
+          rsync -a ./ release/site/ \
+            --exclude '.git/' --exclude '.github/' --exclude 'release/' \
+            --exclude 'tools/' --exclude 'seo-baseline.json' \
+            --exclude 'requirements-site-builder.txt' --exclude 'site-config.json'
+
+      - name: Deploy tested release to production
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+        with:
+          server: ${{ secrets.SPARESJEKK_FTP_HOST }}
+          username: ${{ secrets.SPARESJEKK_FTP_USER }}
+          password: ${{ secrets.SPARESJEKK_FTP_PASSWORD }}
+          protocol: ftp
+          port: 21
+          local-dir: ./release/site/
+          server-dir: ./
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            .well-known/**
+
+      - name: Persist tested sitemap and SEO baseline, remove one-shot workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add sitemap.xml seo-baseline.json
+          git rm .github/workflows/sparesjekk-traffic-launch-qa-20260912.yml
+          git commit -m 'Persist tested traffic sitemap and remove one-shot QA workflow'
+          git push origin HEAD:seo-content-v34-master
