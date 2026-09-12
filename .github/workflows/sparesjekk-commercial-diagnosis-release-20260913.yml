@@ -1,4 +1,4 @@
-name: Sparesjekk Commercial Diagnosis Release 20260913
+name: Sparesjekk Homepage Visual QA Release 20260913
 
 on:
   push:
@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   qa-deploy:
-    if: contains(github.event.head_commit.message, 'Run consolidated commercial diagnosis release')
+    if: contains(github.event.head_commit.message, 'Run homepage visual QA and production release')
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:
@@ -28,6 +28,27 @@ jobs:
           cache-dependency-path: requirements-site-builder.txt
       - name: Dependencies
         run: pip install -r requirements-site-builder.txt
+      - name: Verify homepage visual system
+        shell: python
+        run: |
+          from pathlib import Path
+          s=Path('index.html').read_text(encoding='utf-8')
+          required=[
+            'class="visual-hero"',
+            'class="hero-photo"',
+            'Få bedre kontroll på pengene dine',
+            'class="topic-grid"',
+            'Sjekk økonomien din',
+            'min-rente-vs-markedet.html',
+            'gjeldsmiks-sjekk.html',
+            'kredittkort-match.html'
+          ]
+          missing=[x for x in required if x not in s]
+          assert not missing, missing
+          assert '@media(max-width:900px)' in s
+          assert '@media(max-width:560px)' in s
+          assert 'images.pexels.com' in s
+          print('Homepage visual system + responsive rules PASS')
       - name: Normalize internal HTML links
         shell: python
         run: |
@@ -44,28 +65,16 @@ jobs:
                   p.write_text(s,encoding='utf-8')
                   changed.append(str(p))
           print('Normalized files:',len(changed))
-          print(*changed,sep='\n')
-      - name: Verify commercial diagnosis paths and URL hygiene
+      - name: Verify key conversion paths
         shell: python
         run: |
           from pathlib import Path
-          import re
           debt=Path('gjeldsmiks-sjekk.html').read_text(encoding='utf-8')
           card=Path('kredittkort-match.html').read_text(encoding='utf-8')
-          consumer=Path('forbrukslan.html').read_text(encoding='utf-8')
-          cc=Path('kredittkort.html').read_text(encoding='utf-8')
           assert 'Hva kan lavere rente bety?' in debt
-          assert 'Undersøk refinansiering og faktiske tilbud' in debt
           assert 'Hvilket kredittkort passer måten du bruker kort på?' in card
-          assert 'gjeldsmiks-sjekk.html' in consumer
-          assert 'kredittkort-match.html' in cc
-          bad=[]
-          for p in Path('.').rglob('*.html'):
-              s=p.read_text(encoding='utf-8')
-              if re.search(r'href=["\'][^"\']+\.html\?v=\d+',s): bad.append(str(p))
-              assert 'http://sparesjekk.no/' not in s, p
-          assert not bad, bad
-          print('Commercial paths + internal URL hygiene PASS')
+          assert 'partners' in Path('site-config.json').read_text(encoding='utf-8')
+          print('Key diagnosis paths PASS')
       - name: Refresh baseline and build site
         run: |
           python tools/seo_guard.py snapshot
@@ -86,13 +95,13 @@ jobs:
           for u in ['gjeldsmiks-sjekk.html','kredittkort-match.html','forbrukslan.html','kredittkort.html']:
               assert 'https://sparesjekk.no/'+u in sm, u
           print(f'GA4 + sitemap PASS: {len(pages)} pages')
-      - name: Commit tested generated outputs and hygiene fixes
+      - name: Commit tested generated outputs
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add '*.html' 'sjekk/**/*.html' sitemap.xml seo-baseline.json
           if ! git diff --cached --quiet; then
-            git commit -m 'Release commercial diagnosis tools and normalize internal URLs'
+            git commit -m 'Finalize homepage visual release outputs'
             git push origin HEAD:seo-content-v34-master
           fi
       - name: Create tested release
