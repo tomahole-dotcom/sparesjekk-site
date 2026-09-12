@@ -641,7 +641,7 @@
     "canonical": "https://sparesjekk.no/",
     "robots": "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
     "h1": [
-      "Få bedre oversikt over lån, renter og kreditt"
+      "Få bedre kontroll på pengene dine"
     ],
     "schemas": [
       "{\"@context\":\"https://schema.org\",\"@type\":\"WebSite\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\",\"description\":\"Uavhengig norsk informasjon om boliglån, forbrukslån, omstartslån, kredittkort, renter og lånekostnader.\"}",
@@ -1239,12 +1239,12 @@
     "schemas": []
   },
   "sjekk/forbrukslan/index.html": {
-    "title": "Få bedre oversikt over forbrukslån | Sparesjekk",
-    "description": "Se effektiv rente, løpetid, gebyrer og samlet tilbakebetaling før du vurderer et nytt alternativ.",
+    "title": "Sjekk refinansiering og forbrukslån | Sparesjekk",
+    "description": "Start med gjelden du har, vurder mulig besparelse og sammenlign deretter faktiske tilbud på refinansiering eller forbrukslån når partnere er tilgjengelige.",
     "canonical": "https://sparesjekk.no/sjekk/forbrukslan/",
     "robots": "index,follow",
     "h1": [
-      "Få bedre oversikt over forbrukslån"
+      "Sjekk om gjelden din kan få bedre vilkår"
     ],
     "schemas": []
   },
@@ -1267,6 +1267,18 @@
       "Få oversikt over omstartslån"
     ],
     "schemas": []
+  },
+  "sjekk-min-okonomi.html": {
+    "title": "Sjekk økonomien din – finn riktig neste steg | Sparesjekk",
+    "description": "Velg boliglån, gjeld/refinansiering eller kredittkort og gå direkte til riktig Sparesjekk-verktøy for din situasjon.",
+    "canonical": "https://sparesjekk.no/sjekk-min-okonomi.html",
+    "robots": "index,follow,max-image-preview:large,max-snippet:-1",
+    "h1": [
+      "Sjekk økonomien din – finn riktig neste steg"
+    ],
+    "schemas": [
+      "{\"@context\":\"https://schema.org\",\"@type\":\"WebPage\",\"name\":\"Sjekk økonomien din\",\"url\":\"https://sparesjekk.no/sjekk-min-okonomi.html\",\"inLanguage\":\"nb-NO\"}"
+    ]
   },
   "slik-far-du-bedre-boliglansrente.html": {
     "title": "Slik kan du gå frem for å få bedre boliglånsrente | Sparesjekk",
