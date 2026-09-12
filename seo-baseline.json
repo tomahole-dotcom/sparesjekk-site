@@ -361,15 +361,15 @@
     ]
   },
   "gjeldsmiks-sjekk.html": {
-    "title": "Gjeldsmiks-sjekk – få oversikt over forbruksgjeld | Sparesjekk",
-    "description": "Legg inn kredittkort og smålån og få samlet restgjeld, vektet nominell rente, oppgitt månedsbelastning og et bedre grunnlag for å sammenligne alternativer.",
+    "title": "Gjeldssjekk – se mulig besparelse på lån og kredittkort | Sparesjekk",
+    "description": "Legg inn kredittkort og forbrukslån, få samlet gjeldsoversikt og test hvor mye lavere rente kan bety i mulig årlig besparelse.",
     "canonical": "https://sparesjekk.no/gjeldsmiks-sjekk.html",
     "robots": "index,follow,max-image-preview:large,max-snippet:-1",
     "h1": [
-      "Få oversikt over gjeldsmiksen din"
+      "Se gjeldsmiksen din – og hva lavere rente kan bety"
     ],
     "schemas": [
-      "{\"@context\":\"https://schema.org\",\"@type\":\"WebApplication\",\"name\":\"Gjeldsmiks-sjekk\",\"url\":\"https://sparesjekk.no/gjeldsmiks-sjekk.html\",\"applicationCategory\":\"FinanceApplication\",\"operatingSystem\":\"Any\",\"offers\":{\"@type\":\"Offer\",\"price\":\"0\",\"priceCurrency\":\"NOK\"},\"inLanguage\":\"nb-NO\"}"
+      "{\"@context\":\"https://schema.org\",\"@type\":\"WebApplication\",\"name\":\"Gjeldssjekk\",\"url\":\"https://sparesjekk.no/gjeldsmiks-sjekk.html\",\"applicationCategory\":\"FinanceApplication\",\"operatingSystem\":\"Any\",\"offers\":{\"@type\":\"Offer\",\"price\":\"0\",\"priceCurrency\":\"NOK\"},\"inLanguage\":\"nb-NO\"}"
     ]
   },
   "gjeldsregisteret-forbrukslan.html": {
@@ -785,6 +785,18 @@
     ],
     "schemas": [
       "{\"@context\":\"https://schema.org\",\"@type\":\"WebApplication\",\"name\":\"Kredittkort kostnadssjekk\",\"url\":\"https://sparesjekk.no/kredittkort-kostnadssjekk.html\",\"applicationCategory\":\"FinanceApplication\",\"operatingSystem\":\"Any\",\"offers\":{\"@type\":\"Offer\",\"price\":\"0\",\"priceCurrency\":\"NOK\"},\"inLanguage\":\"nb-NO\"}"
+    ]
+  },
+  "kredittkort-match.html": {
+    "title": "Hvilket kredittkort passer bruken din? | Sparesjekk",
+    "description": "Svar på noen få spørsmål om kortbruken din og se hvilke kredittkortegenskaper du bør prioritere – renter, cashback, reise, valuta eller gebyrer.",
+    "canonical": "https://sparesjekk.no/kredittkort-match.html",
+    "robots": "index,follow,max-image-preview:large,max-snippet:-1",
+    "h1": [
+      "Hvilket kredittkort passer måten du bruker kort på?"
+    ],
+    "schemas": [
+      "{\"@context\":\"https://schema.org\",\"@type\":\"WebApplication\",\"name\":\"Kredittkortmatch\",\"url\":\"https://sparesjekk.no/kredittkort-match.html\",\"applicationCategory\":\"FinanceApplication\",\"operatingSystem\":\"Any\",\"offers\":{\"@type\":\"Offer\",\"price\":\"0\",\"priceCurrency\":\"NOK\"},\"inLanguage\":\"nb-NO\"}"
     ]
   },
   "kredittkort-minstebelop-fellen.html": {
