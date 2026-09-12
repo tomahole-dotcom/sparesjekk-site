@@ -44,8 +44,8 @@ def render_landing(cat):
 
 def apply_design_layer():
     changed=0
-    design_name='design-v35.css'
-    old_design_names={'design-v34.css'}
+    design_name='design-v36.css'
+    old_design_names={'design-v34.css','design-v35.css'}
     for path in sorted(ROOT.rglob('*.html')):
         rel=path.relative_to(ROOT).as_posix()
         if rel.startswith('tools/') or rel.startswith('.'):
@@ -81,7 +81,7 @@ def apply_design_layer():
             nav.insert_before(btn)
             dirty=True
 
-        # Mark the all-guides page so V35 can polish the library without changing content.
+        # Mark the all-guides page so the shared layer can polish the library without changing content.
         if rel=='guider.html' and soup.body:
             classes=list(soup.body.get('class',[]))
             if 'guide-library-v35' not in classes:
