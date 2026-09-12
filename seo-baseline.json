@@ -204,12 +204,12 @@
     ]
   },
   "cashback-bonus-kredittkort.html": {
-    "title": "Cashback og bonus på kredittkort – når har det verdi? | Sparesjekk",
-    "description": "Bonus og cashback kan gi fordeler, men bør vurderes mot renter, gebyrer, begrensninger og hvordan du faktisk bruker kortet.",
+    "title": "Kredittkort med bonus og cashback – når lønner det seg? | Sparesjekk",
+    "description": "Vurder kredittkort med bonus og cashback mot renter, gebyrer, bonusgrenser og faktisk bruk. Se når fordelen kan ha reell nettoverdi.",
     "canonical": "https://sparesjekk.no/cashback-bonus-kredittkort.html",
     "robots": "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
     "h1": [
-      "Cashback og bonus på kredittkort – når har det verdi?"
+      "Kredittkort med bonus og cashback – når har det verdi?"
     ],
     "schemas": [
       "{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Sparesjekk\",\"item\":\"https://sparesjekk.no/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Kredittkort\",\"item\":\"https://sparesjekk.no/kredittkort.html\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Cashback og bonus på kredittkort – når har det verdi?\",\"item\":\"https://sparesjekk.no/cashback-bonus-kredittkort.html\"}]}",
@@ -1152,12 +1152,12 @@
     ]
   },
   "rentemote-hva-betyr-det.html": {
-    "title": "Rentepuls: styringsrente og boliglånsrente | Sparesjekk",
-    "description": "Følg styringsrenten og gjennomsnittlig boliglånsrente i Norge, og se hva renteendringer betyr i kroner for boliglånet.",
+    "title": "Rentemøte 24. september 2026: rente og boliglån | Sparesjekk",
+    "description": "Neste rentemøte er 24. september 2026. Følg styringsrenten, boliglånsrentene og se hva en renteendring kan bety i kroner.",
     "canonical": "https://sparesjekk.no/rentemote-hva-betyr-det.html",
     "robots": "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
     "h1": [
-      "Styringsrente og boliglånsrente – hva skjer med lånet ditt?"
+      "Rentemøte 24. september 2026 – hva kan det bety for boliglånet?"
     ],
     "schemas": [
       "{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Sparesjekk\",\"item\":\"https://sparesjekk.no/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Boliglån\",\"item\":\"https://sparesjekk.no/boliglan.html\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Rentepuls\",\"item\":\"https://sparesjekk.no/rentemote-hva-betyr-det.html\"}]}",
