@@ -1,0 +1,111 @@
+name: Sparesjekk Discovery Links Release 20260912
+
+on:
+  push:
+    branches: [seo-content-v34-master]
+    paths: ['.github/workflows/sparesjekk-discovery-links-release-20260912.yml']
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sparesjekk-production-deploy
+  cancel-in-progress: false
+
+jobs:
+  discovery-qa-deploy:
+    if: contains(github.event.head_commit.message, 'Run consolidated Sparesjekk discovery links and release')
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: seo-content-v34-master
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+          cache-dependency-path: requirements-site-builder.txt
+      - name: Dependencies
+        run: pip install -r requirements-site-builder.txt
+      - name: Strengthen discovery from indexed hubs
+        shell: python
+        run: |
+          from pathlib import Path
+
+          def replace_once(path, old, new):
+              p=Path(path); s=p.read_text(encoding='utf-8')
+              assert old in s, f'needle missing in {path}'
+              p.write_text(s.replace(old,new,1),encoding='utf-8')
+
+          # Homepage: expose differentiated tools directly from the strongest hub.
+          old='<div class="useful-grid"><a href="slik-far-du-bedre-boliglansrente.html">'
+          new='<div class="useful-grid"><a href="min-rente-vs-markedet.html"><small>RENTESJEKK</small><h3>Er boliglånsrenten din høy?</h3><p>Sammenlign din rente direkte med siste markedsreferanse og se forskjellen i kroner.</p><span>Sjekk min rente →</span></a><a href="belaningsgrad-sjekk.html"><small>BELÅNINGSGRAD</small><h3>Har boligverdien gitt deg bedre kort?</h3><p>Regn ut belåningsgraden og bruk tallet som utgangspunkt i dialogen med banken.</p><span>Regn ut belåningsgrad →</span></a><a href="gjeldsmiks-sjekk.html"><small>GJELDSMIKS</small><h3>Hva koster gjelden samlet?</h3><p>Få oversikt over flere lån og kreditter før du vurderer refinansiering.</p><span>Sjekk gjeldsmiksen →</span></a></div><div class="useful-grid"><a href="slik-far-du-bedre-boliglansrente.html">'
+          replace_once('index.html',old,new)
+
+          # Mortgage hub: direct links to tools Google has not crawled yet.
+          old='<section class="seo-related"><h2>Ferske rentedata</h2><a href="rentemote-hva-betyr-det.html">Rentepuls →</a> · <a href="rentegap-indeks.html">Rentegap-indeks →</a></section>'
+          new='<section class="seo-related"><h2>Verktøy og ferske rentedata</h2><a href="min-rente-vs-markedet.html">Min rente vs. markedet →</a> · <a href="belaningsgrad-sjekk.html">Belåningsgrad-sjekk →</a> · <a href="bankbytte-break-even.html">Bankbytte break-even →</a> · <a href="rentemote-hva-betyr-det.html">Rentepuls →</a> · <a href="rentegap-indeks.html">Rentegap-indeks →</a></section>'
+          replace_once('boliglan.html',old,new)
+
+          # Consumer-loan hub: direct discovery paths to the two decision tools.
+          old='<section class="seo-related"><h2>Velg neste steg</h2><a href="effektiv-rente-forbrukslan.html">'
+          new='<section class="seo-related"><h2>Velg neste steg</h2><a href="gjeldsmiks-sjekk.html">Sjekk gjeldsmiksen →</a> · <a href="refinansiering-kalkulator.html">Refinansiering før/etter →</a> · <a href="effektiv-rente-forbrukslan.html">'
+          replace_once('forbrukslan.html',old,new)
+
+      - name: Verify discovery links
+        shell: python
+        run: |
+          from pathlib import Path
+          checks={
+            'index.html':['min-rente-vs-markedet.html','belaningsgrad-sjekk.html','gjeldsmiks-sjekk.html','problemloser.html'],
+            'boliglan.html':['min-rente-vs-markedet.html','belaningsgrad-sjekk.html','bankbytte-break-even.html','rentegap-indeks.html'],
+            'forbrukslan.html':['gjeldsmiks-sjekk.html','refinansiering-kalkulator.html']}
+          for f,links in checks.items():
+              s=Path(f).read_text(encoding='utf-8')
+              for link in links: assert link in s,(f,link)
+          print('Priority discovery links PASS')
+      - name: Refresh baseline and build sitemap
+        run: |
+          python tools/seo_guard.py snapshot
+          python tools/build_site.py
+          python tools/seo_guard.py snapshot
+      - name: Full QA
+        run: python tools/qa_site.py
+      - name: Commit tested outputs
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html boliglan.html forbrukslan.html sitemap.xml seo-baseline.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Strengthen discovery links to priority Sparesjekk tools'
+            git push origin HEAD:seo-content-v34-master
+          fi
+      - name: Create tested release
+        run: |
+          mkdir -p release/site
+          rsync -a ./ release/site/ --exclude '.git/' --exclude '.github/' --exclude 'release/' --exclude 'tools/' --exclude 'seo-baseline.json' --exclude 'requirements-site-builder.txt' --exclude 'site-config.json'
+      - name: Validate FTP secrets
+        env:
+          FTP_HOST: ${{ secrets.SPARESJEKK_FTP_HOST }}
+          FTP_USER: ${{ secrets.SPARESJEKK_FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.SPARESJEKK_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          for v in FTP_HOST FTP_USER FTP_PASSWORD; do [ -n "${!v:-}" ] || exit 1; done
+      - name: Deploy tested site to production
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+        with:
+          server: ${{ secrets.SPARESJEKK_FTP_HOST }}
+          username: ${{ secrets.SPARESJEKK_FTP_USER }}
+          password: ${{ secrets.SPARESJEKK_FTP_PASSWORD }}
+          protocol: ftp
+          port: 21
+          local-dir: ./release/site/
+          server-dir: ./
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            .well-known/**
