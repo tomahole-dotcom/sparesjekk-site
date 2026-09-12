@@ -1,0 +1,145 @@
+name: Sparesjekk Traffic Readiness Fix Release 20260912
+
+on:
+  push:
+    branches: [seo-content-v34-master]
+    paths: ['.github/workflows/sparesjekk-traffic-fix-release-20260912.yml']
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sparesjekk-production-deploy
+  cancel-in-progress: false
+
+jobs:
+  fix-qa-deploy:
+    if: contains(github.event.head_commit.message, 'Run consolidated Sparesjekk traffic readiness fixes and release')
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: seo-content-v34-master
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+          cache-dependency-path: requirements-site-builder.txt
+      - name: Dependencies
+        run: pip install -r requirements-site-builder.txt
+      - name: Apply reviewed traffic-readiness fixes
+        shell: python
+        run: |
+          from pathlib import Path
+          from bs4 import BeautifulSoup
+          import re
+
+          # Separate decimal-rate parsing from Norwegian amount parsing.
+          p=Path('min-rente-vs-markedet.html'); s=p.read_text(encoding='utf-8')
+          old="function num(v){const s=String(v).trim().replace(/\\s/g,'');if(!s)return NaN;const normalized=s.includes(',')?s.replace(/\\./g,'').replace(',','.'):s;return Number(normalized)}"
+          new="function rateNum(v){const s=String(v).trim().replace(/\\s/g,'');if(!s)return NaN;return Number(s.replace(',','.'))}function amountNum(v){const s=String(v).trim().replace(/\\s/g,'');if(!s)return NaN;return Number(s.replace(/\\./g,'').replace(',','.'))}"
+          assert old in s
+          s=s.replace(old,new).replace("const mine=num(document.getElementById('myRate').value),bal=num(document.getElementById('balance').value);","const mine=rateNum(document.getElementById('myRate').value),bal=amountNum(document.getElementById('balance').value);")
+          p.write_text(s,encoding='utf-8')
+
+          p=Path('gjeldsmiks-sjekk.html'); s=p.read_text(encoding='utf-8')
+          old="function n(v){const x=Number(String(v).trim().replace(/\\s/g,'').replace(/\\./g,'').replace(',','.'));return Number.isFinite(x)?x:0}"
+          new="function n(v){const x=Number(String(v).trim().replace(/\\s/g,'').replace(/\\./g,'').replace(',','.'));return Number.isFinite(x)?x:0}function rateN(v){const x=Number(String(v).trim().replace(/\\s/g,'').replace(',','.'));return Number.isFinite(x)?x:0}"
+          assert old in s
+          s=s.replace(old,new).replace("const rates=[...document.querySelectorAll('.rate')].map(x=>n(x.value));","const rates=[...document.querySelectorAll('.rate')].map(x=>rateN(x.value));")
+          p.write_text(s,encoding='utf-8')
+
+          # Commercial CTA must be visibly disclosed.
+          p=Path('avslag-refinansiering-hva-na.html'); s=p.read_text(encoding='utf-8')
+          needle='<div class="article-cta"><h2>Har du kontroll og vil undersøke alternativer?</h2>'
+          assert needle in s
+          s=s.replace(needle,'<div class="article-cta"><strong>ANNONSE / REKLAME</strong><h2>Har du kontroll og vil undersøke alternativer?</h2>',1)
+          p.write_text(s,encoding='utf-8')
+
+          # Repair titles that were mechanically cut mid-H1 by the old title limiter.
+          repaired=[]
+          for p in Path('.').rglob('*.html'):
+              raw=p.read_text(encoding='utf-8')
+              soup=BeautifulSoup(raw,'html.parser')
+              if not soup.title or not soup.h1: continue
+              title=' '.join(soup.title.get_text(' ',strip=True).split())
+              h1=' '.join(soup.h1.get_text(' ',strip=True).split())
+              suffix=' | Sparesjekk'
+              if title.endswith(suffix):
+                  base=title[:-len(suffix)].strip()
+                  # Only repair strong truncation evidence: long title is exact prefix of H1.
+                  if len(base)>=35 and len(h1)>len(base) and h1.lower().startswith(base.lower()):
+                      soup.title.string=h1+suffix
+                      p.write_text(str(soup),encoding='utf-8')
+                      repaired.append(str(p))
+          print('Repaired truncated titles:', len(repaired))
+          print(*repaired,sep='\n')
+      - name: Verify parser and disclosure fixes
+        shell: python
+        run: |
+          from pathlib import Path
+          a=Path('min-rente-vs-markedet.html').read_text(encoding='utf-8')
+          b=Path('gjeldsmiks-sjekk.html').read_text(encoding='utf-8')
+          c=Path('avslag-refinansiering-hva-na.html').read_text(encoding='utf-8')
+          assert 'rateNum' in a and 'amountNum' in a
+          assert 'rateN' in b
+          assert 'ANNONSE / REKLAME' in c
+          print('Targeted fixes PASS')
+      - name: Refresh reviewed SEO baseline and build sitemap
+        run: |
+          python tools/seo_guard.py snapshot
+          python tools/build_site.py
+          python tools/seo_guard.py snapshot
+      - name: Full QA
+        run: python tools/qa_site.py
+      - name: Verify GA4 and priority sitemap URLs
+        shell: python
+        run: |
+          from pathlib import Path
+          import json
+          ga4=json.loads(Path('site-config.json').read_text(encoding='utf-8'))['site']['ga4']
+          pages=list(Path('.').rglob('*.html'))
+          missing=[str(p) for p in pages if ga4 not in p.read_text(encoding='utf-8')]
+          assert not missing, missing
+          sm=Path('sitemap.xml').read_text(encoding='utf-8')
+          for u in ['min-rente-vs-markedet.html','gjeldsmiks-sjekk.html','problemloser.html','rentegap-indeks.html']:
+              assert 'https://sparesjekk.no/'+u in sm, u
+          print(f'GA4 + priority sitemap PASS: {len(pages)} pages')
+      - name: Commit tested fixes and generated outputs
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add '*.html' sitemap.xml seo-baseline.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Harden traffic landing tools and repair truncated SEO titles'
+            git push origin HEAD:seo-content-v34-master
+          fi
+      - name: Create tested release
+        run: |
+          mkdir -p release/site
+          rsync -a ./ release/site/ --exclude '.git/' --exclude '.github/' --exclude 'release/' --exclude 'tools/' --exclude 'seo-baseline.json' --exclude 'requirements-site-builder.txt' --exclude 'site-config.json'
+      - name: Validate FTP secrets
+        env:
+          FTP_HOST: ${{ secrets.SPARESJEKK_FTP_HOST }}
+          FTP_USER: ${{ secrets.SPARESJEKK_FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.SPARESJEKK_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          for v in FTP_HOST FTP_USER FTP_PASSWORD; do [ -n "${!v:-}" ] || exit 1; done
+      - name: Deploy tested site to production
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+        with:
+          server: ${{ secrets.SPARESJEKK_FTP_HOST }}
+          username: ${{ secrets.SPARESJEKK_FTP_USER }}
+          password: ${{ secrets.SPARESJEKK_FTP_PASSWORD }}
+          protocol: ftp
+          port: 21
+          local-dir: ./release/site/
+          server-dir: ./
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            .well-known/**
