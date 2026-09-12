@@ -33,7 +33,6 @@ jobs:
         run: |
           from pathlib import Path
 
-          # GSC opportunity: "rentemøte" has impressions but sits around position 29.
           p=Path('rentemote-hva-betyr-det.html'); s=p.read_text(encoding='utf-8')
           s=s.replace('<title>Rentepuls: styringsrente og boliglånsrente | Sparesjekk</title>', '<title>Rentemøte 24. september 2026: rente og boliglån | Sparesjekk</title>', 1)
           s=s.replace('content="Følg styringsrenten og gjennomsnittlig boliglånsrente i Norge, og se hva renteendringer betyr i kroner for boliglånet." name="description"', 'content="Neste rentemøte er 24. september 2026. Følg styringsrenten, boliglånsrentene og se hva en renteendring kan bety i kroner." name="description"', 1)
@@ -45,26 +44,28 @@ jobs:
               s=s.replace(marker, intro+marker, 1)
           p.write_text(s, encoding='utf-8')
 
-          # GSC near-page-one opportunity: "kredittkort med bonus".
           p=Path('cashback-bonus-kredittkort.html'); s=p.read_text(encoding='utf-8')
           s=s.replace('<title>Cashback og bonus på kredittkort – når har det verdi? | Sparesjekk</title>', '<title>Kredittkort med bonus og cashback – når lønner det seg? | Sparesjekk</title>', 1)
           s=s.replace('<h1>Cashback og bonus på kredittkort – når har det verdi?</h1>', '<h1>Kredittkort med bonus og cashback – når har det verdi?</h1>', 1)
           s=s.replace('content="Bonus og cashback kan gi fordeler, men bør vurderes mot renter, gebyrer, begrensninger og hvordan du faktisk bruker kortet." name="description"', 'content="Vurder kredittkort med bonus og cashback mot renter, gebyrer, bonusgrenser og faktisk bruk. Se når fordelen kan ha reell nettoverdi." name="description"', 1)
           p.write_text(s, encoding='utf-8')
 
-          # Strengthen contextual links from established hubs.
           p=Path('boliglan.html'); s=p.read_text(encoding='utf-8')
-          old='<section class="seo-related"><h2>Ferske rentedata</h2><a href="rentemote-hva-betyr-det.html">Rentepuls →</a> · <a href="rentegap-indeks.html">Rentegap-indeks →</a></section>'
-          new='<section class="seo-related"><h2>Ferske rentedata</h2><a href="rentemote-hva-betyr-det.html">Neste rentemøte 24. september →</a> · <a href="rentegap-indeks.html">Rentegap-indeks →</a></section>'
+          old='<a href="rentemote-hva-betyr-det.html">Rentepuls →</a>'
+          new='<a href="rentemote-hva-betyr-det.html">Neste rentemøte 24. september →</a>'
           assert old in s
           s=s.replace(old,new,1)
           p.write_text(s, encoding='utf-8')
 
           p=Path('kredittkort.html'); s=p.read_text(encoding='utf-8')
-          old='<li><a href="kredittkort-rentefri-periode.html">Slik fungerer rentefri periode</a></li><li><a href="sjekk/kredittkort/">Sjekk kredittkort</a></li>'
-          new='<li><a href="kredittkort-rentefri-periode.html">Slik fungerer rentefri periode</a></li><li><a href="cashback-bonus-kredittkort.html">Kredittkort med bonus og cashback</a></li><li><a href="sjekk/kredittkort/">Sjekk kredittkort</a></li>'
-          assert old in s
-          s=s.replace(old,new,1)
+          if 'href="cashback-bonus-kredittkort.html"' not in s:
+              marker='href="kredittkort-rentefri-periode.html"'
+              pos=s.find(marker)
+              assert pos >= 0
+              end=s.find('</a>',pos)
+              assert end >= 0
+              end += 4
+              s=s[:end]+' · <a href="cashback-bonus-kredittkort.html">Kredittkort med bonus og cashback →</a>'+s[end:]
           p.write_text(s, encoding='utf-8')
       - name: Verify target changes
         shell: python
