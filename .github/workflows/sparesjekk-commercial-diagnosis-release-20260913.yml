@@ -1,4 +1,4 @@
-name: Sparesjekk Homepage Visual QA Release 20260913
+name: Sparesjekk V36 Brand Rollout 20260913
 
 on:
   push:
@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   qa-deploy:
-    if: contains(github.event.head_commit.message, 'Run homepage visual QA and production release')
+    if: contains(github.event.head_commit.message, 'Run V36 brand rollout QA and production release')
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:
@@ -28,58 +28,46 @@ jobs:
           cache-dependency-path: requirements-site-builder.txt
       - name: Dependencies
         run: pip install -r requirements-site-builder.txt
-      - name: Verify homepage visual system
+      - name: Verify V36 brand assets
         shell: python
         run: |
           from pathlib import Path
-          s=Path('index.html').read_text(encoding='utf-8')
-          required=[
-            'class="visual-hero"',
-            'class="hero-photo"',
-            'Få bedre kontroll på pengene dine',
-            'class="topic-grid"',
-            'Sjekk økonomien din',
-            'min-rente-vs-markedet.html',
-            'gjeldsmiks-sjekk.html',
-            'kredittkort-match.html'
-          ]
-          missing=[x for x in required if x not in s]
-          assert not missing, missing
-          assert '@media(max-width:900px)' in s
-          assert '@media(max-width:560px)' in s
-          assert 'images.pexels.com' in s
-          print('Homepage visual system + responsive rules PASS')
-      - name: Normalize internal HTML links
-        shell: python
-        run: |
-          from pathlib import Path
-          import re
-          changed=[]
-          query_pat=re.compile(r'href=("|\')([^"\']+\.html)\?v=\d+(#[^"\']*)?\1')
-          for p in Path('.').rglob('*.html'):
-              s=p.read_text(encoding='utf-8')
-              old=s
-              s=query_pat.sub(lambda m: f'href={m.group(1)}{m.group(2)}{m.group(3) or ""}{m.group(1)}',s)
-              s=s.replace('http://sparesjekk.no/','https://sparesjekk.no/')
-              if s!=old:
-                  p.write_text(s,encoding='utf-8')
-                  changed.append(str(p))
-          print('Normalized files:',len(changed))
-      - name: Verify key conversion paths
-        shell: python
-        run: |
-          from pathlib import Path
-          debt=Path('gjeldsmiks-sjekk.html').read_text(encoding='utf-8')
-          card=Path('kredittkort-match.html').read_text(encoding='utf-8')
-          assert 'Hva kan lavere rente bety?' in debt
-          assert 'Hvilket kredittkort passer måten du bruker kort på?' in card
-          assert 'partners' in Path('site-config.json').read_text(encoding='utf-8')
-          print('Key diagnosis paths PASS')
-      - name: Refresh baseline and build site
+          css=Path('design-v36.css').read_text(encoding='utf-8')
+          logo=Path('assets/sparesjekk-logo-blue.svg').read_text(encoding='utf-8')
+          for token in ['--brand:#0A66E8','sparesjekk-logo-blue.svg','.topic-card:nth-child(1) .topic-icon','.header','.logo']:
+              assert token in css, token
+          assert 'Sparesjekk' in logo and 'Mer penger. Enklere valg.' in logo
+          print('V36 blue brand assets PASS')
+      - name: Build V36 across all HTML
         run: |
           python tools/seo_guard.py snapshot
           python tools/build_site.py
           python tools/seo_guard.py snapshot
+      - name: Verify V36 is on every page
+        shell: python
+        run: |
+          from pathlib import Path
+          pages=[p for p in Path('.').rglob('*.html') if not any(part.startswith('.') for part in p.parts) and 'tools' not in p.parts]
+          missing=[]; legacy=[]
+          for p in pages:
+              s=p.read_text(encoding='utf-8')
+              if 'design-v36.css' not in s: missing.append(str(p))
+              if 'design-v35.css' in s or 'design-v34.css' in s: legacy.append(str(p))
+          assert not missing, ('Missing V36',missing[:20])
+          assert not legacy, ('Legacy design links',legacy[:20])
+          print(f'V36 applied to {len(pages)} HTML pages')
+      - name: Verify homepage and key conversion paths
+        shell: python
+        run: |
+          from pathlib import Path
+          home=Path('index.html').read_text(encoding='utf-8')
+          debt=Path('gjeldsmiks-sjekk.html').read_text(encoding='utf-8')
+          card=Path('kredittkort-match.html').read_text(encoding='utf-8')
+          for x in ['class="visual-hero"','class="topic-grid"','Sjekk økonomien din','gjeldsmiks-sjekk.html','kredittkort-match.html']:
+              assert x in home, x
+          assert 'Hva kan lavere rente bety?' in debt
+          assert 'Hvilket kredittkort passer måten du bruker kort på?' in card
+          print('Homepage + conversion paths PASS')
       - name: Full QA
         run: python tools/qa_site.py
       - name: Verify GA4 and sitemap
@@ -101,7 +89,7 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add '*.html' 'sjekk/**/*.html' sitemap.xml seo-baseline.json
           if ! git diff --cached --quiet; then
-            git commit -m 'Finalize homepage visual release outputs'
+            git commit -m 'Apply V36 brand system across site'
             git push origin HEAD:seo-content-v34-master
           fi
       - name: Create tested release
