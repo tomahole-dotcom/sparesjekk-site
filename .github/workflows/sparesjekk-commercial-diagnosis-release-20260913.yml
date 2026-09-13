@@ -1,4 +1,4 @@
-name: Sparesjekk V38 Priority Tool Release 20260913
+name: Sparesjekk V39 Routing Commercial Release 20260913
 
 on:
   push:
@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   qa-deploy:
-    if: contains(github.event.head_commit.message, 'Run V38 priority-tool QA and production release')
+    if: contains(github.event.head_commit.message, 'Run V39 routing-commercial QA and production release')
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:
@@ -28,46 +28,44 @@ jobs:
           cache-dependency-path: requirements-site-builder.txt
       - name: Dependencies
         run: pip install -r requirements-site-builder.txt
-      - name: Verify V38 presentation layer
+      - name: Verify V39 presentation layer
         shell: python
         run: |
           from pathlib import Path
-          css=Path('design-v38.css').read_text(encoding='utf-8')
-          for token in ['conversion-focused presentation','.rate-tool','.match','.tool-shell']:
+          css=Path('design-v39.css').read_text(encoding='utf-8')
+          for token in ['SEO-neutral refinement','.problem-grid','.campaign-page .campaign-shell','.partner-preview']:
               assert token in css, token
           builder=Path('tools/build_site.py').read_text(encoding='utf-8')
-          assert "design_names=['design-v36.css','design-v37.css','design-v38.css']" in builder
-          print('V38 priority tool presentation PASS')
+          assert "design_names=['design-v36.css','design-v37.css','design-v38.css','design-v39.css']" in builder
+          print('V39 routing + commercial presentation PASS')
       - name: Snapshot SEO before build
         run: python tools/seo_guard.py snapshot
       - name: Build presentation layers
         run: python tools/build_site.py
-      - name: Verify V38 on every public HTML page
+      - name: Verify V39 on every public HTML page
         shell: python
         run: |
           from pathlib import Path
+          layers=['design-v36.css','design-v37.css','design-v38.css','design-v39.css']
           pages=[p for p in Path('.').rglob('*.html') if not any(part.startswith('.') for part in p.parts) and 'tools' not in p.parts]
           missing=[]
           for p in pages:
               s=p.read_text(encoding='utf-8')
-              if not all(x in s for x in ['design-v36.css','design-v37.css','design-v38.css']):
-                  missing.append(str(p))
+              if not all(x in s for x in layers): missing.append(str(p))
           assert not missing, missing[:25]
-          print(f'V36+V37+V38 applied to {len(pages)} pages')
-      - name: Verify priority tool content and SEO preserved
+          print(f'V36-V39 applied to {len(pages)} pages')
+      - name: Verify routing and commercial content preserved
         shell: python
         run: |
           from pathlib import Path
-          checks={
-            'min-rente-vs-markedet.html':['Ligger boliglånsrenten din over markedet?','SSB-referanse','rel="canonical"','robots'],
-            'kredittkort-match.html':['Hvilket kredittkort passer måten du bruker kort på?','Dette bør du prioritere','rel="canonical"','robots'],
-            'refinansiering-kalkulator.html':['Refinansiering kalkulator – før og etter','Hva gjør denne kalkulatoren annerledes?','rel="canonical"','robots'],
-            'gjeldsmiks-sjekk.html':['Se gjeldsmiksen din – og hva lavere rente kan bety','Hva kan lavere rente bety?','rel="canonical"','robots'],
-          }
-          for f,tokens in checks.items():
+          router=Path('problemloser.html').read_text(encoding='utf-8')
+          for token in ['Hva prøver du å løse akkurat nå?','Jeg har mange smålån og kredittkort','Jeg får ikke betalt regningene','rel="canonical"','robots']:
+              assert token in router,token
+          for f in ['sjekk/boliglan/index.html','sjekk/forbrukslan/index.html','sjekk/omstartslan/index.html','sjekk/kredittkort/index.html']:
               s=Path(f).read_text(encoding='utf-8')
-              for token in tokens: assert token in s,(f,token)
-          print('Priority tool content + canonical/robots preserved PASS')
+              for token in ['ANNONSE / REKLAME','rel="canonical"','robots','partner-preview']:
+                  assert token in s,(f,token)
+          print('Problem routing + commercial content/SEO preserved PASS')
       - name: Full SEO guard after build
         run: python tools/seo_guard.py snapshot
       - name: Full QA
@@ -82,7 +80,7 @@ jobs:
           missing_ga=[str(p) for p in pages if ga4 not in p.read_text(encoding='utf-8')]
           assert not missing_ga, missing_ga[:20]
           sm=Path('sitemap.xml').read_text(encoding='utf-8')
-          for u in ['min-rente-vs-markedet.html','kredittkort-match.html','refinansiering-kalkulator.html','gjeldsmiks-sjekk.html']:
+          for u in ['problemloser.html','sjekk/boliglan/','sjekk/forbrukslan/','sjekk/omstartslan/','sjekk/kredittkort/']:
               assert 'https://sparesjekk.no/'+u in sm, u
           print('GA4 + sitemap PASS')
       - name: Commit tested generated outputs
@@ -91,7 +89,7 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add '*.html' 'sjekk/**/*.html' sitemap.xml seo-baseline.json
           if ! git diff --cached --quiet; then
-            git commit -m 'Apply V38 priority-tool visual layer'
+            git commit -m 'Apply V39 routing and commercial visual layer'
             git push origin HEAD:seo-content-v34-master
           fi
       - name: Create tested release
