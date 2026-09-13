@@ -32,10 +32,10 @@ jobs:
         shell: python
         run: |
           from pathlib import Path
-          p=Path('refinansiering-tilbudssjekk.html')
+          p=Path('tilbudssjekk-refinansiering.html')
           assert p.exists()
           s=p.read_text(encoding='utf-8')
-          for token in ['Har du fått et refinansieringstilbud?','Sjekk tilbudet','Samlet restgjeld (kr)','Ny effektiv rente (%)','Ny løpetid (måneder)','Etableringsgebyr (kr)','Månedsgebyr (kr)','refi_offer_check_complete','WebApplication','rel="canonical"','robots']:
+          for token in ['Er refinansieringstilbudet faktisk bedre?','Sjekk tilbudet','Samlet restgjeld (kr)','Tilbudt effektiv rente (%)','Ny løpetid (måneder)','Etableringsgebyr (kr)','Månedsgebyr (kr)','refi_offer_check_complete','WebApplication','rel="canonical"','robots']:
               assert token in s, token
           print('Offer checker source PASS')
       - name: Snapshot SEO before build
@@ -46,8 +46,8 @@ jobs:
         shell: python
         run: |
           from pathlib import Path
-          s=Path('refinansiering-tilbudssjekk.html').read_text(encoding='utf-8')
-          for token in ['design-v43.css','Har du fått et refinansieringstilbud?','Sjekk tilbudet','refi_offer_check_complete','rel="canonical"','WebApplication']:
+          s=Path('tilbudssjekk-refinansiering.html').read_text(encoding='utf-8')
+          for token in ['design-v43.css','Er refinansieringstilbudet faktisk bedre?','Sjekk tilbudet','refi_offer_check_complete','rel="canonical"','WebApplication']:
               assert token in s,token
           print('Offer checker post-build PASS')
       - name: Full SEO guard after build
@@ -60,10 +60,10 @@ jobs:
           from pathlib import Path
           import json
           ga4=json.loads(Path('site-config.json').read_text(encoding='utf-8'))['site']['ga4']
-          s=Path('refinansiering-tilbudssjekk.html').read_text(encoding='utf-8')
+          s=Path('tilbudssjekk-refinansiering.html').read_text(encoding='utf-8')
           assert ga4 in s
           sm=Path('sitemap.xml').read_text(encoding='utf-8')
-          assert 'https://sparesjekk.no/refinansiering-tilbudssjekk.html' in sm
+          assert 'https://sparesjekk.no/tilbudssjekk-refinansiering.html' in sm
           print('GA4 + sitemap PASS')
       - name: Commit tested generated outputs
         run: |
