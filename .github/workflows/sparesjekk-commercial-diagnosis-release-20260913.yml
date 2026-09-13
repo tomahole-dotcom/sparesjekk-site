@@ -1,4 +1,4 @@
-name: Sparesjekk V43 Mobile Tools Release 20260913
+name: Sparesjekk V44 Refinancing Offer Checker Release 20260913
 
 on:
   push:
@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   qa-deploy:
-    if: contains(github.event.head_commit.message, 'Run V43 mobile tools QA and production release')
+    if: contains(github.event.head_commit.message, 'Run V44 refinancing offer checker QA and production release')
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:
@@ -28,42 +28,28 @@ jobs:
           cache-dependency-path: requirements-site-builder.txt
       - name: Dependencies
         run: pip install -r requirements-site-builder.txt
-      - name: Verify V43 mobile tools layer
+      - name: Verify offer checker source
         shell: python
         run: |
           from pathlib import Path
-          css=Path('design-v43.css').read_text(encoding='utf-8')
-          for token in ['mobile QA repairs for interactive tools','.tool-card .debt-row','.offer-grid','.match .q select','.match .btn']:
-              assert token in css, token
-          builder=Path('tools/build_site.py').read_text(encoding='utf-8')
-          assert "'design-v43.css'" in builder
-          print('V43 presentation PASS')
+          p=Path('refinansiering-tilbudssjekk.html')
+          assert p.exists()
+          s=p.read_text(encoding='utf-8')
+          for token in ['Har du fått et refinansieringstilbud?','Sjekk tilbudet','Samlet restgjeld (kr)','Ny effektiv rente (%)','Ny løpetid (måneder)','Etableringsgebyr (kr)','Månedsgebyr (kr)','refi_offer_check_complete','WebApplication','rel="canonical"','robots']:
+              assert token in s, token
+          print('Offer checker source PASS')
       - name: Snapshot SEO before build
         run: python tools/seo_guard.py snapshot
-      - name: Build presentation layers
+      - name: Build site
         run: python tools/build_site.py
-      - name: Verify V43 on every public HTML page
+      - name: Verify design layer and offer checker after build
         shell: python
         run: |
           from pathlib import Path
-          pages=[p for p in Path('.').rglob('*.html') if not any(part.startswith('.') for part in p.parts) and 'tools' not in p.parts]
-          missing=[str(p) for p in pages if 'design-v43.css' not in p.read_text(encoding='utf-8')]
-          assert not missing, missing[:25]
-          print(f'V43 applied to {len(pages)} pages')
-      - name: Verify tool functionality and SEO preserved
-        shell: python
-        run: |
-          from pathlib import Path
-          checks={
-            'gjeldsmiks-sjekk.html':['Analyser gjelden','debt_mix_complete','WebApplication','rel="canonical"'],
-            'refinansiering-kalkulator.html':['Sammenlign før og etter','Lavere per måned – men dyrere totalt.','WebApplication','rel="canonical"'],
-            'kredittkort-match.html':['Finn hva jeg bør prioritere','credit_card_match_complete','WebApplication','rel="canonical"']
-          }
-          for fn,tokens in checks.items():
-              s=Path(fn).read_text(encoding='utf-8')
-              for token in tokens: assert token in s,(fn,token)
-              assert 'robots' in s,(fn,'robots')
-          print('Priority tools functionality + SEO preserved PASS')
+          s=Path('refinansiering-tilbudssjekk.html').read_text(encoding='utf-8')
+          for token in ['design-v43.css','Har du fått et refinansieringstilbud?','Sjekk tilbudet','refi_offer_check_complete','rel="canonical"','WebApplication']:
+              assert token in s,token
+          print('Offer checker post-build PASS')
       - name: Full SEO guard after build
         run: python tools/seo_guard.py snapshot
       - name: Full QA
@@ -74,11 +60,10 @@ jobs:
           from pathlib import Path
           import json
           ga4=json.loads(Path('site-config.json').read_text(encoding='utf-8'))['site']['ga4']
-          pages=[p for p in Path('.').rglob('*.html') if 'tools' not in p.parts]
-          assert not [str(p) for p in pages if ga4 not in p.read_text(encoding='utf-8')]
+          s=Path('refinansiering-tilbudssjekk.html').read_text(encoding='utf-8')
+          assert ga4 in s
           sm=Path('sitemap.xml').read_text(encoding='utf-8')
-          for url in ['gjeldsmiks-sjekk.html','refinansiering-kalkulator.html','kredittkort-match.html']:
-              assert 'https://sparesjekk.no/'+url in sm,url
+          assert 'https://sparesjekk.no/refinansiering-tilbudssjekk.html' in sm
           print('GA4 + sitemap PASS')
       - name: Commit tested generated outputs
         run: |
@@ -86,7 +71,7 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add '*.html' 'sjekk/**/*.html' sitemap.xml seo-baseline.json
           if ! git diff --cached --quiet; then
-            git commit -m 'Apply V43 mobile tool QA repairs'
+            git commit -m 'Release refinancing offer checker'
             git push origin HEAD:seo-content-v34-master
           fi
       - name: Create tested release
