@@ -1,0 +1,18 @@
+/* Sparesjekk V42 — mobile debt checker form repair. SEO-neutral presentation only. */
+@media(max-width:760px){
+  .mix-card{padding:16px!important}
+  .rows{gap:14px!important}
+  .debt-row{display:grid!important;grid-template-columns:1fr 1fr!important;gap:12px!important;padding:16px!important;border-radius:16px!important;background:#fff!important}
+  .debt-row .field{display:block!important;min-width:0!important}
+  .debt-row .field:nth-child(1),.debt-row .field:nth-child(4){grid-column:1 / -1!important}
+  .debt-row .field label{display:block!important;margin:0 0 6px!important;font-size:13px!important;line-height:1.25!important;font-weight:800!important;color:#173452!important;min-height:0!important}
+  .debt-row .field input,.debt-row .field select{display:block!important;width:100%!important;min-width:0!important;height:48px!important;padding:10px 12px!important;font-size:16px!important;border-radius:12px!important;box-sizing:border-box!important}
+  .debt-row .field input::placeholder{font-size:16px!important}
+  .mix-card>p{margin:16px 0 0!important}
+  .mix-card .tool-btn{width:100%!important;justify-content:center!important;min-height:50px!important}
+  .mix-card .small{font-size:12.5px!important;line-height:1.45!important}
+}
+@media(max-width:390px){
+  .debt-row{grid-template-columns:1fr!important}
+  .debt-row .field{grid-column:1!important}
+}
