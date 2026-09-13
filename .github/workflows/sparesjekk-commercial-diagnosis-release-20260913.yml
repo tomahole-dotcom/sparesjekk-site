@@ -37,7 +37,10 @@ jobs:
           s=p.read_text(encoding='utf-8')
           for token in ['Er refinansieringstilbudet faktisk bedre?','Sjekk tilbudet','Samlet restgjeld (kr)','Tilbudt effektiv rente (%)','Ny løpetid (måneder)','Etableringsgebyr (kr)','Månedsgebyr (kr)','refi_offer_check_complete','WebApplication','rel="canonical"','robots']:
               assert token in s, token
-          print('Offer checker source PASS')
+          assert not Path('tilbudssjekken.html').exists(), 'duplicate offer checker must not exist'
+          builder=Path('tools/build_site.py').read_text(encoding='utf-8')
+          assert "tilbudssjekk-refinansiering.html" in builder
+          print('Offer checker source + canonical route PASS')
       - name: Snapshot SEO before build
         run: python tools/seo_guard.py snapshot
       - name: Build site
@@ -47,9 +50,12 @@ jobs:
         run: |
           from pathlib import Path
           s=Path('tilbudssjekk-refinansiering.html').read_text(encoding='utf-8')
-          for token in ['design-v43.css','Er refinansieringstilbudet faktisk bedre?','Sjekk tilbudet','refi_offer_check_complete','rel="canonical"','WebApplication']:
+          for token in ['design-v43.css','Er refinansieringstilbudet faktisk bedre?','Sjekk tilbudet','refi_offer_check_complete','rel="canonical"','WebApplication','Tilbudssjekken']:
               assert token in s,token
-          print('Offer checker post-build PASS')
+          pages=[p for p in Path('.').rglob('*.html') if 'tools' not in p.parts and not any(part.startswith('.') for part in p.parts)]
+          missing=[str(p) for p in pages if 'Tilbudssjekken' not in p.read_text(encoding='utf-8')]
+          assert not missing, missing[:20]
+          print('Offer checker + global navigation PASS')
       - name: Full SEO guard after build
         run: python tools/seo_guard.py snapshot
       - name: Full QA
@@ -64,6 +70,7 @@ jobs:
           assert ga4 in s
           sm=Path('sitemap.xml').read_text(encoding='utf-8')
           assert 'https://sparesjekk.no/tilbudssjekk-refinansiering.html' in sm
+          assert 'https://sparesjekk.no/tilbudssjekken.html' not in sm
           print('GA4 + sitemap PASS')
       - name: Commit tested generated outputs
         run: |
