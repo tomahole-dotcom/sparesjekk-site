@@ -1,0 +1,13 @@
+/* Sparesjekk V40 — remove placeholder-like homepage card visuals. SEO-neutral presentation only. */
+#start .topic-grid{gap:16px!important}
+#start .topic-card{position:relative!important;display:grid!important;grid-template-columns:72px minmax(0,1fr)!important;align-items:start!important;min-height:0!important;padding:22px!important;border-radius:22px!important;overflow:visible!important;background:#fff!important}
+#start .topic-visual{width:64px!important;height:64px!important;min-height:0!important;border-radius:18px!important;display:grid!important;place-items:center!important;background:linear-gradient(145deg,#eef6ff,#f9fcff)!important;margin:0!important}
+#start .topic-card:nth-child(3) .topic-visual{background:linear-gradient(145deg,#fff4eb,#fffaf6)!important}
+#start .topic-icon{width:46px!important;height:46px!important;border-radius:14px!important;box-shadow:0 7px 18px rgba(14,43,85,.08)!important}
+#start .topic-body{padding:0!important;min-width:0!important}
+#start .topic-body small{display:block!important;margin-top:1px!important}
+#start .topic-body h3{margin:5px 0 8px!important;font-size:21px!important;line-height:1.15!important}
+#start .topic-body p{margin:0 0 12px!important;font-size:14px!important;line-height:1.48!important}
+#start .topic-body span{display:inline-block!important;margin-top:0!important;font-size:15px!important}
+@media(min-width:901px){#start .topic-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}#start .topic-card{grid-template-columns:78px minmax(0,1fr)!important;padding:24px!important}#start .topic-visual{width:68px!important;height:68px!important}}
+@media(max-width:560px){#start .topic-grid{gap:12px!important}#start .topic-card{grid-template-columns:58px minmax(0,1fr)!important;padding:18px 16px!important;border-radius:18px!important}#start .topic-visual{width:50px!important;height:50px!important;border-radius:14px!important}#start .topic-icon{width:42px!important;height:42px!important;border-radius:12px!important}#start .topic-body h3{font-size:20px!important}#start .topic-body p{font-size:14px!important;margin-bottom:10px!important}}
