@@ -1,4 +1,4 @@
-name: Sparesjekk V44 Refinancing Offer Checker Release 20260913
+name: Sparesjekk V45 GSC Internal Link Release 20260913
 
 on:
   push:
@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   qa-deploy:
-    if: contains(github.event.head_commit.message, 'Run V44 refinancing offer checker QA and production release')
+    if: contains(github.event.head_commit.message, 'Run V45 GSC internal-link QA and production release')
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:
@@ -28,35 +28,44 @@ jobs:
           cache-dependency-path: requirements-site-builder.txt
       - name: Dependencies
         run: pip install -r requirements-site-builder.txt
-      - name: Verify offer checker source
+      - name: Verify GSC priority-link source
         shell: python
         run: |
           from pathlib import Path
-          p=Path('tilbudssjekk-refinansiering.html')
-          assert p.exists()
-          s=p.read_text(encoding='utf-8')
-          for token in ['Er refinansieringstilbudet faktisk bedre?','Sjekk tilbudet','Samlet restgjeld (kr)','Tilbudt effektiv rente (%)','Ny løpetid (måneder)','Etableringsgebyr (kr)','Månedsgebyr (kr)','refi_offer_check_complete','WebApplication','rel="canonical"','robots']:
-              assert token in s, token
-          assert not Path('tilbudssjekken.html').exists(), 'duplicate offer checker must not exist'
-          builder=Path('tools/build_site.py').read_text(encoding='utf-8')
-          assert "tilbudssjekk-refinansiering.html" in builder
-          print('Offer checker source + canonical route PASS')
+          b=Path('tools/build_site.py').read_text(encoding='utf-8')
+          for token in ['apply_priority_internal_links','boliglan-uten-egenkapital.html','egenkapital-bolig.html','hvor-mye-kan-jeg-lane-bolig.html','bytte-bank-boliglan-komplett.html','guide-effektiv-nominell-rente.html','gsc-20260913']:
+              assert token in b, token
+          print('GSC priority-link source PASS')
       - name: Snapshot SEO before build
         run: python tools/seo_guard.py snapshot
       - name: Build site
         run: python tools/build_site.py
-      - name: Verify design layer and offer checker after build
+      - name: Verify priority links after build
         shell: python
         run: |
           from pathlib import Path
-          s=Path('tilbudssjekk-refinansiering.html').read_text(encoding='utf-8')
-          for token in ['design-v43.css','Er refinansieringstilbudet faktisk bedre?','Sjekk tilbudet','refi_offer_check_complete','rel="canonical"','WebApplication','Tilbudssjekken']:
-              assert token in s,token
-          pages=[p for p in Path('.').rglob('*.html') if 'tools' not in p.parts and not any(part.startswith('.') for part in p.parts)]
-          nav_pages=[p for p in pages if 'class="topnav"' in p.read_text(encoding='utf-8')]
-          missing=[str(p) for p in nav_pages if 'Tilbudssjekken' not in p.read_text(encoding='utf-8')]
-          assert not missing, missing[:20]
-          print(f'Offer checker + navigation PASS on {len(nav_pages)} nav pages')
+          checks={
+            'boliglan.html':['boliglan-uten-egenkapital.html','egenkapital-bolig.html','hvor-mye-kan-jeg-lane-bolig.html','bytte-bank-boliglan-komplett.html'],
+            'boliglan-guider.html':['boliglan-uten-egenkapital.html','egenkapital-bolig.html'],
+            'egenkapital-bolig.html':['boliglan-uten-egenkapital.html','hvor-mye-kan-jeg-lane-bolig.html'],
+            'flytte-boliglan.html':['bytte-bank-boliglan-komplett.html'],
+            'forbrukslan.html':['guide-effektiv-nominell-rente.html'],
+            'refinansiere-forbruksgjeld.html':['guide-effektiv-nominell-rente.html'],
+          }
+          for page,targets in checks.items():
+              s=Path(page).read_text(encoding='utf-8')
+              for target in targets: assert target in s,(page,target)
+          print('Priority internal links PASS')
+      - name: Verify protected SEO fields
+        shell: python
+        run: |
+          from pathlib import Path
+          for page in ['boliglan-uten-egenkapital.html','egenkapital-bolig.html','hvor-mye-kan-jeg-lane-bolig.html','bytte-bank-boliglan-komplett.html','guide-effektiv-nominell-rente.html']:
+              s=Path(page).read_text(encoding='utf-8')
+              for token in ['rel="canonical"','robots']:
+                  assert token in s,(page,token)
+              assert '<h1' in s,page
+          print('Protected SEO fields present PASS')
       - name: Full SEO guard after build
         run: python tools/seo_guard.py snapshot
       - name: Full QA
@@ -67,11 +76,11 @@ jobs:
           from pathlib import Path
           import json
           ga4=json.loads(Path('site-config.json').read_text(encoding='utf-8'))['site']['ga4']
-          s=Path('tilbudssjekk-refinansiering.html').read_text(encoding='utf-8')
-          assert ga4 in s
+          pages=[p for p in Path('.').rglob('*.html') if 'tools' not in p.parts]
+          assert not [str(p) for p in pages if ga4 not in p.read_text(encoding='utf-8')]
           sm=Path('sitemap.xml').read_text(encoding='utf-8')
-          assert 'https://sparesjekk.no/tilbudssjekk-refinansiering.html' in sm
-          assert 'https://sparesjekk.no/tilbudssjekken.html' not in sm
+          for url in ['https://sparesjekk.no/boliglan-uten-egenkapital.html','https://sparesjekk.no/egenkapital-bolig.html','https://sparesjekk.no/hvor-mye-kan-jeg-lane-bolig.html','https://sparesjekk.no/bytte-bank-boliglan-komplett.html','https://sparesjekk.no/guide-effektiv-nominell-rente.html']:
+              assert url in sm,url
           print('GA4 + sitemap PASS')
       - name: Commit tested generated outputs
         run: |
@@ -79,7 +88,7 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add '*.html' 'sjekk/**/*.html' sitemap.xml seo-baseline.json
           if ! git diff --cached --quiet; then
-            git commit -m 'Release refinancing offer checker'
+            git commit -m 'Apply GSC priority internal links'
             git push origin HEAD:seo-content-v34-master
           fi
       - name: Create tested release
