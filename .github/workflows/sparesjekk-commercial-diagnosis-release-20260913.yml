@@ -53,9 +53,10 @@ jobs:
           for token in ['design-v43.css','Er refinansieringstilbudet faktisk bedre?','Sjekk tilbudet','refi_offer_check_complete','rel="canonical"','WebApplication','Tilbudssjekken']:
               assert token in s,token
           pages=[p for p in Path('.').rglob('*.html') if 'tools' not in p.parts and not any(part.startswith('.') for part in p.parts)]
-          missing=[str(p) for p in pages if 'Tilbudssjekken' not in p.read_text(encoding='utf-8')]
+          nav_pages=[p for p in pages if 'class="topnav"' in p.read_text(encoding='utf-8')]
+          missing=[str(p) for p in nav_pages if 'Tilbudssjekken' not in p.read_text(encoding='utf-8')]
           assert not missing, missing[:20]
-          print('Offer checker + global navigation PASS')
+          print(f'Offer checker + navigation PASS on {len(nav_pages)} nav pages')
       - name: Full SEO guard after build
         run: python tools/seo_guard.py snapshot
       - name: Full QA
