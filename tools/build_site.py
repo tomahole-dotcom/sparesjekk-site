@@ -44,7 +44,7 @@ def render_landing(cat):
 
 def apply_design_layer():
     changed=0
-    design_name='design-v36.css'
+    design_names=['design-v36.css','design-v37.css']
     old_design_names={'design-v34.css','design-v35.css'}
     hero_classes={
         'boliglan.html':'premium-mortgage',
@@ -59,20 +59,21 @@ def apply_design_layer():
         soup=BeautifulSoup(path.read_text(encoding='utf-8'),'html.parser')
         dirty=False
 
-        # Keep exactly one current shared visual layer. SEO metadata/content is untouched.
+        # Keep shared presentation layers consistent. SEO metadata/content is untouched.
         for link in list(soup.find_all('link',href=True)):
             href=link.get('href','')
             if any(old in href for old in old_design_names):
                 link.decompose()
                 dirty=True
 
-        if not soup.find('link',href=lambda x:isinstance(x,str) and design_name in x):
-            depth=len(path.relative_to(ROOT).parents)-1
-            href=('../'*depth)+design_name
-            link=soup.new_tag('link',rel='stylesheet',href=href)
-            if soup.head:
-                soup.head.append(link)
-                dirty=True
+        depth=len(path.relative_to(ROOT).parents)-1
+        for design_name in design_names:
+            if not soup.find('link',href=lambda x,n=design_name:isinstance(x,str) and n in x):
+                href=('../'*depth)+design_name
+                link=soup.new_tag('link',rel='stylesheet',href=href)
+                if soup.head:
+                    soup.head.append(link)
+                    dirty=True
 
         # Ensure all standard headers have the same usable mobile navigation.
         header=soup.select_one('header.header')
@@ -98,7 +99,7 @@ def apply_design_layer():
                     hero['class']=classes
                     dirty=True
 
-        # Mark the all-guides page so the shared layer can polish the library without changing content.
+        # Mark the all-guides page so shared layers can polish the library without changing content.
         if rel=='guider.html' and soup.body:
             classes=list(soup.body.get('class',[]))
             if 'guide-library-v35' not in classes:
