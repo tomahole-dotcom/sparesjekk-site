@@ -60,10 +60,22 @@ def apply_priority_internal_links():
         ('flytte-boliglan.html','bytte-bank-boliglan-komplett.html','Komplett guide til å bytte bank med boliglån'),
         ('guide-bytte-bank-steg.html','bytte-bank-boliglan-komplett.html','Se hele guiden til bankbytte og boliglån'),
         ('boliglan.html','bytte-bank-boliglan-komplett.html','Vurderer du bankbytte? Se komplett guide'),
+        # Traffic Engine: route informational bank-switch intent into the decision tool.
+        ('guide-bytte-bank-steg.html','bankbytte-break-even.html','Regn ut når et bankbytte faktisk går i pluss'),
+        ('bytte-bank-boliglan-komplett.html','bankbytte-break-even.html','Sjekk om rentebesparelsen dekker kostnadene ved bankbytte'),
+        ('flytte-boliglan.html','bankbytte-break-even.html','Test bankbyttet med break-even-kalkulatoren'),
         # Effective vs nominal rate cluster.
         ('forbrukslan.html','guide-effektiv-nominell-rente.html','Effektiv eller nominell rente? Se hva du faktisk bør sammenligne'),
         ('guide-refinansiering.html','guide-effektiv-nominell-rente.html','Forstå forskjellen på effektiv og nominell rente'),
         ('refinansiere-forbruksgjeld.html','guide-effektiv-nominell-rente.html','Sammenlign tilbud på effektiv rente – ikke bare nominell rente'),
+        # Traffic Engine: turn rate-learning intent into a personal krone calculation.
+        ('guide-effektiv-nominell-rente.html','boliglanskalkulator-renteforskjell.html','Se hva en renteforskjell betyr i kroner for boliglånet'),
+        ('guide-renteforskjell-kroner.html','boliglanskalkulator-renteforskjell.html','Regn ut renteforskjellen på ditt eget boliglån'),
+        ('boliglanskalkulator-renteforskjell.html','min-rente-vs-markedet.html','Sammenlign renten din med markedet'),
+        # Refinancing decision path: guide -> calculator -> post-offer check.
+        ('guide-refinansiering.html','refinansiering-kalkulator.html','Test refinansiering med dine egne tall'),
+        ('refinansiere-forbruksgjeld.html','refinansiering-kalkulator.html','Regn på mulig effekt av refinansiering'),
+        ('refinansiering-kalkulator.html','tilbudssjekk-refinansiering.html','Har du fått et tilbud? Kontroller om det faktisk er bedre'),
     ]
     changed=0
     for rel,href,label in links:
