@@ -44,7 +44,7 @@ def render_landing(cat):
 
 def apply_design_layer():
     changed=0
-    design_names=['design-v36.css','design-v37.css']
+    design_names=['design-v36.css','design-v37.css','design-v38.css']
     old_design_names={'design-v34.css','design-v35.css'}
     hero_classes={
         'boliglan.html':'premium-mortgage',
