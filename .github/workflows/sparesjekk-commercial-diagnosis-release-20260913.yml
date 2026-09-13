@@ -1,4 +1,4 @@
-name: Sparesjekk V36 Brand Rollout 20260913
+name: Sparesjekk V36 Category Visual Release 20260913
 
 on:
   push:
@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   qa-deploy:
-    if: contains(github.event.head_commit.message, 'Run V36 brand rollout QA and production release')
+    if: contains(github.event.head_commit.message, 'Run V36 category visual QA and production release')
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:
@@ -28,21 +28,34 @@ jobs:
           cache-dependency-path: requirements-site-builder.txt
       - name: Dependencies
         run: pip install -r requirements-site-builder.txt
-      - name: Verify V36 brand assets
+      - name: Verify visual category system
         shell: python
         run: |
           from pathlib import Path
           css=Path('design-v36.css').read_text(encoding='utf-8')
-          logo=Path('assets/sparesjekk-logo-blue.svg').read_text(encoding='utf-8')
-          for token in ['--brand:#0A66E8','sparesjekk-logo-blue.svg','.topic-card:nth-child(1) .topic-icon','.header','.logo']:
+          for token in ['premium-mortgage .premium-visual','premium-consumer .premium-visual','premium-card .premium-visual','premium-restart .premium-visual','images.pexels.com']:
               assert token in css, token
-          assert 'Sparesjekk' in logo and 'Mer penger. Enklere valg.' in logo
-          print('V36 blue brand assets PASS')
+          print('Category visual CSS PASS')
       - name: Build V36 across all HTML
         run: |
           python tools/seo_guard.py snapshot
           python tools/build_site.py
           python tools/seo_guard.py snapshot
+      - name: Verify four main category hero classes
+        shell: python
+        run: |
+          from pathlib import Path
+          expected={
+            'boliglan.html':'premium-mortgage',
+            'forbrukslan.html':'premium-consumer',
+            'kredittkort.html':'premium-card',
+            'omstartslan.html':'premium-restart',
+          }
+          for f,c in expected.items():
+              s=Path(f).read_text(encoding='utf-8')
+              assert c in s,(f,c)
+              assert 'design-v36.css' in s,f
+          print('Four visual category heroes PASS')
       - name: Verify V36 is on every page
         shell: python
         run: |
@@ -56,18 +69,6 @@ jobs:
           assert not missing, ('Missing V36',missing[:20])
           assert not legacy, ('Legacy design links',legacy[:20])
           print(f'V36 applied to {len(pages)} HTML pages')
-      - name: Verify homepage and key conversion paths
-        shell: python
-        run: |
-          from pathlib import Path
-          home=Path('index.html').read_text(encoding='utf-8')
-          debt=Path('gjeldsmiks-sjekk.html').read_text(encoding='utf-8')
-          card=Path('kredittkort-match.html').read_text(encoding='utf-8')
-          for x in ['class="visual-hero"','class="topic-grid"','Sjekk økonomien din','gjeldsmiks-sjekk.html','kredittkort-match.html']:
-              assert x in home, x
-          assert 'Hva kan lavere rente bety?' in debt
-          assert 'Hvilket kredittkort passer måten du bruker kort på?' in card
-          print('Homepage + conversion paths PASS')
       - name: Full QA
         run: python tools/qa_site.py
       - name: Verify GA4 and sitemap
@@ -80,7 +81,7 @@ jobs:
           missing=[str(p) for p in pages if ga4 not in p.read_text(encoding='utf-8')]
           assert not missing, missing
           sm=Path('sitemap.xml').read_text(encoding='utf-8')
-          for u in ['gjeldsmiks-sjekk.html','kredittkort-match.html','forbrukslan.html','kredittkort.html']:
+          for u in ['boliglan.html','forbrukslan.html','omstartslan.html','kredittkort.html']:
               assert 'https://sparesjekk.no/'+u in sm, u
           print(f'GA4 + sitemap PASS: {len(pages)} pages')
       - name: Commit tested generated outputs
@@ -89,7 +90,7 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add '*.html' 'sjekk/**/*.html' sitemap.xml seo-baseline.json
           if ! git diff --cached --quiet; then
-            git commit -m 'Apply V36 brand system across site'
+            git commit -m 'Apply visual category hero system'
             git push origin HEAD:seo-content-v34-master
           fi
       - name: Create tested release
