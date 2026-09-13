@@ -6,7 +6,6 @@ ROOT=Path(__file__).resolve().parents[1]
 CFG=json.loads((ROOT/'site-config.json').read_text(encoding='utf-8'))
 
 # Generated commercial blocks and presentation helpers are touched here.
-# Editorial/SEO fields are deliberately untouched.
 def active_partners(cat):
     out=[]
     for p in CFG.get('partners',[]):
@@ -41,6 +40,35 @@ def render_landing(cat):
     for node in list(frag.contents): box.append(node)
     path.write_text(str(soup),encoding='utf-8')
     return len(ps)
+
+def apply_priority_internal_links():
+    # GSC-driven, conservative internal-link reinforcement. No title/meta/H1 changes.
+    links={
+        'boliglan.html':('boliglan-uten-egenkapital.html','Boliglån uten egenkapital: se hvilke muligheter som finnes'),
+        'boliglan-guider.html':('boliglan-uten-egenkapital.html','Guide: boliglån uten nok egenkapital'),
+        'egenkapital-bolig.html':('boliglan-uten-egenkapital.html','Mangler du nok egenkapital? Se mulighetene og risikoen'),
+        'hvor-mye-kan-jeg-lane-bolig.html':('boliglan-uten-egenkapital.html','Boliglån uten nok egenkapital – hva kan være aktuelt?'),
+        'boliglan-uten-egenkapital.html':('belaningsgrad-sjekk.html','Sjekk belåningsgraden din med gratisverktøyet'),
+    }
+    changed=0
+    for rel,(href,label) in links.items():
+        path=ROOT/rel
+        if not path.exists(): continue
+        soup=BeautifulSoup(path.read_text(encoding='utf-8'),'html.parser')
+        if soup.find('a',href=href): continue
+        container=soup.select_one('article') or soup.select_one('main')
+        if not container: continue
+        p=soup.new_tag('p')
+        p['class']=['seo-priority-link']
+        p['data-seo-priority']='gsc-20260913'
+        strong=soup.new_tag('strong'); strong.string='Relatert: '
+        a=soup.new_tag('a',href=href); a.string=label+' →'
+        p.append(strong); p.append(a)
+        disclaimer=container.select_one('.disclaimer,.article-note')
+        if disclaimer: disclaimer.insert_before(p)
+        else: container.append(p)
+        path.write_text(str(soup),encoding='utf-8'); changed+=1
+    return changed
 
 def apply_design_layer():
     changed=0
@@ -107,5 +135,6 @@ def sitemap():
 
 counts={c['key']:render_landing(c['key']) for c in CFG['categories']}
 print('Partner cards:',counts)
+print('Priority internal links:',apply_priority_internal_links())
 print('Design-normalized pages:',apply_design_layer())
 print('Sitemap URLs:',sitemap())
