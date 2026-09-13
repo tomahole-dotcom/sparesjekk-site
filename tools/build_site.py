@@ -46,6 +46,12 @@ def apply_design_layer():
     changed=0
     design_name='design-v36.css'
     old_design_names={'design-v34.css','design-v35.css'}
+    hero_classes={
+        'boliglan.html':'premium-mortgage',
+        'forbrukslan.html':'premium-consumer',
+        'kredittkort.html':'premium-card',
+        'omstartslan.html':'premium-restart',
+    }
     for path in sorted(ROOT.rglob('*.html')):
         rel=path.relative_to(ROOT).as_posix()
         if rel.startswith('tools/') or rel.startswith('.'):
@@ -80,6 +86,17 @@ def apply_design_layer():
             btn.string='☰'
             nav.insert_before(btn)
             dirty=True
+
+        # Give the four main category heroes stable visual identities.
+        if rel in hero_classes:
+            hero=soup.select_one('.premium-hero')
+            if hero:
+                classes=list(hero.get('class',[]))
+                marker=hero_classes[rel]
+                if marker not in classes:
+                    classes.append(marker)
+                    hero['class']=classes
+                    dirty=True
 
         # Mark the all-guides page so the shared layer can polish the library without changing content.
         if rel=='guider.html' and soup.body:
