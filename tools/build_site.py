@@ -43,15 +43,30 @@ def render_landing(cat):
 
 def apply_priority_internal_links():
     # GSC-driven, conservative internal-link reinforcement. No title/meta/H1 changes.
-    links={
-        'boliglan.html':('boliglan-uten-egenkapital.html','Boliglån uten egenkapital: se hvilke muligheter som finnes'),
-        'boliglan-guider.html':('boliglan-uten-egenkapital.html','Guide: boliglån uten nok egenkapital'),
-        'egenkapital-bolig.html':('boliglan-uten-egenkapital.html','Mangler du nok egenkapital? Se mulighetene og risikoen'),
-        'hvor-mye-kan-jeg-lane-bolig.html':('boliglan-uten-egenkapital.html','Boliglån uten nok egenkapital – hva kan være aktuelt?'),
-        'boliglan-uten-egenkapital.html':('belaningsgrad-sjekk.html','Sjekk belåningsgraden din med gratisverktøyet'),
-    }
+    links=[
+        # Highest-impression opportunity: boliglån uten nok egenkapital.
+        ('boliglan.html','boliglan-uten-egenkapital.html','Boliglån uten egenkapital: se hvilke muligheter som finnes'),
+        ('boliglan-guider.html','boliglan-uten-egenkapital.html','Guide: boliglån uten nok egenkapital'),
+        ('egenkapital-bolig.html','boliglan-uten-egenkapital.html','Mangler du nok egenkapital? Se mulighetene og risikoen'),
+        ('hvor-mye-kan-jeg-lane-bolig.html','boliglan-uten-egenkapital.html','Boliglån uten nok egenkapital – hva kan være aktuelt?'),
+        ('boliglan-uten-egenkapital.html','belaningsgrad-sjekk.html','Sjekk belåningsgraden din med gratisverktøyet'),
+        # Strengthen closely related high-impression mortgage pages.
+        ('boliglan.html','egenkapital-bolig.html','Egenkapital til bolig – hva teller og hvor mye trenger du?'),
+        ('boliglan-guider.html','egenkapital-bolig.html','Guide til egenkapital ved boligkjøp'),
+        ('boliglan-uten-egenkapital.html','egenkapital-bolig.html','Se hvordan egenkapitalen beregnes ved boligkjøp'),
+        ('boliglan.html','hvor-mye-kan-jeg-lane-bolig.html','Se hva som påvirker hvor mye du kan låne til bolig'),
+        ('egenkapital-bolig.html','hvor-mye-kan-jeg-lane-bolig.html','Hvor mye kan du låne? Se hvilke faktorer banken vurderer'),
+        # Bank switching cluster.
+        ('flytte-boliglan.html','bytte-bank-boliglan-komplett.html','Komplett guide til å bytte bank med boliglån'),
+        ('guide-bytte-bank-steg.html','bytte-bank-boliglan-komplett.html','Se hele guiden til bankbytte og boliglån'),
+        ('boliglan.html','bytte-bank-boliglan-komplett.html','Vurderer du bankbytte? Se komplett guide'),
+        # Effective vs nominal rate cluster.
+        ('forbrukslan.html','guide-effektiv-nominell-rente.html','Effektiv eller nominell rente? Se hva du faktisk bør sammenligne'),
+        ('guide-refinansiering.html','guide-effektiv-nominell-rente.html','Forstå forskjellen på effektiv og nominell rente'),
+        ('refinansiere-forbruksgjeld.html','guide-effektiv-nominell-rente.html','Sammenlign tilbud på effektiv rente – ikke bare nominell rente'),
+    ]
     changed=0
-    for rel,(href,label) in links.items():
+    for rel,href,label in links:
         path=ROOT/rel
         if not path.exists(): continue
         soup=BeautifulSoup(path.read_text(encoding='utf-8'),'html.parser')
