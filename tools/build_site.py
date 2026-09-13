@@ -71,12 +71,17 @@ def apply_design_layer():
         header=soup.select_one('header.header'); nav=header.select_one('.topnav') if header else None
         if header and nav and not header.select_one('.menu-btn'):
             btn=soup.new_tag('button'); btn['class']=['menu-btn']; btn['aria-label']='Åpne meny'; btn['type']='button'; btn['onclick']="document.querySelector('.topnav').classList.toggle('open')"; btn.string='☰'; nav.insert_before(btn); dirty=True
-        if nav and not nav.find('a',string=lambda x:isinstance(x,str) and x.strip()=='Tilbudssjekken'):
-            a=soup.new_tag('a',href=('../'*depth)+'tilbudssjekken.html'); a.string='Tilbudssjekken'
-            guide=nav.find('a',string=lambda x:isinstance(x,str) and x.strip()=='Guider')
-            if guide: guide.insert_before(a)
-            else: nav.append(a)
-            dirty=True
+        if nav:
+            existing=nav.find('a',string=lambda x:isinstance(x,str) and x.strip()=='Tilbudssjekken')
+            wanted=('../'*depth)+'tilbudssjekk-refinansiering.html'
+            if existing:
+                if existing.get('href')!=wanted: existing['href']=wanted; dirty=True
+            else:
+                a=soup.new_tag('a',href=wanted); a.string='Tilbudssjekken'
+                guide=nav.find('a',string=lambda x:isinstance(x,str) and x.strip()=='Guider')
+                if guide: guide.insert_before(a)
+                else: nav.append(a)
+                dirty=True
         if rel in hero_classes:
             hero=soup.select_one('.premium-hero')
             if hero:
