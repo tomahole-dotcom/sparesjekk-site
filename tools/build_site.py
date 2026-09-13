@@ -44,7 +44,7 @@ def render_landing(cat):
 
 def apply_design_layer():
     changed=0
-    design_names=['design-v36.css','design-v37.css','design-v38.css','design-v39.css']
+    design_names=['design-v36.css','design-v37.css','design-v38.css','design-v39.css','design-v40.css']
     old_design_names={'design-v34.css','design-v35.css'}
     hero_classes={
         'boliglan.html':'premium-mortgage',
@@ -58,65 +58,32 @@ def apply_design_layer():
             continue
         soup=BeautifulSoup(path.read_text(encoding='utf-8'),'html.parser')
         dirty=False
-
-        # Keep shared presentation layers consistent. SEO metadata/content is untouched.
         for link in list(soup.find_all('link',href=True)):
             href=link.get('href','')
             if any(old in href for old in old_design_names):
-                link.decompose()
-                dirty=True
-
+                link.decompose(); dirty=True
         depth=len(path.relative_to(ROOT).parents)-1
         for design_name in design_names:
             if not soup.find('link',href=lambda x,n=design_name:isinstance(x,str) and n in x):
                 href=('../'*depth)+design_name
                 link=soup.new_tag('link',rel='stylesheet',href=href)
-                if soup.head:
-                    soup.head.append(link)
-                    dirty=True
-
-        # Ensure all standard headers have the same usable mobile navigation.
-        header=soup.select_one('header.header')
-        nav=header.select_one('.topnav') if header else None
+                if soup.head: soup.head.append(link); dirty=True
+        header=soup.select_one('header.header'); nav=header.select_one('.topnav') if header else None
         if header and nav and not header.select_one('.menu-btn'):
-            btn=soup.new_tag('button')
-            btn['class']=['menu-btn']
-            btn['aria-label']='Åpne meny'
-            btn['type']='button'
-            btn['onclick']="document.querySelector('.topnav').classList.toggle('open')"
-            btn.string='☰'
-            nav.insert_before(btn)
-            dirty=True
-
-        # Give the four main category heroes stable visual identities.
+            btn=soup.new_tag('button'); btn['class']=['menu-btn']; btn['aria-label']='Åpne meny'; btn['type']='button'; btn['onclick']="document.querySelector('.topnav').classList.toggle('open')"; btn.string='☰'; nav.insert_before(btn); dirty=True
         if rel in hero_classes:
             hero=soup.select_one('.premium-hero')
             if hero:
-                classes=list(hero.get('class',[]))
-                marker=hero_classes[rel]
-                if marker not in classes:
-                    classes.append(marker)
-                    hero['class']=classes
-                    dirty=True
-
-        # Mark the all-guides page so shared layers can polish the library without changing content.
+                classes=list(hero.get('class',[])); marker=hero_classes[rel]
+                if marker not in classes: classes.append(marker); hero['class']=classes; dirty=True
         if rel=='guider.html' and soup.body:
             classes=list(soup.body.get('class',[]))
-            if 'guide-library-v35' not in classes:
-                classes.append('guide-library-v35')
-                soup.body['class']=classes
-                dirty=True
-
-        if dirty:
-            path.write_text(str(soup),encoding='utf-8')
-            changed+=1
+            if 'guide-library-v35' not in classes: classes.append('guide-library-v35'); soup.body['class']=classes; dirty=True
+        if dirty: path.write_text(str(soup),encoding='utf-8'); changed+=1
     return changed
 
 def sitemap():
-    # Keep public HTML URLs except URLs explicitly consolidated into another canonical page.
-    urls=[]
-    base=CFG['site']['base_url'].rstrip('/')
-    excluded=set(CFG.get('automation',{}).get('sitemap_exclude',[]))
+    urls=[]; base=CFG['site']['base_url'].rstrip('/'); excluded=set(CFG.get('automation',{}).get('sitemap_exclude',[]))
     for p in sorted(ROOT.rglob('*.html')):
         rel=p.relative_to(ROOT).as_posix()
         if rel.startswith('tools/') or rel.startswith('.') or rel in excluded: continue
@@ -125,8 +92,7 @@ def sitemap():
         else: url=base+'/'+rel
         urls.append(url)
     xml='<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+''.join(f'  <url><loc>{html.escape(u)}</loc></url>\n' for u in urls)+'</urlset>\n'
-    (ROOT/'sitemap.xml').write_text(xml,encoding='utf-8')
-    return len(urls)
+    (ROOT/'sitemap.xml').write_text(xml,encoding='utf-8'); return len(urls)
 
 counts={c['key']:render_landing(c['key']) for c in CFG['categories']}
 print('Partner cards:',counts)
