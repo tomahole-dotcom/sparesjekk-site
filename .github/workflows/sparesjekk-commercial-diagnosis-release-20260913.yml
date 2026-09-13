@@ -1,4 +1,4 @@
-name: Sparesjekk V36 Category Visual Release 20260913
+name: Sparesjekk V37 SEO-safe Visual Release 20260913
 
 on:
   push:
@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   qa-deploy:
-    if: contains(github.event.head_commit.message, 'Run V36 category visual QA and production release')
+    if: contains(github.event.head_commit.message, 'Run V37 SEO-safe visual QA and production release')
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:
@@ -28,69 +28,71 @@ jobs:
           cache-dependency-path: requirements-site-builder.txt
       - name: Dependencies
         run: pip install -r requirements-site-builder.txt
-      - name: Verify visual category system
+      - name: Verify V37 is presentation-only
         shell: python
         run: |
           from pathlib import Path
-          css=Path('design-v36.css').read_text(encoding='utf-8')
-          for token in ['premium-mortgage .premium-visual','premium-consumer .premium-visual','premium-card .premium-visual','premium-restart .premium-visual','images.pexels.com']:
+          css=Path('design-v37.css').read_text(encoding='utf-8')
+          for token in ['SEO-neutral visual refinement','.article:not(.cornerstone)','.mix-card','.footer-logo']:
               assert token in css, token
-          print('Category visual CSS PASS')
-      - name: Build V36 across all HTML
-        run: |
-          python tools/seo_guard.py snapshot
-          python tools/build_site.py
-          python tools/seo_guard.py snapshot
-      - name: Verify four main category hero classes
-        shell: python
-        run: |
-          from pathlib import Path
-          expected={
-            'boliglan.html':'premium-mortgage',
-            'forbrukslan.html':'premium-consumer',
-            'kredittkort.html':'premium-card',
-            'omstartslan.html':'premium-restart',
-          }
-          for f,c in expected.items():
-              s=Path(f).read_text(encoding='utf-8')
-              assert c in s,(f,c)
-              assert 'design-v36.css' in s,f
-          print('Four visual category heroes PASS')
-      - name: Verify V36 is on every page
+          builder=Path('tools/build_site.py').read_text(encoding='utf-8')
+          assert "design_names=['design-v36.css','design-v37.css']" in builder
+          print('V37 presentation layer PASS')
+      - name: Snapshot SEO before build
+        run: python tools/seo_guard.py snapshot
+      - name: Build presentation layers
+        run: python tools/build_site.py
+      - name: Verify V37 on every public HTML page
         shell: python
         run: |
           from pathlib import Path
           pages=[p for p in Path('.').rglob('*.html') if not any(part.startswith('.') for part in p.parts) and 'tools' not in p.parts]
-          missing=[]; legacy=[]
+          missing=[]
           for p in pages:
               s=p.read_text(encoding='utf-8')
-              if 'design-v36.css' not in s: missing.append(str(p))
-              if 'design-v35.css' in s or 'design-v34.css' in s: legacy.append(str(p))
-          assert not missing, ('Missing V36',missing[:20])
-          assert not legacy, ('Legacy design links',legacy[:20])
-          print(f'V36 applied to {len(pages)} HTML pages')
-      - name: Full QA
-        run: python tools/qa_site.py
-      - name: Verify GA4 and sitemap
+              if 'design-v36.css' not in s or 'design-v37.css' not in s:
+                  missing.append(str(p))
+          assert not missing, missing[:25]
+          print(f'V36+V37 applied to {len(pages)} pages')
+      - name: Verify representative tool and guide content unchanged
         shell: python
         run: |
           from pathlib import Path
-          import json
+          debt=Path('gjeldsmiks-sjekk.html').read_text(encoding='utf-8')
+          guide=Path('guide-forhandle-rente.html').read_text(encoding='utf-8')
+          assert 'Se gjeldsmiksen din – og hva lavere rente kan bety' in debt
+          assert 'Hva kan lavere rente bety?' in debt
+          assert 'Slik forhandler du boliglånsrenten' in guide
+          assert 'Tre ting du bør ha foran deg' in guide
+          print('Representative content preserved PASS')
+      - name: Full SEO guard after build
+        run: python tools/seo_guard.py snapshot
+      - name: Full QA
+        run: python tools/qa_site.py
+      - name: Verify canonicals, robots, GA4 and sitemap
+        shell: python
+        run: |
+          from pathlib import Path
+          import json,re
           ga4=json.loads(Path('site-config.json').read_text(encoding='utf-8'))['site']['ga4']
-          pages=list(Path('.').rglob('*.html'))
-          missing=[str(p) for p in pages if ga4 not in p.read_text(encoding='utf-8')]
-          assert not missing, missing
+          pages=[p for p in Path('.').rglob('*.html') if 'tools' not in p.parts]
+          missing_ga=[str(p) for p in pages if ga4 not in p.read_text(encoding='utf-8')]
+          assert not missing_ga, missing_ga[:20]
+          for f in ['index.html','boliglan.html','forbrukslan.html','kredittkort.html','omstartslan.html','gjeldsmiks-sjekk.html','guide-forhandle-rente.html']:
+              s=Path(f).read_text(encoding='utf-8')
+              assert 'rel="canonical"' in s or "rel='canonical'" in s, f
+              assert '<meta' in s and 'robots' in s, f
           sm=Path('sitemap.xml').read_text(encoding='utf-8')
-          for u in ['boliglan.html','forbrukslan.html','omstartslan.html','kredittkort.html']:
+          for u in ['boliglan.html','forbrukslan.html','kredittkort.html','omstartslan.html','gjeldsmiks-sjekk.html','guide-forhandle-rente.html']:
               assert 'https://sparesjekk.no/'+u in sm, u
-          print(f'GA4 + sitemap PASS: {len(pages)} pages')
+          print('SEO-critical signals + GA4 + sitemap PASS')
       - name: Commit tested generated outputs
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add '*.html' 'sjekk/**/*.html' sitemap.xml seo-baseline.json
           if ! git diff --cached --quiet; then
-            git commit -m 'Apply visual category hero system'
+            git commit -m 'Apply V37 visual layer without changing SEO content'
             git push origin HEAD:seo-content-v34-master
           fi
       - name: Create tested release
