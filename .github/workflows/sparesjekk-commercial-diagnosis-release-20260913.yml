@@ -1,4 +1,4 @@
-name: Sparesjekk V40-V41 Homepage Visual Release 20260913
+name: Sparesjekk V42 Debt Checker Mobile Release 20260913
 
 on:
   push:
@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   qa-deploy:
-    if: contains(github.event.head_commit.message, 'Run V40-V41 homepage visual QA and production release')
+    if: contains(github.event.head_commit.message, 'Run V42 debt-checker mobile QA and production release')
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:
@@ -28,43 +28,36 @@ jobs:
           cache-dependency-path: requirements-site-builder.txt
       - name: Dependencies
         run: pip install -r requirements-site-builder.txt
-      - name: Verify V40-V41 presentation layers
+      - name: Verify V42 mobile repair layer
         shell: python
         run: |
           from pathlib import Path
-          v40=Path('design-v40.css').read_text(encoding='utf-8')
-          v41=Path('design-v41.css').read_text(encoding='utf-8')
-          for token in ['placeholder-like homepage card visuals','#start .topic-card','#start .topic-visual']:
-              assert token in v40, token
-          for token in ['compact homepage polish','.visual-hero','.tool-grid .tool-card','.home-calc']:
-              assert token in v41, token
+          css=Path('design-v42.css').read_text(encoding='utf-8')
+          for token in ['mobile debt checker form repair','.debt-row .field:nth-child(1)','.debt-row .field input','.mix-card .tool-btn']:
+              assert token in css, token
           builder=Path('tools/build_site.py').read_text(encoding='utf-8')
-          assert "design_names=['design-v36.css','design-v37.css','design-v38.css','design-v39.css','design-v40.css','design-v41.css']" in builder
-          print('V40-V41 presentation PASS')
+          assert "design_names=['design-v36.css','design-v37.css','design-v38.css','design-v39.css','design-v40.css','design-v41.css','design-v42.css']" in builder
+          print('V42 mobile debt checker presentation PASS')
       - name: Snapshot SEO before build
         run: python tools/seo_guard.py snapshot
       - name: Build presentation layers
         run: python tools/build_site.py
-      - name: Verify design layers on every public HTML page
+      - name: Verify V42 on every public HTML page
         shell: python
         run: |
           from pathlib import Path
-          layers=['design-v36.css','design-v37.css','design-v38.css','design-v39.css','design-v40.css','design-v41.css']
           pages=[p for p in Path('.').rglob('*.html') if not any(part.startswith('.') for part in p.parts) and 'tools' not in p.parts]
-          missing=[]
-          for p in pages:
-              s=p.read_text(encoding='utf-8')
-              if not all(x in s for x in layers): missing.append(str(p))
+          missing=[str(p) for p in pages if 'design-v42.css' not in p.read_text(encoding='utf-8')]
           assert not missing, missing[:25]
-          print(f'V36-V41 applied to {len(pages)} pages')
-      - name: Verify homepage SEO and routing content preserved
+          print(f'V42 applied to {len(pages)} pages')
+      - name: Verify debt-checker functionality and SEO preserved
         shell: python
         run: |
           from pathlib import Path
-          s=Path('index.html').read_text(encoding='utf-8')
-          for token in ['Få bedre kontroll på pengene dine','Hva vil du sjekke?','Sjekk boliglånet','Sjekk gjelden','Finn riktig kortprofil','rel="canonical"','robots','application/ld+json']:
+          s=Path('gjeldsmiks-sjekk.html').read_text(encoding='utf-8')
+          for token in ['Se gjeldsmiksen din – og hva lavere rente kan bety','Analyser gjelden','Restgjeld (kr)','Nominell rente (%)','Per måned (valgfritt)','id="calc"','debt_mix_complete','rel="canonical"','robots','WebApplication']:
               assert token in s, token
-          print('Homepage content + SEO preserved PASS')
+          print('Debt checker functionality + SEO preserved PASS')
       - name: Full SEO guard after build
         run: python tools/seo_guard.py snapshot
       - name: Full QA
@@ -76,10 +69,8 @@ jobs:
           import json
           ga4=json.loads(Path('site-config.json').read_text(encoding='utf-8'))['site']['ga4']
           pages=[p for p in Path('.').rglob('*.html') if 'tools' not in p.parts]
-          missing_ga=[str(p) for p in pages if ga4 not in p.read_text(encoding='utf-8')]
-          assert not missing_ga, missing_ga[:20]
-          sm=Path('sitemap.xml').read_text(encoding='utf-8')
-          assert 'https://sparesjekk.no/' in sm
+          assert not [str(p) for p in pages if ga4 not in p.read_text(encoding='utf-8')]
+          assert 'https://sparesjekk.no/gjeldsmiks-sjekk.html' in Path('sitemap.xml').read_text(encoding='utf-8')
           print('GA4 + sitemap PASS')
       - name: Commit tested generated outputs
         run: |
@@ -87,7 +78,7 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add '*.html' 'sjekk/**/*.html' sitemap.xml seo-baseline.json
           if ! git diff --cached --quiet; then
-            git commit -m 'Apply V40-V41 homepage visual layers'
+            git commit -m 'Apply V42 mobile debt-checker repair'
             git push origin HEAD:seo-content-v34-master
           fi
       - name: Create tested release
