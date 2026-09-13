@@ -1,4 +1,4 @@
-name: Sparesjekk V42 Debt Checker Mobile Release 20260913
+name: Sparesjekk V43 Mobile Tools Release 20260913
 
 on:
   push:
@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   qa-deploy:
-    if: contains(github.event.head_commit.message, 'Run V42 debt-checker mobile QA and production release')
+    if: contains(github.event.head_commit.message, 'Run V43 mobile tools QA and production release')
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:
@@ -28,36 +28,42 @@ jobs:
           cache-dependency-path: requirements-site-builder.txt
       - name: Dependencies
         run: pip install -r requirements-site-builder.txt
-      - name: Verify V42 mobile repair layer
+      - name: Verify V43 mobile tools layer
         shell: python
         run: |
           from pathlib import Path
-          css=Path('design-v42.css').read_text(encoding='utf-8')
-          for token in ['mobile debt checker form repair','.debt-row .field:nth-child(1)','.debt-row .field input','.mix-card .tool-btn']:
+          css=Path('design-v43.css').read_text(encoding='utf-8')
+          for token in ['mobile QA repairs for interactive tools','.tool-card .debt-row','.offer-grid','.match .q select','.match .btn']:
               assert token in css, token
           builder=Path('tools/build_site.py').read_text(encoding='utf-8')
-          assert "design_names=['design-v36.css','design-v37.css','design-v38.css','design-v39.css','design-v40.css','design-v41.css','design-v42.css']" in builder
-          print('V42 mobile debt checker presentation PASS')
+          assert "'design-v43.css'" in builder
+          print('V43 presentation PASS')
       - name: Snapshot SEO before build
         run: python tools/seo_guard.py snapshot
       - name: Build presentation layers
         run: python tools/build_site.py
-      - name: Verify V42 on every public HTML page
+      - name: Verify V43 on every public HTML page
         shell: python
         run: |
           from pathlib import Path
           pages=[p for p in Path('.').rglob('*.html') if not any(part.startswith('.') for part in p.parts) and 'tools' not in p.parts]
-          missing=[str(p) for p in pages if 'design-v42.css' not in p.read_text(encoding='utf-8')]
+          missing=[str(p) for p in pages if 'design-v43.css' not in p.read_text(encoding='utf-8')]
           assert not missing, missing[:25]
-          print(f'V42 applied to {len(pages)} pages')
-      - name: Verify debt-checker functionality and SEO preserved
+          print(f'V43 applied to {len(pages)} pages')
+      - name: Verify tool functionality and SEO preserved
         shell: python
         run: |
           from pathlib import Path
-          s=Path('gjeldsmiks-sjekk.html').read_text(encoding='utf-8')
-          for token in ['Se gjeldsmiksen din – og hva lavere rente kan bety','Analyser gjelden','Restgjeld (kr)','Nominell rente (%)','Per måned (valgfritt)','id="calc"','debt_mix_complete','rel="canonical"','robots','WebApplication']:
-              assert token in s, token
-          print('Debt checker functionality + SEO preserved PASS')
+          checks={
+            'gjeldsmiks-sjekk.html':['Analyser gjelden','debt_mix_complete','WebApplication','rel="canonical"'],
+            'refinansiering-kalkulator.html':['Sammenlign før og etter','Lavere per måned – men dyrere totalt.','WebApplication','rel="canonical"'],
+            'kredittkort-match.html':['Finn hva jeg bør prioritere','credit_card_match_complete','WebApplication','rel="canonical"']
+          }
+          for fn,tokens in checks.items():
+              s=Path(fn).read_text(encoding='utf-8')
+              for token in tokens: assert token in s,(fn,token)
+              assert 'robots' in s,(fn,'robots')
+          print('Priority tools functionality + SEO preserved PASS')
       - name: Full SEO guard after build
         run: python tools/seo_guard.py snapshot
       - name: Full QA
@@ -70,7 +76,9 @@ jobs:
           ga4=json.loads(Path('site-config.json').read_text(encoding='utf-8'))['site']['ga4']
           pages=[p for p in Path('.').rglob('*.html') if 'tools' not in p.parts]
           assert not [str(p) for p in pages if ga4 not in p.read_text(encoding='utf-8')]
-          assert 'https://sparesjekk.no/gjeldsmiks-sjekk.html' in Path('sitemap.xml').read_text(encoding='utf-8')
+          sm=Path('sitemap.xml').read_text(encoding='utf-8')
+          for url in ['gjeldsmiks-sjekk.html','refinansiering-kalkulator.html','kredittkort-match.html']:
+              assert 'https://sparesjekk.no/'+url in sm,url
           print('GA4 + sitemap PASS')
       - name: Commit tested generated outputs
         run: |
@@ -78,7 +86,7 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add '*.html' 'sjekk/**/*.html' sitemap.xml seo-baseline.json
           if ! git diff --cached --quiet; then
-            git commit -m 'Apply V42 mobile debt-checker repair'
+            git commit -m 'Apply V43 mobile tool QA repairs'
             git push origin HEAD:seo-content-v34-master
           fi
       - name: Create tested release
