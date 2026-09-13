@@ -1125,6 +1125,18 @@
       "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"name\":\"Refinansiering med sikkerhet i bolig – risiko og pant\",\"headline\":\"Refinansiering med sikkerhet i bolig – risiko og pant\",\"description\":\"Forstå hva som endres når usikret gjeld refinansieres med pant i bolig.\",\"url\":\"https://sparesjekk.no/refinansiering-med-sikkerhet.html\",\"inLanguage\":\"nb-NO\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"dateModified\":\"2026-09-10\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/redaksjon.html\"},\"keywords\":[\"refinansiering med sikkerhet\",\"pant i bolig\",\"omstartslån\"]}"
     ]
   },
+  "refinansiering-tilbudssjekk.html": {
+    "title": "Refinansieringstilbud – er tilbudet faktisk bedre? | Sparesjekk",
+    "description": "Sjekk et refinansieringstilbud før du bestemmer deg. Sammenlign effektiv rente, gebyrer, månedsbeløp, løpetid og estimert totalbetaling.",
+    "canonical": "https://sparesjekk.no/refinansiering-tilbudssjekk.html",
+    "robots": "index,follow,max-image-preview:large,max-snippet:-1",
+    "h1": [
+      "Har du fått et refinansieringstilbud? Sjekk om det faktisk er bedre"
+    ],
+    "schemas": [
+      "{\"@context\":\"https://schema.org\",\"@type\":\"WebApplication\",\"name\":\"Refinansieringstilbud-sjekk\",\"url\":\"https://sparesjekk.no/refinansiering-tilbudssjekk.html\",\"applicationCategory\":\"FinanceApplication\",\"operatingSystem\":\"Any\",\"inLanguage\":\"nb-NO\",\"offers\":{\"@type\":\"Offer\",\"price\":\"0\",\"priceCurrency\":\"NOK\"},\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"}}"
+    ]
+  },
   "rente-prosentpoeng-kalkulator-guide.html": {
     "title": "Renteendring på boliglån – slik slår den ut | Sparesjekk",
     "description": "Se hva som avgjør når en renteendring faktisk påvirker boliglånet, månedsbeløpet og rentekostnaden over tid.",
