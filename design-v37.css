@@ -1,0 +1,62 @@
+/* Sparesjekk V37 — SEO-neutral visual refinement for tools, guides and long-form pages. No content/meta changes. */
+:root{--v37-card:#fff;--v37-soft:#f6faff;--v37-blue:#0A66E8;--v37-ink:#0E2B55;--v37-line:#dce8f4;--v37-shadow:0 14px 38px rgba(14,43,85,.08)}
+
+/* Long-form reading pages: stronger hierarchy without hiding or removing content */
+.article:not(.cornerstone){max-width:900px!important;padding-top:54px!important}
+.article:not(.cornerstone)>h1{max-width:820px;font-size:clamp(2.45rem,6vw,4.25rem)!important;line-height:1.02!important;letter-spacing:-2.2px!important;margin-bottom:18px!important;text-wrap:balance}
+.article:not(.cornerstone)>.lead{max-width:760px;font-size:1.16rem!important;line-height:1.65!important;color:#536b84!important;margin-bottom:30px!important}
+.article:not(.cornerstone)>section{position:relative;padding:30px 30px 28px;margin:22px 0!important;border:1px solid var(--v37-line);border-radius:20px;background:var(--v37-card);box-shadow:0 5px 20px rgba(14,43,85,.035)}
+.article:not(.cornerstone)>section:nth-of-type(3n+1){background:linear-gradient(145deg,#f8fbff,#fff)}
+.article:not(.cornerstone)>section>h2:first-child{margin-top:0!important;font-size:clamp(1.55rem,3vw,2rem)!important;line-height:1.18!important;letter-spacing:-.7px!important}
+.article:not(.cornerstone)>section>h2:first-child:before{content:"";display:block;width:38px;height:5px;border-radius:99px;background:linear-gradient(90deg,var(--v37-blue),#54b6ff);margin-bottom:14px}
+.article:not(.cornerstone)>section p{max-width:760px}
+.article:not(.cornerstone)>section ul,.article:not(.cornerstone)>section ol{padding-left:1.3rem;line-height:1.7}
+.article:not(.cornerstone)>.article-cta{border:1px solid #cfe1f5!important;background:linear-gradient(135deg,#eef6ff,#f8fbff)!important;box-shadow:var(--v37-shadow);padding:30px!important;border-radius:22px!important}
+.article:not(.cornerstone)>.article-cta h2{margin-top:0!important}
+.article:not(.cornerstone)>.disclaimer{margin:30px 0!important;padding:15px 18px;border:1px solid #e2ebf5;border-radius:14px;background:#f9fbfd}
+.article:not(.cornerstone)>.seo-related{background:#f8fbff;border:1px solid var(--v37-line)!important;border-radius:18px;padding:24px!important;margin-top:34px!important}
+.article:not(.cornerstone)>.seo-related h2{margin-top:0!important}
+
+/* Existing guide-specific visual modules */
+.neg-box,.call-script,.outcome-grid>div,.neg-grid>div,.content-extension,.toc{border-color:var(--v37-line)!important;box-shadow:0 5px 18px rgba(14,43,85,.04)}
+.neg-box{background:linear-gradient(135deg,#eef6ff,#f8fbff)!important}.call-script{background:#fff9ef!important;border-left-color:#e9a23b!important}.neg-grid>div,.outcome-grid>div{background:#fff!important}
+
+/* Interactive tools: make them feel like products, not plain forms */
+.mix{max-width:1000px!important;padding-top:34px!important;padding-bottom:64px!important}
+.mix>h1{max-width:820px;color:var(--v37-ink)!important;font-size:clamp(2.5rem,6vw,4rem)!important;line-height:1.03!important;letter-spacing:-2px!important;text-wrap:balance}
+.mix>.lead{max-width:780px;color:#536b84!important;line-height:1.65!important;font-size:1.12rem!important}
+.mix-card,.mix-result{border:1px solid var(--v37-line)!important;border-radius:22px!important;padding:28px!important;box-shadow:var(--v37-shadow)!important}
+.mix-card{background:linear-gradient(145deg,#fff,#f8fbff)!important}
+.mix-result{background:#fff!important}
+.debt-row{padding:14px;border:1px solid #e2ecf6;border-radius:15px;background:#fff}
+.field input,.field select,.input-wrap{border-color:#cbdbea!important;background:#fff!important}
+.field input:focus,.field select:focus{outline:0;border-color:var(--v37-blue)!important;box-shadow:0 0 0 3px rgba(10,102,232,.10)}
+.tool-btn{border-radius:999px!important;padding:14px 22px!important;background:linear-gradient(135deg,var(--v37-blue),#0876f9)!important;box-shadow:0 9px 22px rgba(10,102,232,.18);transition:.16s transform,.16s box-shadow}
+.tool-btn:hover{transform:translateY(-1px);box-shadow:0 12px 26px rgba(10,102,232,.23)}
+.result-grid,.scenario-grid{gap:14px!important}.metric,.scenario{border:1px solid #deebf7;background:#f6faff!important;border-radius:15px!important;padding:18px!important}.metric strong,.scenario strong{color:var(--v37-ink)!important}.signal{border-radius:14px!important;padding:18px!important}.ad-next{border-radius:18px!important;padding:22px!important;box-shadow:0 7px 22px rgba(14,43,85,.05)}
+.mix>section{margin-top:26px;padding:26px 28px;border:1px solid var(--v37-line);border-radius:19px;background:#fff;box-shadow:0 5px 18px rgba(14,43,85,.035)}
+.mix>section h2{margin-top:0;color:var(--v37-ink)}
+
+/* Generic calculators and comparison/tool shells */
+.calculator,.campaign-panel,.partner-preview,.tool-card{border-radius:20px!important}.calculator{box-shadow:var(--v37-shadow)!important}.campaign-panel{box-shadow:var(--v37-shadow)!important}.comparison-table,.comparison-table-wrap{box-shadow:0 7px 22px rgba(14,43,85,.05)!important}
+
+/* Tables, FAQ and lists get consistent visual rhythm */
+.article table,.campaign-content table{border-collapse:separate!important;border-spacing:0!important;overflow:hidden;border:1px solid var(--v37-line);border-radius:16px;background:#fff}
+.article th,.campaign-content th{background:#eef6ff!important;color:var(--v37-ink)!important}.article th,.article td{padding:13px 15px;border-bottom:1px solid #e8f0f8}.article tr:last-child td{border-bottom:0}
+.article details{border:1px solid var(--v37-line)!important;border-radius:14px!important;padding:15px 17px!important;margin:10px 0!important;background:#fff}.article details summary{color:var(--v37-ink)!important}
+
+/* Footer logo should use same actual brand mark, not fallback text */
+.footer-logo{font-size:0!important;width:218px;height:58px;display:block;background:url('assets/sparesjekk-logo-blue.svg') left center/contain no-repeat!important;margin-bottom:10px}
+.footer-logo span{display:none!important}
+
+@media(max-width:760px){
+ .article:not(.cornerstone){padding-top:38px!important}
+ .article:not(.cornerstone)>h1{font-size:clamp(2.2rem,11vw,3.35rem)!important;letter-spacing:-1.5px!important}
+ .article:not(.cornerstone)>section{padding:22px 19px!important;border-radius:17px!important;margin:16px 0!important}
+ .article:not(.cornerstone)>.article-cta{padding:23px 20px!important}
+ .mix{padding-left:16px!important;padding-right:16px!important;padding-top:25px!important}
+ .mix>h1{font-size:clamp(2.2rem,11vw,3.25rem)!important;letter-spacing:-1.4px!important}
+ .mix-card,.mix-result{padding:20px!important;border-radius:18px!important}
+ .debt-row{padding:11px}.mix>section{padding:21px 19px}
+ .footer-logo{width:190px;height:52px}
+}
