@@ -1,0 +1,63 @@
+name: GSC Commercial Batch QA 20260914
+
+on:
+  push:
+    branches: [gsc-commercial-batch-20260914]
+    paths: ['.github/workflows/gsc-commercial-batch-qa-20260914.yml']
+
+permissions:
+  contents: read
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+          cache-dependency-path: requirements-site-builder.txt
+      - name: Dependencies
+        run: pip install -r requirements-site-builder.txt
+      - name: Verify batch scope and protected SEO fields
+        shell: python
+        run: |
+          from pathlib import Path
+          pages=['flytte-boliglan.html','cashback-bonus-kredittkort.html','refinansiering-kalkulator.html','tilbudssjekk-refinansiering.html']
+          for page in pages:
+              s=Path(page).read_text(encoding='utf-8')
+              assert '<title>' in s,page
+              assert 'name="description"' in s,page
+              assert 'rel="canonical"' in s,page
+              assert 'name="robots"' in s,page
+              assert '<h1' in s,page
+              assert 'G-XYRPP78DJ5' in s,page
+          assert 'kredittkort-match.html' in Path('cashback-bonus-kredittkort.html').read_text(encoding='utf-8')
+          assert 'tilbudssjekk-refinansiering.html' in Path('refinansiering-kalkulator.html').read_text(encoding='utf-8')
+          assert 'term_difference_months' in Path('tilbudssjekk-refinansiering.html').read_text(encoding='utf-8')
+          print('Batch-specific checks PASS')
+      - name: Full SEO guard
+        run: python tools/seo_guard.py check
+      - name: Full site QA
+        run: python tools/qa_site.py
+      - name: Verify build preserves batch and is reproducible
+        shell: python
+        run: |
+          import subprocess, sys
+          from pathlib import Path
+          subprocess.run([sys.executable,'tools/build_site.py'],check=True)
+          subprocess.run([sys.executable,'tools/seo_guard.py','check'],check=True)
+          subprocess.run([sys.executable,'tools/qa_site.py'],check=True)
+          checks={
+            'flytte-boliglan.html':['Denne siden handler om selve flyttingen','bytte-bank-boliglan-komplett.html','bankbytte-break-even.html'],
+            'cashback-bonus-kredittkort.html':['bonus-calc-btn','cashback_net_value_calculated','kredittkort-match.html'],
+            'refinansiering-kalkulator.html':['tilbudssjekk-refinansiering.html','refinancing_compare_complete'],
+            'tilbudssjekk-refinansiering.html':['term_difference_months','termSignal','refi_offer_check_complete']
+          }
+          for page,tokens in checks.items():
+              s=Path(page).read_text(encoding='utf-8')
+              for token in tokens:
+                  assert token in s,(page,token)
+          print('Post-build batch preservation PASS')
