@@ -1,0 +1,73 @@
+name: GSC Kausjonist Cleanup QA 20260914
+
+on:
+  push:
+    branches: [gsc-kausjonist-cleanup-20260914]
+    paths: ['.github/workflows/gsc-kausjonist-cleanup-20260914.yml']
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup-qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: gsc-kausjonist-cleanup-20260914
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Dependencies
+        run: pip install -r requirements-site-builder.txt
+      - name: Remove duplicated kausjonist sections
+        shell: python
+        run: |
+          from pathlib import Path
+          p=Path('kausjonist-boliglan.html')
+          s=p.read_text(encoding='utf-8')
+          starts=[
+            '<section><h2>Realkausjon og vanlig kausjon – hva er forskjellen?</h2>',
+            '<section><h2>Eksempel: når egenkapitalen er for liten</h2>',
+            '<section><h2>Hva bør kausjonisten tenke gjennom?</h2>',
+            '<section><h2>Når kan kausjonen normalt fjernes?</h2>'
+          ]
+          for start in starts:
+              i=s.find(start)
+              assert i >= 0, start
+              j=s.find('</section>', i)
+              assert j >= 0, start
+              s=s[:i]+s[j+10:]
+          for start in starts:
+              assert start not in s
+          for token in ['<h1>Kausjonist ved boliglån – ansvar, risiko og hva du bør avklare</h1>','id="real"','id="forskjell"','id="frigjoring"','medlantaker-boliglan.html','rel="canonical"','robots']:
+              assert token in s, token
+          p.write_text(s,encoding='utf-8')
+      - name: SEO guard
+        run: python tools/seo_guard.py check
+      - name: Full QA
+        run: python tools/qa_site.py
+      - name: Build
+        run: python tools/build_site.py
+      - name: SEO guard after build
+        run: python tools/seo_guard.py check
+      - name: Full QA after build
+        run: python tools/qa_site.py
+      - name: Verify cleanup survives build
+        shell: python
+        run: |
+          from pathlib import Path
+          s=Path('kausjonist-boliglan.html').read_text(encoding='utf-8')
+          for old in ['Realkausjon og vanlig kausjon – hva er forskjellen?','Eksempel: når egenkapitalen er for liten','Hva bør kausjonisten tenke gjennom?','Når kan kausjonen normalt fjernes?']:
+              assert old not in s, old
+          for token in ['id="real"','id="forskjell"','id="frigjoring"','medlantaker-boliglan.html']:
+              assert token in s, token
+      - name: Commit cleaned page
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add kausjonist-boliglan.html
+          if ! git diff --cached --quiet; then
+            git commit -m 'Remove duplicate kausjonist sections'
+            git push origin HEAD:gsc-kausjonist-cleanup-20260914
+          fi
