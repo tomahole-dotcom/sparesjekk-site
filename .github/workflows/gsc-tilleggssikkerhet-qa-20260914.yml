@@ -1,0 +1,49 @@
+name: GSC Tilleggssikkerhet QA 20260914
+on:
+  push:
+    branches: [gsc-tilleggssikkerhet-20260914]
+permissions:
+  contents: write
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements-site-builder.txt
+      - name: Strengthen tilleggssikkerhet intent
+        shell: python
+        run: |
+          from pathlib import Path
+          p=Path('boliglan-uten-egenkapital.html')
+          s=p.read_text(encoding='utf-8')
+          old='''<section id="sikkerhet"><h2>Tilleggssikkerhet: når noen andre stiller bolig som sikkerhet</h2><p>Foreldre eller andre nærstående kan i enkelte tilfeller stille tilleggssikkerhet i egen bolig. Dette omtales ofte som realkausjon. Banken får da sikkerhet i mer enn boligen du kjøper. Det kan redusere problemet med høy belåningsgrad, men det er ikke gratis hjelp: den som stiller sikkerheten tar en reell økonomisk risiko dersom lånet ikke blir betjent.</p><p>Avtalen bør være tydelig på hvor stort beløp sikkerheten gjelder, hvilken eiendom banken får pant i, og hva som må til for at sikkerheten kan slettes. En avgrenset sikkerhet er noe annet enn et åpent ansvar for hele lånet. Les bankens dokumenter, ikke bare familiens muntlige forståelse av avtalen.</p><p><a class="text-link" href="kausjonist-boliglan.html">Les mer om kausjonist og tilleggssikkerhet →</a></p></section>'''
+          new='''<section id="sikkerhet"><h2>Tilleggssikkerhet på boliglån: når annen sikkerhet kan dekke egenkapitalgapet</h2><p>Tilleggssikkerhet betyr at banken får betryggende sikkerhet utover boligen du kjøper. Etter utlånsforskriften kan banken ved beregning av belåningsgrad ta hensyn til tilleggssikkerhet i form av pant i annen fast eiendom, kausjon eller garanti. Det kan derfor være relevant når problemet først og fremst er for høy belåningsgrad eller for lite oppspart egenkapital.</p><p>Foreldre eller andre nærstående kan i enkelte tilfeller stille pant i egen bolig. Dette omtales ofte som realkausjon. Det betyr ikke at bankens øvrige vurderinger forsvinner: samlet gjeld og betjeningsevne må fortsatt vurderes. Tilleggssikkerhet løser derfor ikke nødvendigvis en søknad som stopper på inntekt eller høy samlet gjeld.</p><p>Avtalen bør være tydelig på hvor stort beløp sikkerheten gjelder, hvilken eiendom banken får pant i, og hva som må til for at sikkerheten kan slettes. Den som stiller sikkerheten tar en reell økonomisk risiko dersom lånet ikke blir betjent.</p><p><a class="text-link" href="kausjonist-boliglan.html">Se hvordan kausjonist og realkausjon fungerer →</a></p></section>'''
+          assert old in s
+          s=s.replace(old,new,1)
+          p.write_text(s,encoding='utf-8')
+      - name: Verify protected SEO fields and intent
+        shell: python
+        run: |
+          from pathlib import Path
+          s=Path('boliglan-uten-egenkapital.html').read_text(encoding='utf-8')
+          assert '<title>Boliglån uten nok egenkapital – hvilke muligheter finnes? | Sparesjekk</title>' in s
+          assert '<h1>Boliglån uten nok egenkapital – hvilke muligheter finnes?</h1>' in s
+          assert 'https://sparesjekk.no/boliglan-uten-egenkapital.html' in s
+          assert 'Tilleggssikkerhet på boliglån' in s
+          assert 'pant i annen fast eiendom, kausjon eller garanti' in s
+          assert 'kausjonist-boliglan.html' in s
+      - run: python tools/seo_guard.py check
+      - run: python tools/qa_site.py
+      - run: python tools/build_site.py
+      - run: python tools/seo_guard.py check
+      - run: python tools/qa_site.py
+      - name: Commit tested page
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add boliglan-uten-egenkapital.html
+          git diff --cached --quiet || git commit -m "Strengthen tilleggssikkerhet search intent"
+          git push
