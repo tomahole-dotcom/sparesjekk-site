@@ -56,6 +56,9 @@ def apply_priority_internal_links():
         ('boliglan-uten-egenkapital.html','egenkapital-bolig.html','Se hvordan egenkapitalen beregnes ved boligkjøp'),
         ('boliglan.html','hvor-mye-kan-jeg-lane-bolig.html','Se hva som påvirker hvor mye du kan låne til bolig'),
         ('egenkapital-bolig.html','hvor-mye-kan-jeg-lane-bolig.html','Hvor mye kan du låne? Se hvilke faktorer banken vurderer'),
+        # GSC opportunity: medlåntaker/medlåntakere. Reinforce from core mortgage-intent pages.
+        ('boliglan.html','medlantaker-boliglan.html','Medlåntaker på boliglån – ansvar, muligheter og risiko'),
+        ('hvor-mye-kan-jeg-lane-bolig.html','medlantaker-boliglan.html','Når kan medlåntaker være relevant for lånerammen?'),
         # Bank switching cluster.
         ('flytte-boliglan.html','bytte-bank-boliglan-komplett.html','Komplett guide til å bytte bank med boliglån'),
         ('guide-bytte-bank-steg.html','bytte-bank-boliglan-komplett.html','Se hele guiden til bankbytte og boliglån'),
