@@ -1,0 +1,70 @@
+name: Bankbytte Role Hierarchy QA 20260914
+on:
+  push:
+    branches: [bankbytte-role-hierarchy-20260914]
+permissions:
+  contents: write
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Dependencies
+        run: pip install -r requirements-site-builder.txt
+      - name: Clarify bankbytte page roles
+        shell: python
+        run: |
+          from pathlib import Path
+          p=Path('guide-bytte-bank-steg.html')
+          s=p.read_text(encoding='utf-8')
+          marker='<p class="lead">Et bankbytte kan virke omfattende, men selve boliglånet kan ofte flyttes uten at du må endre alt annet samtidig.</p>'
+          assert marker in s
+          box=marker+'<div class="trust-box"><b>Denne siden er sjekklisten for selve bankbyttet</b><p>Har du ikke bestemt deg ennå, start i <a href="bytte-bank-boliglan-komplett.html">hovedguiden for bankbytte med boliglån</a>. Skal du bare flytte selve boliglånet og beholde resten av dagligbanken, bruk <a href="flytte-boliglan.html">steg-for-steg-guiden for å flytte boliglånet</a>. Her dekker vi gjennomføringen når du også må holde kontroll på kontoer, kort og betalingsavtaler.</p></div>'
+          s=s.replace(marker,box,1)
+          p.write_text(s,encoding='utf-8')
+
+          p=Path('bytte-bank-boliglan-komplett.html')
+          s=p.read_text(encoding='utf-8')
+          marker='<div class="trust-box"><b>Tre raske veier videre</b>'
+          assert marker in s
+          insert='<div class="trust-box"><b>Dette er hovedguiden for beslutningen</b><p>Bruk denne siden når du vurderer <em>om</em> bankbytte er verdt det. Når beslutningen er tatt, gå til <a href="flytte-boliglan.html">flytte boliglån steg for steg</a> hvis bare lånet skal flyttes, eller <a href="guide-bytte-bank-steg.html">bankbytte steg for steg</a> hvis du også må håndtere dagligbank, kort og betalingsavtaler.</p></div>'
+          s=s.replace(marker,insert+marker,1)
+          p.write_text(s,encoding='utf-8')
+      - name: Verify hierarchy
+        shell: python
+        run: |
+          from pathlib import Path
+          a=Path('guide-bytte-bank-steg.html').read_text(encoding='utf-8')
+          b=Path('bytte-bank-boliglan-komplett.html').read_text(encoding='utf-8')
+          assert 'Denne siden er sjekklisten for selve bankbyttet' in a
+          assert 'flytte-boliglan.html' in a
+          assert 'Dette er hovedguiden for beslutningen' in b
+          assert 'guide-bytte-bank-steg.html' in b and 'flytte-boliglan.html' in b
+      - name: SEO guard before build
+        run: python tools/seo_guard.py check
+      - name: Full QA before build
+        run: python tools/qa_site.py
+      - name: Build
+        run: python tools/build_site.py
+      - name: Verify hierarchy after build
+        shell: python
+        run: |
+          from pathlib import Path
+          assert 'Denne siden er sjekklisten for selve bankbyttet' in Path('guide-bytte-bank-steg.html').read_text(encoding='utf-8')
+          assert 'Dette er hovedguiden for beslutningen' in Path('bytte-bank-boliglan-komplett.html').read_text(encoding='utf-8')
+      - name: SEO guard after build
+        run: python tools/seo_guard.py check
+      - name: Full QA after build
+        run: python tools/qa_site.py
+      - name: Commit hierarchy
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add guide-bytte-bank-steg.html bytte-bank-boliglan-komplett.html sitemap.xml
+          if ! git diff --cached --quiet; then
+            git commit -m 'Clarify bankbytte page hierarchy'
+            git push origin HEAD:bankbytte-role-hierarchy-20260914
+          fi
