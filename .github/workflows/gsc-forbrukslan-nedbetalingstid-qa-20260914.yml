@@ -1,0 +1,60 @@
+name: GSC Forbrukslan Nedbetalingstid QA 20260914
+
+on:
+  push:
+    branches: [gsc-forbrukslan-nedbetalingstid-20260914]
+    paths: ['.github/workflows/gsc-forbrukslan-nedbetalingstid-qa-20260914.yml']
+
+permissions:
+  contents: read
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+          cache-dependency-path: requirements-site-builder.txt
+      - name: Dependencies
+        run: pip install -r requirements-site-builder.txt
+      - name: Verify batch scope
+        shell: python
+        run: |
+          from pathlib import Path
+          pages=['effektiv-rente-forbrukslan.html','nedbetalingstid-boliglan.html']
+          for page in pages:
+              s=Path(page).read_text(encoding='utf-8')
+              for token in ['<title>','name="description"','rel="canonical"','name="robots"','<h1','G-XYRPP78DJ5']:
+                  assert token in s,(page,token)
+          eff=Path('effektiv-rente-forbrukslan.html').read_text(encoding='utf-8')
+          assert 'Skal du sammenligne forbrukslån?' in eff
+          assert 'sammenligne-forbrukslan.html' in eff
+          term=Path('nedbetalingstid-boliglan.html').read_text(encoding='utf-8')
+          assert 'boliglan-terminbelop.html' in term
+          assert 'boliglanskalkulator-renteforskjell.html' in term
+          print('Batch-specific checks PASS')
+      - name: Full SEO guard
+        run: python tools/seo_guard.py check
+      - name: Full site QA
+        run: python tools/qa_site.py
+      - name: Verify build preserves batch
+        shell: python
+        run: |
+          import subprocess, sys
+          from pathlib import Path
+          subprocess.run([sys.executable,'tools/build_site.py'],check=True)
+          subprocess.run([sys.executable,'tools/seo_guard.py','check'],check=True)
+          subprocess.run([sys.executable,'tools/qa_site.py'],check=True)
+          checks={
+            'effektiv-rente-forbrukslan.html':['Skal du sammenligne forbrukslån?','sammenligne-forbrukslan.html'],
+            'nedbetalingstid-boliglan.html':['Se på terminbeløpet sammen med løpetiden','boliglan-terminbelop.html','boliglanskalkulator-renteforskjell.html']
+          }
+          for page,tokens in checks.items():
+              s=Path(page).read_text(encoding='utf-8')
+              for token in tokens:
+                  assert token in s,(page,token)
+          print('Post-build batch preservation PASS')
