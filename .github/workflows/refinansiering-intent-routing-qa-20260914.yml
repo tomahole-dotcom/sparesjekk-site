@@ -1,0 +1,66 @@
+name: Refinansiering Intent Routing QA 20260914
+on:
+  push:
+    branches: [refinansiering-intent-routing-20260914]
+permissions:
+  contents: write
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: refinansiering-intent-routing-20260914
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Dependencies
+        run: pip install -r requirements-site-builder.txt
+      - name: Add intent routing to refinancing guide
+        shell: python
+        run: |
+          from pathlib import Path
+          p=Path('guide-refinansiering.html')
+          s=p.read_text(encoding='utf-8')
+          marker='<p class="lead">Refinansiering betyr at eksisterende gjeld erstattes, flyttes eller samles i et nytt lån. Det kan gi lavere rente eller bedre oversikt, men et lavere månedsbeløp er ikke nødvendigvis det samme som en billigere løsning.</p>'
+          assert marker in s
+          assert 'Hva vil du refinansiere?' not in s
+          block='''<section class="refi-route"><h2>Hva vil du refinansiere?</h2><p><strong>Forbruksgjeld, kredittkort eller smålån:</strong> start med siden for <a href="refinansiere-forbruksgjeld.html">refinansiering av forbruksgjeld</a>. Der får du en før/etter-sjekk og en tydelig vei videre til faktiske alternativer når du har oversikt over dagens kostnader.</p><p><strong>Boliglån:</strong> hvis målet er å flytte eller forhandle boliglånet, bruk <a href="flytte-boliglan.html">guiden for å flytte boliglån</a> og regn på renteforskjellen før du bestemmer deg.</p></section>'''
+          s=s.replace(marker,marker+block,1)
+          p.write_text(s,encoding='utf-8')
+      - name: Verify routing before build
+        shell: python
+        run: |
+          from pathlib import Path
+          s=Path('guide-refinansiering.html').read_text(encoding='utf-8')
+          for token in ['Hva vil du refinansiere?','refinansiere-forbruksgjeld.html','flytte-boliglan.html']:
+              assert token in s,token
+      - name: SEO guard before build
+        run: python tools/seo_guard.py check
+      - name: Full QA before build
+        run: python tools/qa_site.py
+      - name: Build
+        run: python tools/build_site.py
+      - name: Verify routing survives build
+        shell: python
+        run: |
+          from pathlib import Path
+          s=Path('guide-refinansiering.html').read_text(encoding='utf-8')
+          for token in ['Hva vil du refinansiere?','refinansiere-forbruksgjeld.html','flytte-boliglan.html']:
+              assert token in s,token
+          landing=Path('sjekk/forbrukslan/index.html').read_text(encoding='utf-8')
+          assert 'data-partner="Zensum"' in landing
+          assert 'sponsored nofollow noopener' in landing
+      - name: SEO guard after build
+        run: python tools/seo_guard.py check
+      - name: Full QA after build
+        run: python tools/qa_site.py
+      - name: Commit routed guide
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add guide-refinansiering.html
+          if ! git diff --cached --quiet; then
+            git commit -m 'Clarify refinancing intent routing'
+            git push origin HEAD:refinansiering-intent-routing-20260914
+          fi
