@@ -1,0 +1,56 @@
+name: GSC Kredittkort Bonus QA 20260914
+
+on:
+  push:
+    branches: [gsc-kredittkort-bonus-20260914]
+    paths: ['.github/workflows/gsc-kredittkort-bonus-qa-20260914.yml']
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+          cache-dependency-path: requirements-site-builder.txt
+      - name: Dependencies
+        run: pip install -r requirements-site-builder.txt
+      - name: Verify bonus page before build
+        shell: python
+        run: |
+          from pathlib import Path
+          s=Path('cashback-bonus-kredittkort.html').read_text(encoding='utf-8')
+          checks=[
+            '<title>Kredittkort med bonus og cashback – når lønner det seg? | Sparesjekk</title>',
+            'https://sparesjekk.no/cashback-bonus-kredittkort.html',
+            '<h1>Kredittkort med bonus og cashback – når har det verdi?</h1>',
+            'Hva er cashback og bonus på kredittkort?',
+            'kredittkort-match.html',
+            'sjekk/kredittkort/',
+            'cashback_net_value_calculated',
+          ]
+          for token in checks: assert token in s, token
+          assert s.count('<h1') == 1
+          print('Bonus intent checks PASS')
+      - name: SEO guard
+        run: python tools/seo_guard.py check
+      - name: Full QA
+        run: python tools/qa_site.py
+      - name: Build
+        run: python tools/build_site.py
+      - name: SEO guard after build
+        run: python tools/seo_guard.py check
+      - name: Full QA after build
+        run: python tools/qa_site.py
+      - name: Verify build preserves bonus changes
+        shell: python
+        run: |
+          from pathlib import Path
+          s=Path('cashback-bonus-kredittkort.html').read_text(encoding='utf-8')
+          for token in ['Hva er cashback og bonus på kredittkort?','kredittkort-match.html','sjekk/kredittkort/','cashback_net_value_calculated']:
+              assert token in s, token
+          assert s.count('<h1') == 1
+          print('Post-build bonus checks PASS')
