@@ -59,6 +59,9 @@ def apply_priority_internal_links():
         # GSC opportunity: medlåntaker/medlåntakere. Reinforce from core mortgage-intent pages.
         ('boliglan.html','medlantaker-boliglan.html','Medlåntaker på boliglån – ansvar, muligheter og risiko'),
         ('hvor-mye-kan-jeg-lane-bolig.html','medlantaker-boliglan.html','Når kan medlåntaker være relevant for lånerammen?'),
+        # GSC opportunity: boliglånsrente. Dedicated guide has 100 impressions at average position ~40.6.
+        ('boliglan.html','boliglansrente-komplett-guide.html','Komplett guide til boliglånsrente – se hva som påvirker renten'),
+        ('guide-forhandle-rente.html','boliglansrente-komplett-guide.html','Se komplett guide til boliglånsrente og hva som påvirker nivået'),
         # Bank switching cluster.
         ('flytte-boliglan.html','bytte-bank-boliglan-komplett.html','Komplett guide til å bytte bank med boliglån'),
         ('guide-bytte-bank-steg.html','bytte-bank-boliglan-komplett.html','Se hele guiden til bankbytte og boliglån'),
