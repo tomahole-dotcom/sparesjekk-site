@@ -1159,7 +1159,7 @@
       "Hvor langt ligger boliglånsrenten fra styringsrenten?"
     ],
     "schemas": [
-      "{\"@context\":\"https://schema.org\",\"@type\":\"Dataset\",\"name\":\"Sparesjekk Rentegap-indeks\",\"description\":\"Månedlig oversikt over differansen mellom styringsrenten og offisielle gjennomsnittsrenter på boliglån i Norge.\",\"url\":\"https://sparesjekk.no/rentegap-indeks.html\",\"inLanguage\":\"nb-NO\",\"creator\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"dateModified\":\"2026-09-11\",\"temporalCoverage\":\"2026-07\"}"
+      "{\"@context\":\"https://schema.org\",\"@type\":\"Dataset\",\"name\":\"Sparesjekk Rentegap-indeks\",\"description\":\"Månedlig oversikt over differansen mellom styringsrenten og offisielle gjennomsnittsrenter på boliglån i Norge.\",\"url\":\"https://sparesjekk.no/rentegap-indeks.html\",\"inLanguage\":\"nb-NO\",\"creator\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"dateModified\":\"2026-09-14\",\"temporalCoverage\":\"2026-06/2026-07\"}"
     ]
   },
   "rentehistorikk-boliglan.html": {
