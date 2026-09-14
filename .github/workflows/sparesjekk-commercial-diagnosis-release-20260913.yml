@@ -33,7 +33,7 @@ jobs:
         run: |
           from pathlib import Path
           b=Path('tools/build_site.py').read_text(encoding='utf-8')
-          for token in ['apply_priority_internal_links','boliglan-uten-egenkapital.html','egenkapital-bolig.html','hvor-mye-kan-jeg-lane-bolig.html','bytte-bank-boliglan-komplett.html','guide-effektiv-nominell-rente.html','gsc-20260913']:
+          for token in ['apply_priority_internal_links','boliglan-uten-egenkapital.html','egenkapital-bolig.html','hvor-mye-kan-jeg-lane-bolig.html','bytte-bank-boliglan-komplett.html','guide-effektiv-nominell-rente.html','problemloser.html','gsc-20260913']:
               assert token in b, token
           print('GSC priority-link source PASS')
       - name: Snapshot SEO before build
@@ -54,6 +54,7 @@ jobs:
             'bytte-bank-boliglan-komplett.html':['min-rente-vs-markedet.html','boliglanskalkulator-renteforskjell.html','bankbytte-break-even.html','sjekk/boliglan/'],
             'cashback-bonus-kredittkort.html':['kredittkort-match.html','sjekk/kredittkort/'],
             'effektiv-rente-forbrukslan.html':['sammenligne-forbrukslan.html','sjekk/forbrukslan/','refinansiere-forbruksgjeld.html'],
+            'guider.html':['problemloser.html'],
           }
           for page,targets in checks.items():
               s=Path(page).read_text(encoding='utf-8')
@@ -63,7 +64,7 @@ jobs:
         shell: python
         run: |
           from pathlib import Path
-          for page in ['boliglan-uten-egenkapital.html','egenkapital-bolig.html','hvor-mye-kan-jeg-lane-bolig.html','bytte-bank-boliglan-komplett.html','guide-effektiv-nominell-rente.html','refinansiere-forbruksgjeld.html','cashback-bonus-kredittkort.html','effektiv-rente-forbrukslan.html']:
+          for page in ['boliglan-uten-egenkapital.html','egenkapital-bolig.html','hvor-mye-kan-jeg-lane-bolig.html','bytte-bank-boliglan-komplett.html','guide-effektiv-nominell-rente.html','refinansiere-forbruksgjeld.html','cashback-bonus-kredittkort.html','effektiv-rente-forbrukslan.html','guider.html']:
               s=Path(page).read_text(encoding='utf-8')
               for token in ['rel="canonical"','robots']:
                   assert token in s,(page,token)
@@ -82,7 +83,7 @@ jobs:
           pages=[p for p in Path('.').rglob('*.html') if 'tools' not in p.parts]
           assert not [str(p) for p in pages if ga4 not in p.read_text(encoding='utf-8')]
           sm=Path('sitemap.xml').read_text(encoding='utf-8')
-          for url in ['https://sparesjekk.no/boliglan-uten-egenkapital.html','https://sparesjekk.no/egenkapital-bolig.html','https://sparesjekk.no/hvor-mye-kan-jeg-lane-bolig.html','https://sparesjekk.no/bytte-bank-boliglan-komplett.html','https://sparesjekk.no/guide-effektiv-nominell-rente.html','https://sparesjekk.no/refinansiere-forbruksgjeld.html','https://sparesjekk.no/cashback-bonus-kredittkort.html','https://sparesjekk.no/effektiv-rente-forbrukslan.html']:
+          for url in ['https://sparesjekk.no/boliglan-uten-egenkapital.html','https://sparesjekk.no/egenkapital-bolig.html','https://sparesjekk.no/hvor-mye-kan-jeg-lane-bolig.html','https://sparesjekk.no/bytte-bank-boliglan-komplett.html','https://sparesjekk.no/guide-effektiv-nominell-rente.html','https://sparesjekk.no/refinansiere-forbruksgjeld.html','https://sparesjekk.no/cashback-bonus-kredittkort.html','https://sparesjekk.no/effektiv-rente-forbrukslan.html','https://sparesjekk.no/problemloser.html']:
               assert url in sm,url
           print('GA4 + sitemap PASS')
       - name: Commit tested generated outputs
@@ -125,3 +126,4 @@ jobs:
 
 # release trigger: homepage trust-panel contrast hotfix 2026-09-14
 # release trigger: GSC discovery batch 2026-09-14
+# release trigger: Problemløser discovery 2026-09-14
