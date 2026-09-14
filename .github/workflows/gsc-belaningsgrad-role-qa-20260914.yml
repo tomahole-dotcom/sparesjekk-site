@@ -1,0 +1,66 @@
+name: GSC Belaningsgrad Role QA 20260914
+
+on:
+  push:
+    branches: [gsc-belaningsgrad-role-20260914]
+    paths: ['.github/workflows/gsc-belaningsgrad-role-qa-20260914.yml']
+
+permissions:
+  contents: write
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: gsc-belaningsgrad-role-20260914
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements-site-builder.txt
+      - name: Clarify belaningsgrad page roles
+        shell: python
+        run: |
+          from pathlib import Path
+
+          p=Path('boliglan.html')
+          s=p.read_text(encoding='utf-8')
+          old='<section><h2>Belåningsgrad og boligverdi</h2><p>Belåningsgraden viser hvor stor restgjelden er i forhold til boligverdien. Dersom boligen har steget i verdi eller lånet er redusert, kan forholdet ha endret seg siden lånet ble opprettet.</p><p><a href="boligverdi-og-boliglansrente.html">Les om boligverdi og boliglånsrente →</a></p></section>'
+          new='<section><h2>Belåningsgrad og boligverdi</h2><p>Belåningsgraden viser hvor stor restgjelden er i forhold til boligverdien. Dersom boligen har steget i verdi eller lånet er redusert, kan forholdet ha endret seg siden lånet ble opprettet.</p><p>Denne siden gir bare oversikten. For formel, grenser og hvordan belåningsgrad kan påvirke boliglånsrenten, bruk <a href="guide-belaningsgrad.html">hovedguiden om belåningsgrad</a>.</p><p><a href="boligverdi-og-boliglansrente.html">Les om boligverdi og boliglånsrente →</a></p></section>'
+          assert old in s
+          p.write_text(s.replace(old,new,1),encoding='utf-8')
+
+          p=Path('boliglansrente-komplett-guide.html')
+          s=p.read_text(encoding='utf-8')
+          old='<section><h2>Hvorfor får boliglånskunder forskjellige renter?</h2><p>Bankenes priser og vurderinger kan variere med blant annet lånestørrelse, boligverdi, belåningsgrad, økonomi og kundeforhold. En markedsført rente er derfor ikke nødvendigvis den renten du faktisk får. Det konkrete tilbudet er sammenligningsgrunnlaget.</p></section>'
+          new='<section><h2>Hvorfor får boliglånskunder forskjellige renter?</h2><p>Bankenes priser og vurderinger kan variere med blant annet lånestørrelse, boligverdi, belåningsgrad, økonomi og kundeforhold. En markedsført rente er derfor ikke nødvendigvis den renten du faktisk får. Det konkrete tilbudet er sammenligningsgrunnlaget.</p><p>Vil du forstå selve belåningsgraden, formelen og grensene, er <a href="guide-belaningsgrad.html">belåningsgrad-guiden</a> hovedsiden for det temaet.</p></section>'
+          assert old in s
+          p.write_text(s.replace(old,new,1),encoding='utf-8')
+      - name: Verify protected fields and role links
+        shell: python
+        run: |
+          from pathlib import Path
+          checks={
+            'boliglan.html':['<title>Boliglån – kalkulator og guider | Sparesjekk</title>','https://sparesjekk.no/boliglan.html','<h1>Sjekk boliglånet ditt – en liten renteforskjell kan bli mange kroner</h1>','hovedguiden om belåningsgrad'],
+            'boliglansrente-komplett-guide.html':['<title>Boliglånsrente – komplett guide | Sparesjekk</title>','https://sparesjekk.no/boliglansrente-komplett-guide.html','<h1>Boliglånsrente – komplett guide</h1>','belåningsgrad-guiden'],
+            'guide-belaningsgrad.html':['Dette er Sparesjekks hovedguide om belåningsgrad.','belaningsgrad-sjekk.html']
+          }
+          for page,tokens in checks.items():
+            s=Path(page).read_text(encoding='utf-8')
+            for token in tokens: assert token in s,(page,token)
+          print('Belaningsgrad role verification PASS')
+      - run: python tools/seo_guard.py check
+      - run: python tools/qa_site.py
+      - run: python tools/build_site.py
+      - run: python tools/seo_guard.py check
+      - run: python tools/qa_site.py
+      - name: Commit tested pages
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add boliglan.html boliglansrente-komplett-guide.html
+          if ! git diff --cached --quiet; then
+            git commit -m 'Clarify belaningsgrad page roles'
+            git push origin HEAD:gsc-belaningsgrad-role-20260914
+          fi
