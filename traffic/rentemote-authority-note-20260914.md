@@ -1,0 +1,1 @@
+GSC opportunity note: query `rentemøte` has 10 impressions at average position ~29.5 and `norges bank rentemøte` 3 impressions at ~28.7 for 2026-08-15–2026-09-12. Next action: strengthen contextual internal links to `rentemote-hva-betyr-det.html` from relevant mortgage-rate guides without changing protected SEO fields.
