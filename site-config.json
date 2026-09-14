@@ -30,7 +30,25 @@
       "landing": "sjekk/kredittkort/"
     }
   ],
-  "partners": [],
+  "partners": [
+    {
+      "name": "Zensum",
+      "approved": true,
+      "status": "approved_pending_tracking",
+      "categories": [
+        "forbrukslan"
+      ],
+      "url": "",
+      "priority": 10,
+      "description": "Sammenligning av tilbud fra flere långivere for forbrukslån og refinansiering.",
+      "badges": [
+        "Refinansiering",
+        "Sammenlign tilbud"
+      ],
+      "representative_example": "",
+      "tracking_verified": false
+    }
+  ],
   "rules": {
     "only_approved_partners": true,
     "preserve_existing_seo": true,
