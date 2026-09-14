@@ -34,11 +34,11 @@
     {
       "name": "Zensum",
       "approved": true,
-      "status": "approved_pending_tracking",
+      "status": "active",
       "categories": [
         "forbrukslan"
       ],
-      "url": "",
+      "url": "https://go.adt256.com/t/t?a=1638602458&as=2102543040&t=2&tk=1",
       "priority": 10,
       "description": "Sammenligning av tilbud fra flere långivere for forbrukslån og refinansiering.",
       "badges": [
@@ -46,7 +46,7 @@
         "Sammenlign tilbud"
       ],
       "representative_example": "",
-      "tracking_verified": false
+      "tracking_verified": true
     }
   ],
   "rules": {
