@@ -1,0 +1,23 @@
+name: GSC discovery QA 20260914
+
+on:
+  pull_request:
+    branches:
+      - seo-content-v34-master
+    paths:
+      - 'forbrukslan.html'
+      - 'forbrukslan-komplett-guide.html'
+      - 'omstartslan-guider.html'
+      - 'traffic/gsc-discovery-batch-20260914.md'
+      - '.github/workflows/gsc-discovery-qa-20260914.yml'
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Full site QA
+        run: python tools/qa_site.py
