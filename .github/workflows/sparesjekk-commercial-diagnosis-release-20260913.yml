@@ -51,7 +51,8 @@ jobs:
             'hvor-mye-kan-jeg-lane-bolig.html':['medlantaker-boliglan.html'],
             'flytte-boliglan.html':['bytte-bank-boliglan-komplett.html'],
             'forbrukslan.html':['guide-effektiv-nominell-rente.html','refinansiere-forbruksgjeld.html'],
-            'guide-rente-forhandle.html':['rentemote-hva-betyr-det.html','boliglansrente-komplett-guide.html'],
+            'guide-rente-forhandle.html':['rentemote-hva-betyr-det.html'],
+            'guide-forhandle-rente.html':['boliglansrente-komplett-guide.html'],
             'refinansiere-forbruksgjeld.html':['guide-effektiv-nominell-rente.html','gjeldsmiks-sjekk.html','refinansiering-kalkulator.html','tilbudssjekk-refinansiering.html'],
             'bytte-bank-boliglan-komplett.html':['min-rente-vs-markedet.html','boliglanskalkulator-renteforskjell.html','bankbytte-break-even.html','sjekk/boliglan/'],
             'cashback-bonus-kredittkort.html':['kredittkort-match.html','sjekk/kredittkort/'],
@@ -66,7 +67,7 @@ jobs:
         shell: python
         run: |
           from pathlib import Path
-          for page in ['boliglan-uten-egenkapital.html','egenkapital-bolig.html','hvor-mye-kan-jeg-lane-bolig.html','bytte-bank-boliglan-komplett.html','guide-effektiv-nominell-rente.html','refinansiere-forbruksgjeld.html','cashback-bonus-kredittkort.html','effektiv-rente-forbrukslan.html','guider.html','medlantaker-boliglan.html','guide-rente-forhandle.html','forbrukslan.html','boliglansrente-komplett-guide.html']:
+          for page in ['boliglan-uten-egenkapital.html','egenkapital-bolig.html','hvor-mye-kan-jeg-lane-bolig.html','bytte-bank-boliglan-komplett.html','guide-effektiv-nominell-rente.html','refinansiere-forbruksgjeld.html','cashback-bonus-kredittkort.html','effektiv-rente-forbrukslan.html','guider.html','medlantaker-boliglan.html','guide-rente-forhandle.html','guide-forhandle-rente.html','forbrukslan.html','boliglansrente-komplett-guide.html']:
               s=Path(page).read_text(encoding='utf-8')
               for token in ['rel="canonical"','robots']:
                   assert token in s,(page,token)
@@ -133,3 +134,4 @@ jobs:
 # release trigger: medlåntaker authority retry 2026-09-14
 # release trigger: rentemøte + forbruksgjeld authority 2026-09-14
 # release trigger: boliglånsrente authority 2026-09-14
+# release trigger: boliglånsrente authority retry 2026-09-14
