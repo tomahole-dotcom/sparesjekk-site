@@ -1,0 +1,40 @@
+name: GSC Oke Boliglan Cleanup QA 20260914
+
+on:
+  push:
+    branches: [gsc-oke-boliglan-cleanup-20260914]
+    paths:
+      - 'oke-boliglanet.html'
+      - '.github/workflows/gsc-oke-boliglan-cleanup-20260914.yml'
+
+jobs:
+  cleanup-qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Dependencies
+        run: pip install -r requirements-site-builder.txt
+      - name: SEO guard
+        run: python tools/seo_guard.py check
+      - name: Full QA
+        run: python tools/qa_site.py
+      - name: Build
+        run: python tools/build_site.py
+      - name: SEO guard after build
+        run: python tools/seo_guard.py check
+      - name: Full QA after build
+        run: python tools/qa_site.py
+      - name: Verify cleanup survives build
+        shell: python
+        run: |
+          from pathlib import Path
+          s=Path('oke-boliglanet.html').read_text(encoding='utf-8')
+          assert s.count('<h2>Når kan det være aktuelt å øke boliglånet?</h2>') == 0
+          assert s.count('<h2>Hva skal de ekstra pengene brukes til?</h2>') == 0
+          assert s.count('<h2>Ny verdivurdering kan endre bildet</h2>') == 0
+          for token in ['<title>Øke boliglånet – hva bør du tenke på? | Sparesjekk</title>', 'https://sparesjekk.no/oke-boliglanet.html', '<h1>Øke boliglånet – hva bør du tenke på?</h1>']:
+              assert token in s, token
+          print('Oke boliglånet cleanup PASS')
