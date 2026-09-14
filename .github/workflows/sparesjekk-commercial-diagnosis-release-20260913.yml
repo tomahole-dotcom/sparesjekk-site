@@ -123,4 +123,4 @@ jobs:
             **/node_modules/**
             .well-known/**
 
-# release trigger: forbrukslan + nedbetalingstid batch 2026-09-14
+# release trigger: kredittkort bonus batch 2026-09-14
