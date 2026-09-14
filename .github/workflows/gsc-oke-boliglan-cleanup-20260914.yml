@@ -7,6 +7,9 @@ on:
       - 'oke-boliglanet.html'
       - '.github/workflows/gsc-oke-boliglan-cleanup-20260914.yml'
 
+permissions:
+  contents: write
+
 jobs:
   cleanup-qa:
     runs-on: ubuntu-latest
@@ -17,6 +20,19 @@ jobs:
           python-version: '3.12'
       - name: Dependencies
         run: pip install -r requirements-site-builder.txt
+      - name: Remove duplicated sections
+        shell: python
+        run: |
+          from pathlib import Path
+          p=Path('oke-boliglanet.html')
+          s=p.read_text(encoding='utf-8')
+          start=s.index('<section><h2>Når kan det være aktuelt å øke boliglånet?</h2>')
+          end=s.index('<p class="article-note">Gjennomgått og oppdatert 13. august 2026.</p>', start)
+          s=s[:start]+s[end:]
+          # strengthen next-step routing without changing protected SEO fields
+          s=s.replace('<a href="guide-belaningsgrad.html">Belåningsgrad →</a><a href="ekstra-nedbetaling-boliglan.html">Ekstra nedbetaling →</a>', '<a href="guide-belaningsgrad.html">Belåningsgrad →</a><a href="boliglan-terminbelop.html">Regn på terminbeløpet →</a><a href="ekstra-nedbetaling-boliglan.html">Ekstra nedbetaling →</a>')
+          p.write_text(s,encoding='utf-8')
+          print('Removed duplicate sections and strengthened next-step routing')
       - name: SEO guard
         run: python tools/seo_guard.py check
       - name: Full QA
@@ -32,9 +48,19 @@ jobs:
         run: |
           from pathlib import Path
           s=Path('oke-boliglanet.html').read_text(encoding='utf-8')
-          assert s.count('<h2>Når kan det være aktuelt å øke boliglånet?</h2>') == 0
-          assert s.count('<h2>Hva skal de ekstra pengene brukes til?</h2>') == 0
-          assert s.count('<h2>Ny verdivurdering kan endre bildet</h2>') == 0
+          assert '<h2>Når kan det være aktuelt å øke boliglånet?</h2>' not in s
+          assert '<h2>Hva skal de ekstra pengene brukes til?</h2>' not in s
+          assert '<h2>Ny verdivurdering kan endre bildet</h2>' not in s
+          assert 'boliglan-terminbelop.html' in s
           for token in ['<title>Øke boliglånet – hva bør du tenke på? | Sparesjekk</title>', 'https://sparesjekk.no/oke-boliglanet.html', '<h1>Øke boliglånet – hva bør du tenke på?</h1>']:
               assert token in s, token
           print('Oke boliglånet cleanup PASS')
+      - name: Commit cleaned page
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add oke-boliglanet.html
+          if ! git diff --cached --quiet; then
+            git commit -m 'Clean duplicate øke boliglånet content'
+            git push origin HEAD:gsc-oke-boliglan-cleanup-20260914
+          fi
