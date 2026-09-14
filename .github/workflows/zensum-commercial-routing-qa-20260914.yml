@@ -1,0 +1,43 @@
+name: Zensum Commercial Routing QA 20260914
+on:
+  push:
+    branches: [zensum-commercial-routing-20260914]
+permissions:
+  contents: read
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Dependencies
+        run: pip install -r requirements-site-builder.txt
+      - name: Verify routing copy
+        shell: python
+        run: |
+          from pathlib import Path
+          s=Path('refinansiere-forbruksgjeld.html').read_text(encoding='utf-8')
+          assert 'Sammenlign faktiske alternativer' in s
+          assert 'sjekk/forbrukslan/' in s
+          assert 'Godkjente partnere vises først når avtaler' not in s
+      - name: Build
+        run: python tools/build_site.py
+      - name: Verify active partner and route after build
+        shell: python
+        run: |
+          from pathlib import Path
+          import json
+          cfg=json.loads(Path('site-config.json').read_text(encoding='utf-8'))
+          z=next(p for p in cfg['partners'] if p['name']=='Zensum')
+          assert z['approved'] is True and z['status']=='active' and z['tracking_verified'] is True
+          landing=Path('sjekk/forbrukslan/index.html').read_text(encoding='utf-8')
+          assert 'data-partner="Zensum"' in landing
+          assert 'sponsored nofollow noopener' in landing
+          article=Path('refinansiere-forbruksgjeld.html').read_text(encoding='utf-8')
+          assert 'Sammenlign faktiske alternativer' in article
+      - name: SEO guard
+        run: python tools/seo_guard.py check
+      - name: Full QA
+        run: python tools/qa_site.py
