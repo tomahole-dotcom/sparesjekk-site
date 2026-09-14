@@ -123,4 +123,4 @@ jobs:
             **/node_modules/**
             .well-known/**
 
-# release trigger: GSC opportunity batch 2026-09-14
+# release trigger: forbrukslan + nedbetalingstid batch 2026-09-14
