@@ -54,7 +54,7 @@ jobs:
             'flytte-boliglan.html':['Denne siden handler om selve flyttingen','bytte-bank-boliglan-komplett.html','bankbytte-break-even.html'],
             'cashback-bonus-kredittkort.html':['bonus-calc-btn','cashback_net_value_calculated','kredittkort-match.html'],
             'refinansiering-kalkulator.html':['tilbudssjekk-refinansiering.html','refinancing_compare_complete'],
-            'tilbudssjekk-refinansiering.html':['term_difference_months','Løpetidsforskjell','refi_offer_check_complete']
+            'tilbudssjekk-refinansiering.html':['term_difference_months','termSignal','refi_offer_check_complete']
           }
           for page,tokens in checks.items():
               s=Path(page).read_text(encoding='utf-8')
