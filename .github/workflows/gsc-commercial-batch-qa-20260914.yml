@@ -36,7 +36,7 @@ jobs:
               assert 'G-XYRPP78DJ5' in s,page
           assert 'kredittkort-match.html' in Path('cashback-bonus-kredittkort.html').read_text(encoding='utf-8')
           assert 'tilbudssjekk-refinansiering.html' in Path('refinansiering-kalkulator.html').read_text(encoding='utf-8')
-          assert 'termDifference' in Path('tilbudssjekk-refinansiering.html').read_text(encoding='utf-8')
+          assert 'term_difference_months' in Path('tilbudssjekk-refinansiering.html').read_text(encoding='utf-8')
           print('Batch-specific checks PASS')
       - name: Full SEO guard
         run: python tools/seo_guard.py check
