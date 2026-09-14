@@ -76,6 +76,8 @@ def apply_priority_internal_links():
         ('guide-refinansiering.html','refinansiering-kalkulator.html','Test refinansiering med dine egne tall'),
         ('refinansiere-forbruksgjeld.html','refinansiering-kalkulator.html','Regn på mulig effekt av refinansiering'),
         ('refinansiering-kalkulator.html','tilbudssjekk-refinansiering.html','Har du fått et tilbud? Kontroller om det faktisk er bedre'),
+        # Discovery for the broad problem-first router from an established hub.
+        ('guider.html','problemloser.html','Usikker på hvilken guide du trenger? Start med Problemløseren'),
     ]
     changed=0
     for rel,href,label in links:
