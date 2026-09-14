@@ -1,0 +1,48 @@
+name: Zensum Partner Activation QA 20260914
+
+on:
+  push:
+    branches: [zensum-partner-activation-20260914]
+    paths:
+      - 'site-config.json'
+      - '.github/workflows/zensum-partner-activation-qa-20260914.yml'
+
+jobs:
+  partner-qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Dependencies
+        run: pip install -r requirements-site-builder.txt
+      - name: Verify Zensum config
+        shell: python
+        run: |
+          import json
+          from pathlib import Path
+          cfg=json.loads(Path('site-config.json').read_text(encoding='utf-8'))
+          z=next(p for p in cfg['partners'] if p['name']=='Zensum')
+          assert z['approved'] is True
+          assert z['status']=='active'
+          assert z['tracking_verified'] is True
+          assert z['url']=='https://go.adt256.com/t/t?a=1638602458&as=2102543040&t=2&tk=1'
+          assert z['categories']==['forbrukslan']
+          print('Zensum config PASS')
+      - name: Build
+        run: python tools/build_site.py
+      - name: Verify generated partner card
+        shell: python
+        run: |
+          from pathlib import Path
+          s=Path('sjekk/forbrukslan/index.html').read_text(encoding='utf-8')
+          assert 'data-partner="Zensum"' in s
+          assert 'https://go.adt256.com/t/t?a=1638602458&amp;as=2102543040&amp;t=2&amp;tk=1' in s
+          assert 'sponsored' in s and 'nofollow' in s and 'noopener' in s
+          assert 'ANNONSE / REKLAME' in s
+          print('Generated Zensum card PASS')
+      - name: SEO guard
+        run: python tools/seo_guard.py check
+      - name: Full QA
+        run: python tools/qa_site.py
