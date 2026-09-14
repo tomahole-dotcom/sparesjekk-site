@@ -1,0 +1,49 @@
+name: GSC Commercial Batch QA 20260914
+
+on:
+  push:
+    branches: [gsc-commercial-batch-20260914]
+    paths: ['.github/workflows/gsc-commercial-batch-qa-20260914.yml']
+
+permissions:
+  contents: read
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+          cache-dependency-path: requirements-site-builder.txt
+      - name: Dependencies
+        run: pip install -r requirements-site-builder.txt
+      - name: Verify batch scope and protected SEO fields
+        shell: python
+        run: |
+          from pathlib import Path
+          pages=['flytte-boliglan.html','cashback-bonus-kredittkort.html','refinansiering-kalkulator.html','tilbudssjekk-refinansiering.html']
+          for page in pages:
+              s=Path(page).read_text(encoding='utf-8')
+              assert '<title>' in s,page
+              assert 'name="description"' in s,page
+              assert 'rel="canonical"' in s,page
+              assert 'name="robots"' in s,page
+              assert '<h1' in s,page
+              assert 'G-XYRPP78DJ5' in s,page
+          assert 'kredittkort-match.html' in Path('cashback-bonus-kredittkort.html').read_text(encoding='utf-8')
+          assert 'tilbudssjekk-refinansiering.html' in Path('refinansiering-kalkulator.html').read_text(encoding='utf-8')
+          assert 'termDifference' in Path('tilbudssjekk-refinansiering.html').read_text(encoding='utf-8')
+          print('Batch-specific checks PASS')
+      - name: Full SEO guard
+        run: python tools/seo_guard.py check
+      - name: Full site QA
+        run: python tools/qa_site.py
+      - name: Verify build is reproducible
+        run: |
+          python tools/build_site.py
+          python tools/seo_guard.py check
+          python tools/qa_site.py
