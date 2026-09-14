@@ -33,3 +33,8 @@
   .tool-card .debt-row,.results{grid-template-columns:1fr!important}
   .tool-card .debt-row label{grid-column:1!important}
 }
+
+/* Homepage contrast hotfix: keep the dark trust panel readable even if global heading/eyebrow rules load later. */
+body .why h2{color:#fff!important}
+body .why .eyebrow{color:#cfe4ff!important;opacity:1!important}
+body .why p{color:rgba(255,255,255,.88)!important}
