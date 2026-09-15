@@ -6,7 +6,7 @@ on:
     paths:
       - '.github/workflows/revenue-engine-pr-qa.yml'
 
-# qa trigger: 2026-09-15 revenue pass 1
+# qa trigger: fixed dependency source 2026-09-15
 jobs:
   qa:
     runs-on: ubuntu-latest
@@ -15,7 +15,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: pip install -r requirements.txt
+          cache: 'pip'
+          cache-dependency-path: requirements-site-builder.txt
+      - run: pip install -r requirements-site-builder.txt
       - name: Snapshot protected SEO fields
         run: python tools/seo_guard.py snapshot
       - name: Build site with Revenue Engine
