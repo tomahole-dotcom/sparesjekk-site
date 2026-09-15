@@ -1,0 +1,53 @@
+name: Revenue Engine Pass 3 QA
+on:
+  push:
+    branches: [revenue-engine-pass-3-20260916]
+    paths: ['.github/workflows/revenue-engine-pass-3-qa.yml']
+permissions:
+  contents: read
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+          cache-dependency-path: requirements-site-builder.txt
+      - run: pip install -r requirements-site-builder.txt
+      - name: Snapshot SEO
+        run: python tools/seo_guard.py snapshot
+      - name: Build
+        run: python tools/build_site.py
+      - name: Apply result CTA
+        run: python tools/apply_result_revenue_cta.py
+      - name: Verify result CTA
+        shell: python
+        run: |
+          from pathlib import Path
+          from bs4 import BeautifulSoup
+          s=BeautifulSoup(Path('refinansiering-kalkulator.html').read_text(encoding='utf-8'),'html.parser')
+          box=s.select_one('#offerNext')
+          assert box
+          cta=box.select_one('.result-commercial-cta a[data-revenue-event="commercial_route"]')
+          assert cta and cta.get('href')=='sjekk/forbrukslan/'
+          assert cta.get('data-revenue-context')=='refinance_calculator_result'
+          assert 'ANNONSE / REKLAME' in box.get_text(' ',strip=True)
+          print('Result CTA PASS')
+      - name: Apply Revenue tracking
+        run: python tools/apply_revenue_tracking.py
+      - name: Verify Revenue tracking
+        shell: python
+        run: |
+          from pathlib import Path
+          from bs4 import BeautifulSoup
+          s=BeautifulSoup(Path('refinansiering-kalkulator.html').read_text(encoding='utf-8'),'html.parser')
+          assert s.find('script',attrs={'data-sparesjekk-revenue-tracking':'v1'})
+          assert s.select_one('[data-revenue-context="refinance_calculator_result"]')
+          print('Tracking PASS')
+      - name: SEO guard
+        run: python tools/seo_guard.py snapshot
+      - name: Full QA
+        run: python tools/qa_site.py
