@@ -6,6 +6,7 @@ on:
     paths:
       - '.github/workflows/revenue-engine-pr-qa.yml'
 
+# qa trigger: 2026-09-15 revenue pass 1
 jobs:
   qa:
     runs-on: ubuntu-latest
