@@ -47,6 +47,54 @@
       ],
       "representative_example": "",
       "tracking_verified": true
+    },
+    {
+      "name": "Tjenestetorget",
+      "approved": true,
+      "status": "active",
+      "categories": ["boliglan"],
+      "url": "https://go.adt253.net/t/t?a=1578043389&as=2102543040&t=2&tk=1",
+      "priority": 10,
+      "description": "Tjenestetorget for boliglån.",
+      "badges": ["Boliglån", "Sammenlign tilbud"],
+      "representative_example": "",
+      "tracking_verified": true
+    },
+    {
+      "name": "Tjenestetorget",
+      "approved": true,
+      "status": "active",
+      "categories": ["forbrukslan"],
+      "url": "https://go.adt253.net/t/t?a=1578043594&as=2102543040&t=2&tk=1",
+      "priority": 20,
+      "description": "Tjenestetorget for forbrukslån.",
+      "badges": ["Forbrukslån", "Sammenlign tilbud"],
+      "representative_example": "",
+      "tracking_verified": true
+    },
+    {
+      "name": "Tjenestetorget",
+      "approved": true,
+      "status": "active",
+      "categories": ["omstartslan"],
+      "url": "https://go.adt253.net/t/t?a=1578044122&as=2102543040&t=2&tk=1",
+      "priority": 10,
+      "description": "Tjenestetorget for omstartslån.",
+      "badges": ["Omstartslån", "Sammenlign tilbud"],
+      "representative_example": "",
+      "tracking_verified": true
+    },
+    {
+      "name": "Tjenestetorget",
+      "approved": true,
+      "status": "hold",
+      "categories": ["kjoretoylan"],
+      "url": "https://go.adt253.net/t/t?a=1578043798&as=2102543040&t=2&tk=1",
+      "priority": 10,
+      "description": "Tjenestetorget for kjøretøylån.",
+      "badges": ["Kjøretøylån", "Sammenlign tilbud"],
+      "representative_example": "",
+      "tracking_verified": true
     }
   ],
   "rules": {
