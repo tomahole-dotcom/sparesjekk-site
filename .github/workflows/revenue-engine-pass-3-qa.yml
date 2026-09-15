@@ -22,7 +22,7 @@ jobs:
       - name: Build
         run: python tools/build_site.py
       - name: Apply result CTA
-        run: python tools/apply_result_revenue_cta.py
+        run: python tools/apply_revenue_conversion.py
       - name: Verify result CTA
         shell: python
         run: |
