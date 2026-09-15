@@ -1,0 +1,39 @@
+name: Revenue Engine Tracking QA
+on:
+  push:
+    branches: [revenue-engine-tracking-20260915]
+    paths: ['.github/workflows/revenue-engine-tracking-qa.yml']
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements-site-builder.txt
+      - run: pip install -r requirements-site-builder.txt
+      - run: python tools/seo_guard.py snapshot
+      - run: python tools/build_site.py
+      - run: python tools/apply_revenue_tracking.py
+      - name: Verify funnel instrumentation
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from bs4 import BeautifulSoup
+          pages=[]
+          for p in Path('.').rglob('*.html'):
+            s=BeautifulSoup(p.read_text(encoding='utf-8'),'html.parser')
+            if s.select_one('[data-revenue-event]'):
+              pages.append(p)
+              assert s.find('script',attrs={'data-sparesjekk-revenue-tracking':'v1'}),p
+          assert len(pages)>=16,len(pages)
+          for p in ['sjekk/boliglan/index.html','sjekk/forbrukslan/index.html','sjekk/omstartslan/index.html']:
+            s=BeautifulSoup(Path(p).read_text(encoding='utf-8'),'html.parser')
+            assert all(a.get('data-revenue-event')=='partner_click' for a in s.select('a.partner-cta'))
+          print('Revenue tracking PASS:',len(pages),'instrumented pages')
+          PY
+      - run: python tools/seo_guard.py snapshot
+      - run: python tools/qa_site.py
+# trigger 2026-09-15
