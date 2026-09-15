@@ -40,6 +40,23 @@ jobs:
         run: python tools/seo_guard.py snapshot
       - name: Build site
         run: python tools/build_site.py
+      - name: Apply result-driven Revenue CTA
+        run: python tools/apply_revenue_conversion.py
+      - name: Verify result-driven Revenue CTA
+        shell: python
+        run: |
+          from pathlib import Path
+          from bs4 import BeautifulSoup
+          p=Path('refinansiering-kalkulator.html')
+          s=BeautifulSoup(p.read_text(encoding='utf-8'),'html.parser')
+          box=s.select_one('#offerNext')
+          assert box, 'Missing #offerNext'
+          cta=box.select_one('.result-commercial-cta a[data-revenue-event="commercial_route"]')
+          assert cta, 'Missing result commercial CTA'
+          assert cta.get('href')=='sjekk/forbrukslan/', cta.get('href')
+          assert cta.get('data-revenue-context')=='refinance_calculator_result'
+          assert 'ANNONSE / REKLAME' in box.get_text(' ',strip=True)
+          print('Result-driven Revenue CTA PASS')
       - name: Apply Revenue Engine GA4 tracking
         run: python tools/apply_revenue_tracking.py
       - name: Verify Revenue Engine tracking
