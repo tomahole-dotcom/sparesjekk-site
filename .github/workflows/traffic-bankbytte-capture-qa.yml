@@ -1,0 +1,50 @@
+# QA trigger 2026-09-16 generator-fix
+name: Traffic Bankbytte Capture QA
+on:
+  push:
+    branches: [traffic-bankbytte-capture-20260916]
+    paths: ['.github/workflows/traffic-bankbytte-capture-qa.yml']
+permissions: {contents: read}
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12', cache: 'pip', cache-dependency-path: requirements-site-builder.txt}
+      - run: pip install -r requirements-site-builder.txt
+      - name: Build and apply Traffic Capture
+        run: |
+          python tools/build_site.py
+          python tools/apply_revenue_conversion.py
+          python tools/apply_mortgage_result_revenue_cta.py
+          python tools/apply_debt_mix_revenue_tracking.py
+          python tools/apply_rate_benchmark_revenue_tracking.py
+          python tools/apply_revenue_matcher.py
+          python tools/apply_revenue_handoff.py
+          python tools/apply_revenue_choice_ux.py
+          python tools/apply_revenue_tracking.py
+          python tools/apply_revenue_intent_attribution.py
+          python tools/apply_revenue_sticky_cta.py
+          python tools/apply_bank_switch_capture.py
+      - name: Verify bank switch capture
+        shell: python
+        run: |
+          from pathlib import Path
+          from bs4 import BeautifulSoup
+          p=Path('bor-jeg-bytte-bank.html'); assert p.exists()
+          s=BeautifulSoup(p.read_text(encoding='utf-8'),'html.parser')
+          assert s.title and 'Bør jeg bytte bank' in s.title.text
+          assert s.find('link',rel='canonical').get('href')=='https://sparesjekk.no/bor-jeg-bytte-bank.html'
+          assert s.find('meta',attrs={'name':'sparesjekk-transform','content':'traffic-bankbytte-capture-v1'})
+          assert s.select_one('#bankSwitchCheck') and len(s.select('#bankSwitchCheck select'))==4
+          assert s.select_one('#strongCta[data-revenue-event="commercial_route"]')
+          assert s.select_one('#strongCta').get('href')=='sjekk/boliglan/'
+          assert s.select_one('#softCta').get('href')=='min-rente-vs-markedet.html'
+          code=' '.join((x.string or '') for x in s.find_all('script'))
+          for x in ['bank_switch_check_complete','commercial_route','strongSignals','softSignals']: assert x in code,x
+          assert 'G-XYRPP78DJ5' in p.read_text(encoding='utf-8')
+          print('Bank switch capture PASS')
+      - run: python tools/seo_guard.py snapshot
+      - run: python tools/qa_site.py
