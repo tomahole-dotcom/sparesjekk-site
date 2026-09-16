@@ -1,7 +1,7 @@
 name: Traffic Embed Backlink Engine QA
 on:
   push:
-    branches: [traffic-embed-backlink-engine-20260916]
+    branches: [traffic-embed-backlink-reconcile-20260917]
     paths: ['.github/workflows/traffic-rate-negotiation-capture-qa.yml']
 permissions: {contents: read}
 jobs:
