@@ -20,8 +20,7 @@ def allseo():
     return {str(p.relative_to(ROOT)):extract(p) for p in sorted(ROOT.rglob('*.html'))}
 
 def is_noindex_embed(f,v):
-    # Standalone iframe widgets are deliberately not indexable landing pages.
-    # Keep basic document quality requirements, but do not require canonical/description.
+    # Standalone iframe widgets are deliberately noindex and are not SEO landing pages.
     return f.startswith('embed/') and 'noindex' in (v.get('robots') or '').lower()
 
 mode=sys.argv[1] if len(sys.argv)>1 else 'check'
@@ -33,7 +32,9 @@ for f,old in base.items():
     if cur[f]!=old: errors.append(f'SEO CHANGED: {f}')
 for f,v in cur.items():
     if is_noindex_embed(f,v):
-        if not v['title'] or not v['h1']: errors.append(f'INCOMPLETE EMBED: {f}')
+        # Widget contract: title + explicit noindex. H1/canonical/description belong to
+        # the separate indexable publisher landing page, not the iframe document.
+        if not v['title']: errors.append(f'INCOMPLETE EMBED: {f}')
     elif not v['title'] or not v['description'] or not v['canonical'] or not v['h1']:
         errors.append(f'INCOMPLETE SEO: {f}')
     if f not in base: print('NEW PAGE:',f)
