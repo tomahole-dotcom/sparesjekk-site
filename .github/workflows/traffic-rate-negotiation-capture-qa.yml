@@ -1,7 +1,7 @@
-name: Traffic Rate Negotiation Capture QA
+name: Traffic Embed Backlink Engine QA
 on:
   push:
-    branches: [traffic-rate-negotiation-capture-20260916]
+    branches: [traffic-embed-backlink-reconcile-20260917]
     paths: ['.github/workflows/traffic-rate-negotiation-capture-qa.yml']
 permissions: {contents: read}
 jobs:
@@ -29,7 +29,7 @@ jobs:
           python tools/apply_bank_switch_capture.py
           python tools/apply_rate_negotiation_capture.py
           python tools/apply_rate_negotiation_links.py
-      - name: Verify capture and links
+      - name: Verify Traffic Engine batch
         shell: python
         run: |
           from pathlib import Path
@@ -42,6 +42,16 @@ jobs:
           assert s.select_one('#compareCta[data-revenue-event="commercial_route"]').get('href')=='sjekk/boliglan/'
           for f in ['bor-jeg-bytte-bank.html','min-rente-vs-markedet.html','bankbytte-break-even.html']:
             assert 'banken-vil-ikke-senke-renten.html' in Path(f).read_text(encoding='utf-8'),f
-          print('Rate negotiation capture PASS')
-      - run: python tools/seo_guard.py snapshot
-      - run: python tools/qa_site.py
+          assets=['embed/renteforskjell.html','bygg-inn-rentekalkulator.html','embed/gjeldsrente-sjekk.html','bygg-inn-gjeldsrente-sjekk.html','embed/valutapaslag.html','bygg-inn-valutapaslag-kalkulator.html','embed/kredittkort-minstebelop.html','bygg-inn-kredittkort-minstebelop.html','betalingsproblemer-hva-gjor-jeg.html']
+          for f in assets: assert Path(f).exists(),f
+          for f in ['embed/renteforskjell.html','embed/gjeldsrente-sjekk.html','embed/valutapaslag.html','embed/kredittkort-minstebelop.html']:
+            t=Path(f).read_text(encoding='utf-8').lower(); assert '<title>' in t,f; assert '<h1' in t,f; assert 'noindex' in t,f; assert 'sjekk/' not in t,f
+          t=Path('betalingsproblemer-hva-gjor-jeg.html').read_text(encoding='utf-8')
+          assert 'security' in t and 'sjekk/omstartslan/?intent=utfordringer' in t
+          matcher=Path('tools/apply_revenue_matcher.py').read_text(encoding='utf-8')
+          assert "'utfordringer':['Okida','GjeldsMegleren Norge','Zen Finans','Tjenestetorget']" in matcher
+          print('Cross-category Traffic Engine batch PASS')
+      - name: Snapshot SEO baseline
+        run: python tools/seo_guard.py snapshot
+      - name: Full site QA including noindex widget policy
+        run: python tools/qa_site.py
