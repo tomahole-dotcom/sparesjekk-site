@@ -18,6 +18,11 @@ def extract(p):
 
 def allseo():
     return {str(p.relative_to(ROOT)):extract(p) for p in sorted(ROOT.rglob('*.html'))}
+
+def is_noindex_embed(f,v):
+    # Standalone iframe widgets are deliberately noindex and are not SEO landing pages.
+    return f.startswith('embed/') and 'noindex' in (v.get('robots') or '').lower()
+
 mode=sys.argv[1] if len(sys.argv)>1 else 'check'
 if mode=='snapshot':
     SNAP.write_text(json.dumps(allseo(),ensure_ascii=False,indent=2),encoding='utf-8'); print(f'SEO baseline saved: {len(allseo())} pages'); sys.exit()
@@ -26,7 +31,12 @@ for f,old in base.items():
     if f not in cur: errors.append(f'MISSING PAGE: {f}'); continue
     if cur[f]!=old: errors.append(f'SEO CHANGED: {f}')
 for f,v in cur.items():
-    if not v['title'] or not v['description'] or not v['canonical'] or not v['h1']: errors.append(f'INCOMPLETE SEO: {f}')
+    if is_noindex_embed(f,v):
+        # Widget contract: title + explicit noindex. H1/canonical/description belong to
+        # the separate indexable publisher landing page, not the iframe document.
+        if not v['title']: errors.append(f'INCOMPLETE EMBED: {f}')
+    elif not v['title'] or not v['description'] or not v['canonical'] or not v['h1']:
+        errors.append(f'INCOMPLETE SEO: {f}')
     if f not in base: print('NEW PAGE:',f)
 if errors:
     print('\n'.join(errors)); sys.exit(1)
