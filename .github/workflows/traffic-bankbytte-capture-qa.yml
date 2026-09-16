@@ -36,6 +36,7 @@ jobs:
           s=BeautifulSoup(p.read_text(encoding='utf-8'),'html.parser')
           assert s.title and 'Bør jeg bytte bank' in s.title.text
           assert s.find('link',rel='canonical').get('href')=='https://sparesjekk.no/bor-jeg-bytte-bank.html'
+          assert s.find('meta',attrs={'name':'sparesjekk-transform','content':'traffic-bankbytte-capture-v1'})
           assert s.select_one('#bankSwitchCheck') and len(s.select('#bankSwitchCheck select'))==4
           assert s.select_one('#strongCta[data-revenue-event="commercial_route"]')
           assert s.select_one('#strongCta').get('href')=='sjekk/boliglan/'
