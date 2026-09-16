@@ -1,0 +1,47 @@
+name: Traffic Rate Negotiation Capture QA
+on:
+  push:
+    branches: [traffic-rate-negotiation-capture-20260916]
+    paths: ['.github/workflows/traffic-rate-negotiation-capture-qa.yml']
+permissions: {contents: read}
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12', cache: 'pip', cache-dependency-path: requirements-site-builder.txt}
+      - run: pip install -r requirements-site-builder.txt
+      - name: Build and apply engines
+        run: |
+          python tools/build_site.py
+          python tools/apply_revenue_conversion.py
+          python tools/apply_mortgage_result_revenue_cta.py
+          python tools/apply_debt_mix_revenue_tracking.py
+          python tools/apply_rate_benchmark_revenue_tracking.py
+          python tools/apply_revenue_matcher.py
+          python tools/apply_revenue_handoff.py
+          python tools/apply_revenue_choice_ux.py
+          python tools/apply_revenue_tracking.py
+          python tools/apply_revenue_intent_attribution.py
+          python tools/apply_revenue_sticky_cta.py
+          python tools/apply_bank_switch_capture.py
+          python tools/apply_rate_negotiation_capture.py
+          python tools/apply_rate_negotiation_links.py
+      - name: Verify capture and links
+        shell: python
+        run: |
+          from pathlib import Path
+          from bs4 import BeautifulSoup
+          p=Path('banken-vil-ikke-senke-renten.html'); assert p.exists()
+          s=BeautifulSoup(p.read_text(encoding='utf-8'),'html.parser')
+          assert s.title and 'Banken vil ikke senke renten' in s.title.text
+          assert s.find('link',rel='canonical').get('href')=='https://sparesjekk.no/banken-vil-ikke-senke-renten.html'
+          assert s.select_one('#rateNegotiationCheck') and len(s.select('#rateNegotiationCheck select'))==3
+          assert s.select_one('#compareCta[data-revenue-event="commercial_route"]').get('href')=='sjekk/boliglan/'
+          for f in ['bor-jeg-bytte-bank.html','min-rente-vs-markedet.html','bankbytte-break-even.html']:
+            assert 'banken-vil-ikke-senke-renten.html' in Path(f).read_text(encoding='utf-8'),f
+          print('Rate negotiation capture PASS')
+      - run: python tools/seo_guard.py snapshot
+      - run: python tools/qa_site.py
