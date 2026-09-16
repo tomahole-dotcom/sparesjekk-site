@@ -51,12 +51,13 @@ jobs:
               assert len(root.select('button[data-match][data-revenue-event="matcher_choice"]'))==n,page
               assert s.find('script',attrs={'data-revenue-handoff-script':'v1'}),page
               assert s.find('script',attrs={'data-revenue-intent-attribution':'v1'}),page
-              bar=s.select_one('[data-revenue-sticky="v1"]'); assert bar,page
+              bar=s.select_one('[data-revenue-sticky="v1"]'); assert bar and bar.has_attr('hidden'),page
               a=bar.select_one('a[data-revenue-event="sticky_partner_click"][data-revenue-stage="partner_outclick"]'); assert a,page
-              assert a.get('href')=='../../problemloser.html' and a.has_attr('hidden'),page
-              assert {'sponsored','nofollow','noopener'} <= set(a.get('rel') or []),page
+              assert a.get('href')=='#partneralternativer',page
+              assert not a.get('rel'),page
               js=s.find('script',attrs={'data-revenue-sticky-script':'v1'}); assert js,page
-              for x in ['partner_click','revenuePartner','matcherIntent','revenueContext','setTimeout(sync,0)']: assert x in (js.string or ''),(page,x)
+              code=js.string or ''
+              for x in ['partner_click','revenuePartner','matcherIntent','revenueContext','setTimeout(sync,0)',"out.rel='sponsored nofollow noopener'"]: assert x in code,(page,x)
               t=s.find('script',attrs={'data-sparesjekk-revenue-tracking':'v1'}); assert t and 'matcher_intent' in (t.string or ''),page
           print('Revenue Engine pass 10 PASS')
       - name: Verify approved partner matrix
@@ -121,4 +122,4 @@ jobs:
             **/.git*/**
             **/node_modules/**
             .well-known/**
-# release trigger: Revenue Engine pass 10 mobile conversion CTA 2026-09-16
+# release trigger: Revenue Engine pass 10 corrected mobile conversion CTA QA 2026-09-16
