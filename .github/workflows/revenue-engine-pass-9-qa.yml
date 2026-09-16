@@ -1,0 +1,43 @@
+name: Revenue Engine Pass 9 QA
+on:
+  push:
+    branches: [revenue-engine-pass-9-20260916]
+    paths: ['.github/workflows/revenue-engine-pass-9-qa.yml']
+permissions: {contents: read}
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12', cache: 'pip', cache-dependency-path: requirements-site-builder.txt}
+      - run: pip install -r requirements-site-builder.txt
+      - run: python tools/seo_guard.py snapshot
+      - name: Build complete Revenue Engine
+        run: |
+          python tools/build_site.py
+          python tools/apply_revenue_conversion.py
+          python tools/apply_mortgage_result_revenue_cta.py
+          python tools/apply_debt_mix_revenue_tracking.py
+          python tools/apply_rate_benchmark_revenue_tracking.py
+          python tools/apply_revenue_matcher.py
+          python tools/apply_revenue_handoff.py
+          python tools/apply_revenue_choice_ux.py
+          python tools/apply_revenue_tracking.py
+          python tools/apply_revenue_intent_attribution.py
+      - name: Verify intent attribution
+        shell: python
+        run: |
+          from pathlib import Path
+          from bs4 import BeautifulSoup
+          for page in ['sjekk/forbrukslan/index.html','sjekk/omstartslan/index.html']:
+            s=BeautifulSoup(Path(page).read_text(encoding='utf-8'),'html.parser')
+            a=s.find('script',attrs={'data-revenue-intent-attribution':'v1'}); assert a
+            code=a.string or ''
+            for x in ['matcher_intent_set','manual_choice','handoff','matcherIntent','partner_click']: assert x in code,(page,x)
+            tr=s.find('script',attrs={'data-sparesjekk-revenue-tracking':'v1'}); assert tr and 'payload.matcher_intent' in (tr.string or ''),page
+            assert len(s.select('.partner-card a[data-revenue-event="partner_click"]'))==4,page
+          print('Intent attribution PASS')
+      - run: python tools/seo_guard.py snapshot
+      - run: python tools/qa_site.py
