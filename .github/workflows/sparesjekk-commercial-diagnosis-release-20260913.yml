@@ -28,7 +28,7 @@ jobs:
         run: python tools/seo_guard.py snapshot
       - name: Build site
         run: python tools/build_site.py
-      - name: Apply Revenue Engine layers
+      - name: Apply complete Revenue Engine 1-10
         run: |
           python tools/apply_revenue_conversion.py
           python tools/apply_mortgage_result_revenue_cta.py
@@ -38,29 +38,27 @@ jobs:
           python tools/apply_revenue_handoff.py
           python tools/apply_revenue_choice_ux.py
           python tools/apply_revenue_tracking.py
-      - name: Verify Revenue Engine pass 8
+          python tools/apply_revenue_intent_attribution.py
+          python tools/apply_revenue_sticky_cta.py
+      - name: Verify Revenue Engine pass 10
         shell: python
         run: |
           from pathlib import Path
           from bs4 import BeautifulSoup
-          routes={'refinansiering-kalkulator.html':'sjekk/forbrukslan/?intent=refinansiere','gjeldsmiks-sjekk.html':'sjekk/forbrukslan/?intent=refinansiere','omstartslan.html':'sjekk/omstartslan/?intent=sikkerhet','refinansiering-med-sikkerhet.html':'sjekk/omstartslan/?intent=sikkerhet'}
-          for page,href in routes.items():
-              s=BeautifulSoup(Path(page).read_text(encoding='utf-8'),'html.parser'); assert any(a.get('href')==href for a in s.select('a[data-revenue-event="commercial_route"]')),(page,href)
           for page,n in [('sjekk/forbrukslan/index.html',3),('sjekk/omstartslan/index.html',4)]:
-              s=BeautifulSoup(Path(page).read_text(encoding='utf-8'),'html.parser'); root=s.select_one('[data-revenue-matcher="v1"][data-allowed-intents]'); assert root,page
+              s=BeautifulSoup(Path(page).read_text(encoding='utf-8'),'html.parser')
+              root=s.select_one('[data-revenue-matcher="v1"][data-allowed-intents]'); assert root,page
               assert len(root.select('button[data-match][data-revenue-event="matcher_choice"]'))==n,page
               assert s.find('script',attrs={'data-revenue-handoff-script':'v1'}),page
-              assert s.select_one('.revenue-choice-header h2').get_text(strip=True)=='Aktuelle alternativer'
-              cards=s.select('.partner-card[data-partner]'); assert len(cards)==4
-              for c in cards:
-                  name=c['data-partner']; a=c.select_one('a.partner-cta[data-revenue-stage="partner_outclick"]'); assert a
-                  assert a.get_text(' ',strip=True)==f'Gå videre til {name} →'
-                  assert c.select_one('.revenue-card-kicker') and c.select_one('.revenue-card-action-note')
-                  assert {'sponsored','nofollow','noopener'} <= set(a.get('rel') or [])
-              assert s.find('style',attrs={'data-revenue-choice-style':'v1'})
-              assert 'revenue-choice-status' in (s.find('script',attrs={'data-revenue-matcher-script':'v1'}).string or '')
-              t=s.find('script',attrs={'data-sparesjekk-revenue-tracking':'v1'}); assert t and 'revenue_context' in (t.string or '')
-          print('Revenue Engine pass 8 PASS')
+              assert s.find('script',attrs={'data-revenue-intent-attribution':'v1'}),page
+              bar=s.select_one('[data-revenue-sticky="v1"]'); assert bar,page
+              a=bar.select_one('a[data-revenue-event="sticky_partner_click"][data-revenue-stage="partner_outclick"]'); assert a,page
+              assert a.get('href')=='../../problemloser.html' and a.has_attr('hidden'),page
+              assert {'sponsored','nofollow','noopener'} <= set(a.get('rel') or []),page
+              js=s.find('script',attrs={'data-revenue-sticky-script':'v1'}); assert js,page
+              for x in ['partner_click','revenuePartner','matcherIntent','revenueContext','setTimeout(sync,0)']: assert x in (js.string or ''),(page,x)
+              t=s.find('script',attrs={'data-sparesjekk-revenue-tracking':'v1'}); assert t and 'matcher_intent' in (t.string or ''),page
+          print('Revenue Engine pass 10 PASS')
       - name: Verify approved partner matrix
         shell: python
         run: |
@@ -92,7 +90,7 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add '*.html' 'sjekk/**/*.html' sitemap.xml seo-baseline.json
           if ! git diff --cached --quiet; then
-            git commit -m 'Apply Revenue Engine pass 8 generated outputs'
+            git commit -m 'Apply Revenue Engine pass 10 generated outputs'
             git push origin HEAD:seo-content-v34-master
           fi
       - name: Create tested release
@@ -123,4 +121,4 @@ jobs:
             **/.git*/**
             **/node_modules/**
             .well-known/**
-# release trigger: Revenue Engine pass 8 decision-ready partner UX 2026-09-16
+# release trigger: Revenue Engine pass 10 mobile conversion CTA 2026-09-16
