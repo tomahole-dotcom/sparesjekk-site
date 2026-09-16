@@ -51,5 +51,7 @@ jobs:
           matcher=Path('tools/apply_revenue_matcher.py').read_text(encoding='utf-8')
           assert "'utfordringer':['Okida','GjeldsMegleren Norge','Zen Finans','Tjenestetorget']" in matcher
           print('Cross-category Traffic Engine batch PASS')
-      - run: python tools/seo_guard.py snapshot
-      - run: python tools/qa_site.py
+      - name: Snapshot SEO baseline
+        run: python tools/seo_guard.py snapshot
+      - name: Full site QA including noindex embed policy
+        run: python tools/qa_site.py
