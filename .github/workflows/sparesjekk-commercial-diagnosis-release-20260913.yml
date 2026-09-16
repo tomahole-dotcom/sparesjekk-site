@@ -41,7 +41,9 @@ jobs:
           python tools/apply_revenue_intent_attribution.py
           python tools/apply_revenue_sticky_cta.py
           python tools/apply_bank_switch_capture.py
-      - name: Verify Revenue Engine pass 10 and Traffic Capture
+          python tools/apply_rate_negotiation_capture.py
+          python tools/apply_rate_negotiation_links.py
+      - name: Verify Revenue Engine pass 10 and Traffic Engine batch
         shell: python
         run: |
           from pathlib import Path
@@ -64,9 +66,19 @@ jobs:
           s=BeautifulSoup(p.read_text(encoding='utf-8'),'html.parser')
           assert s.select_one('#bankSwitchCheck') and len(s.select('#bankSwitchCheck select'))==4
           assert s.select_one('#strongCta[data-revenue-event="commercial_route"]').get('href')=='sjekk/boliglan/'
-          assert s.select_one('#softCta').get('href')=='min-rente-vs-markedet.html'
-          assert s.find('meta',attrs={'name':'sparesjekk-transform','content':'traffic-bankbytte-capture-v1'})
-          print('Revenue Engine pass 10 + Traffic Capture PASS')
+          p=Path('banken-vil-ikke-senke-renten.html'); assert p.exists()
+          s=BeautifulSoup(p.read_text(encoding='utf-8'),'html.parser')
+          assert s.select_one('#rateNegotiationCheck') and len(s.select('#rateNegotiationCheck select'))==3
+          assert s.select_one('#compareCta[data-revenue-event="commercial_route"]').get('href')=='sjekk/boliglan/'
+          assets=['embed/renteforskjell.html','bygg-inn-rentekalkulator.html','embed/gjeldsrente-sjekk.html','bygg-inn-gjeldsrente-sjekk.html','embed/valutapaslag.html','bygg-inn-valutapaslag-kalkulator.html','embed/kredittkort-minstebelop.html','bygg-inn-kredittkort-minstebelop.html','betalingsproblemer-hva-gjor-jeg.html']
+          for f in assets: assert Path(f).exists(),f
+          for f in ['embed/renteforskjell.html','embed/gjeldsrente-sjekk.html','embed/valutapaslag.html','embed/kredittkort-minstebelop.html']:
+              t=Path(f).read_text(encoding='utf-8').lower(); assert 'noindex' in t and 'sjekk/' not in t,f
+          t=Path('betalingsproblemer-hva-gjor-jeg.html').read_text(encoding='utf-8')
+          assert 'sjekk/omstartslan/?intent=utfordringer' in t
+          matcher=Path('tools/apply_revenue_matcher.py').read_text(encoding='utf-8')
+          assert "'utfordringer':['Okida','GjeldsMegleren Norge','Zen Finans','Tjenestetorget']" in matcher
+          print('Revenue Engine pass 10 + Traffic Engine batch PASS')
       - name: Full SEO guard after build
         run: python tools/seo_guard.py snapshot
       - name: Full QA
@@ -77,7 +89,7 @@ jobs:
           from pathlib import Path
           import json
           ga4=json.loads(Path('site-config.json').read_text(encoding='utf-8'))['site']['ga4']
-          pages=[p for p in Path('.').rglob('*.html') if 'tools' not in p.parts]
+          pages=[p for p in Path('.').rglob('*.html') if 'tools' not in p.parts and 'embed' not in p.parts]
           assert not [str(p) for p in pages if ga4 not in p.read_text(encoding='utf-8')]
           print('GA4 PASS')
       - name: Commit tested generated outputs
@@ -117,4 +129,4 @@ jobs:
             **/.git*/**
             **/node_modules/**
             .well-known/**
-# release trigger: Traffic Capture bankbytte 2026-09-16
+# release trigger: Traffic Engine embed/problem batch 2026-09-17
