@@ -49,15 +49,37 @@ jobs:
           print('Pass 5 result CTAs PASS')
       - name: Apply Revenue tracking
         run: python tools/apply_revenue_tracking.py
-      - name: Verify tracking instrumentation
+      - name: Verify tracking instrumentation and context
         shell: python
         run: |
           from pathlib import Path
           from bs4 import BeautifulSoup
           for page in ['gjeldsmiks-sjekk.html','min-rente-vs-markedet.html']:
               s=BeautifulSoup(Path(page).read_text(encoding='utf-8'),'html.parser')
-              assert s.find('script',attrs={'data-sparesjekk-revenue-tracking':'v1'}),page
-          print('Revenue tracking PASS')
+              tag=s.find('script',attrs={'data-sparesjekk-revenue-tracking':'v1'})
+              assert tag,page
+              assert 'revenue_context' in (tag.string or ''),page
+          print('Revenue tracking context PASS')
+      - name: Verify approved partner matrix
+        shell: python
+        run: |
+          import json
+          from pathlib import Path
+          cfg=json.loads(Path('site-config.json').read_text(encoding='utf-8'))
+          expected={
+            'Sambla':'https://go.adt246.net/t/t?a=1923319888&as=2102543040&t=2&tk=1',
+            'DigiFinans':'https://go.adt231.net/t/t?a=1923321285&as=2102543040&t=2&tk=1',
+            'Okida':'https://at.okida.no/t/t?a=1259715125&as=2102543040&t=2&tk=1',
+            'Zen Finans':'https://ion.zenfinans.no/t/t?a=2103897882&as=2102543040&t=2&tk=1',
+            'GjeldsMegleren Norge':'https://at.gjeldsmeglerennorge.no/t/t?a=2069312844&as=2102543040&t=2&tk=1',
+          }
+          for name,url in expected.items():
+              matches=[p for p in cfg['partners'] if p['name']==name]
+              assert len(matches)==1,name
+              p=matches[0]
+              assert p['approved'] and p['status']=='active' and p['tracking_verified'],name
+              assert p['url']==url,name
+          print('Approved partner matrix PASS')
       - name: SEO guard
         run: python tools/seo_guard.py snapshot
       - name: Full site QA
