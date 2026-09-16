@@ -45,7 +45,7 @@ jobs:
           assets=['embed/renteforskjell.html','bygg-inn-rentekalkulator.html','embed/gjeldsrente-sjekk.html','bygg-inn-gjeldsrente-sjekk.html','embed/valutapaslag.html','bygg-inn-valutapaslag-kalkulator.html','embed/kredittkort-minstebelop.html','bygg-inn-kredittkort-minstebelop.html','betalingsproblemer-hva-gjor-jeg.html']
           for f in assets: assert Path(f).exists(),f
           for f in ['embed/renteforskjell.html','embed/gjeldsrente-sjekk.html','embed/valutapaslag.html','embed/kredittkort-minstebelop.html']:
-            t=Path(f).read_text(encoding='utf-8').lower(); assert 'noindex' in t,f; assert 'sjekk/' not in t,f
+            t=Path(f).read_text(encoding='utf-8').lower(); assert '<title>' in t,f; assert 'noindex' in t,f; assert 'sjekk/' not in t,f
           t=Path('betalingsproblemer-hva-gjor-jeg.html').read_text(encoding='utf-8')
           assert 'security' in t and 'sjekk/omstartslan/?intent=utfordringer' in t
           matcher=Path('tools/apply_revenue_matcher.py').read_text(encoding='utf-8')
@@ -53,5 +53,5 @@ jobs:
           print('Cross-category Traffic Engine batch PASS')
       - name: Snapshot SEO baseline
         run: python tools/seo_guard.py snapshot
-      - name: Full site QA including noindex embed policy
+      - name: Full site QA including noindex widget policy
         run: python tools/qa_site.py
