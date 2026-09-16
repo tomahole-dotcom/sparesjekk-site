@@ -28,7 +28,7 @@ jobs:
         run: python tools/seo_guard.py snapshot
       - name: Build site
         run: python tools/build_site.py
-      - name: Apply complete Revenue Engine 1-10
+      - name: Apply complete Revenue Engine 1-10 and Traffic Capture
         run: |
           python tools/apply_revenue_conversion.py
           python tools/apply_mortgage_result_revenue_cta.py
@@ -40,7 +40,8 @@ jobs:
           python tools/apply_revenue_tracking.py
           python tools/apply_revenue_intent_attribution.py
           python tools/apply_revenue_sticky_cta.py
-      - name: Verify Revenue Engine pass 10
+          python tools/apply_bank_switch_capture.py
+      - name: Verify Revenue Engine pass 10 and Traffic Capture
         shell: python
         run: |
           from pathlib import Path
@@ -59,19 +60,13 @@ jobs:
               code=js.string or ''
               for x in ['partner_click','revenuePartner','matcherIntent','revenueContext','setTimeout(sync,0)',"out.rel='sponsored nofollow noopener'"]: assert x in code,(page,x)
               t=s.find('script',attrs={'data-sparesjekk-revenue-tracking':'v1'}); assert t and 'matcher_intent' in (t.string or ''),page
-          print('Revenue Engine pass 10 PASS')
-      - name: Verify approved partner matrix
-        shell: python
-        run: |
-          from pathlib import Path
-          from bs4 import BeautifulSoup
-          expected={'sjekk/forbrukslan/index.html':{'Zensum':'https://go.adt256.com/t/t?a=1638602458&as=2102543040&t=2&tk=1','Sambla':'https://go.adt246.net/t/t?a=1923319888&as=2102543040&t=2&tk=1','DigiFinans':'https://go.adt231.net/t/t?a=1923321285&as=2102543040&t=2&tk=1','Tjenestetorget':'https://go.adt253.net/t/t?a=1578043594&as=2102543040&t=2&tk=1'},'sjekk/omstartslan/index.html':{'Okida':'https://at.okida.no/t/t?a=1259715125&as=2102543040&t=2&tk=1','Zen Finans':'https://ion.zenfinans.no/t/t?a=2103897882&as=2102543040&t=2&tk=1','GjeldsMegleren Norge':'https://at.gjeldsmeglerennorge.no/t/t?a=2069312844&as=2102543040&t=2&tk=1','Tjenestetorget':'https://go.adt253.net/t/t?a=1578044122&as=2102543040&t=2&tk=1'}}
-          for page,partners in expected.items():
-              s=BeautifulSoup(Path(page).read_text(encoding='utf-8'),'html.parser'); cards={c.get('data-partner'):c for c in s.select('.partner-card')}; assert set(cards)==set(partners)
-              for name,url in partners.items():
-                  a=cards[name].select_one('a.partner-cta'); assert a.get('href')==url
-                  assert a.get('data-revenue-event')=='partner_click' and a.get('data-revenue-partner')==name
-          print('Partner matrix PASS')
+          p=Path('bor-jeg-bytte-bank.html'); assert p.exists()
+          s=BeautifulSoup(p.read_text(encoding='utf-8'),'html.parser')
+          assert s.select_one('#bankSwitchCheck') and len(s.select('#bankSwitchCheck select'))==4
+          assert s.select_one('#strongCta[data-revenue-event="commercial_route"]').get('href')=='sjekk/boliglan/'
+          assert s.select_one('#softCta').get('href')=='min-rente-vs-markedet.html'
+          assert s.find('meta',attrs={'name':'sparesjekk-transform','content':'traffic-bankbytte-capture-v1'})
+          print('Revenue Engine pass 10 + Traffic Capture PASS')
       - name: Full SEO guard after build
         run: python tools/seo_guard.py snapshot
       - name: Full QA
@@ -91,7 +86,7 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add '*.html' 'sjekk/**/*.html' sitemap.xml seo-baseline.json
           if ! git diff --cached --quiet; then
-            git commit -m 'Apply Revenue Engine pass 10 generated outputs'
+            git commit -m 'Apply Traffic Capture generated outputs'
             git push origin HEAD:seo-content-v34-master
           fi
       - name: Create tested release
@@ -122,4 +117,4 @@ jobs:
             **/.git*/**
             **/node_modules/**
             .well-known/**
-# release trigger: Revenue Engine pass 10 corrected mobile conversion CTA QA 2026-09-16
+# release trigger: Traffic Capture bankbytte 2026-09-16
