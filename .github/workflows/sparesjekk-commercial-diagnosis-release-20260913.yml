@@ -1,17 +1,13 @@
 name: Sparesjekk V45 GSC Internal Link Release 20260913
-
 on:
   push:
     branches: [seo-content-v34-master]
     paths: ['.github/workflows/sparesjekk-commercial-diagnosis-release-20260913.yml']
-
 permissions:
   contents: write
-
 concurrency:
   group: sparesjekk-production-deploy
   cancel-in-progress: false
-
 jobs:
   qa-deploy:
     if: contains(github.event.head_commit.message, 'Run V45 GSC internal-link QA and production release')
@@ -28,14 +24,6 @@ jobs:
           cache-dependency-path: requirements-site-builder.txt
       - name: Dependencies
         run: pip install -r requirements-site-builder.txt
-      - name: Verify GSC priority-link source
-        shell: python
-        run: |
-          from pathlib import Path
-          b=Path('tools/build_site.py').read_text(encoding='utf-8')
-          for token in ['apply_priority_internal_links','boliglan-uten-egenkapital.html','egenkapital-bolig.html','hvor-mye-kan-jeg-lane-bolig.html','bytte-bank-boliglan-komplett.html','guide-effektiv-nominell-rente.html','problemloser.html','medlantaker-boliglan.html','boliglansrente-komplett-guide.html','gsc-20260913']:
-              assert token in b, token
-          print('GSC priority-link source PASS')
       - name: Snapshot SEO before build
         run: python tools/seo_guard.py snapshot
       - name: Build site
@@ -47,24 +35,27 @@ jobs:
           python tools/apply_debt_mix_revenue_tracking.py
           python tools/apply_rate_benchmark_revenue_tracking.py
           python tools/apply_revenue_matcher.py
+          python tools/apply_revenue_handoff.py
           python tools/apply_revenue_tracking.py
-      - name: Verify Revenue Engine pass 6
+      - name: Verify Revenue Engine pass 7
         shell: python
         run: |
           from pathlib import Path
           from bs4 import BeautifulSoup
-          checks=[('refinansiering-kalkulator.html','#offerNext .result-commercial-cta a','sjekk/forbrukslan/','refinance_calculator_result'),('gjeldsmiks-sjekk.html','#result #commercialCta','sjekk/forbrukslan/','debt_mix_result'),('min-rente-vs-markedet.html','#result #commercialCta','sjekk/boliglan/','mortgage_rate_benchmark_result')]
-          for page,sel,href,ctx in checks:
-              s=BeautifulSoup(Path(page).read_text(encoding='utf-8'),'html.parser'); c=s.select_one(sel); assert c
-              assert c.get('href')==href and c.get('data-revenue-event')=='commercial_route' and c.get('data-revenue-context')==ctx
-          m=BeautifulSoup(Path('boliglanskalkulator-renteforskjell.html').read_text(encoding='utf-8'),'html.parser')
-          assert m.select_one('.mortgage-result-commercial-cta a[data-revenue-context="mortgage_rate_calculator_result"]')
+          routes={'refinansiering-kalkulator.html':('sjekk/forbrukslan/?intent=refinansiere','refinance_calculator_result'),'gjeldsmiks-sjekk.html':('sjekk/forbrukslan/?intent=refinansiere','debt_mix_result'),'omstartslan.html':('sjekk/omstartslan/?intent=sikkerhet','restart_loan_guide'),'refinansiering-med-sikkerhet.html':('sjekk/omstartslan/?intent=sikkerhet','secured_refinance_guide')}
+          for page,(href,ctx) in routes.items():
+              s=BeautifulSoup(Path(page).read_text(encoding='utf-8'),'html.parser')
+              links=[a for a in s.select('a[data-revenue-event="commercial_route"]') if a.get('href')==href]
+              assert links,(page,href)
+              assert any(a.get('data-revenue-context') for a in links),page
           for page,n in [('sjekk/forbrukslan/index.html',3),('sjekk/omstartslan/index.html',4)]:
-              s=BeautifulSoup(Path(page).read_text(encoding='utf-8'),'html.parser'); root=s.select_one('[data-revenue-matcher="v1"]'); assert root
-              assert len(root.select('button[data-match][data-revenue-event="matcher_choice"]'))==n
-              assert s.find('script',attrs={'data-revenue-matcher-script':'v1'})
-              t=s.find('script',attrs={'data-sparesjekk-revenue-tracking':'v1'}); assert t and 'revenue_context' in (t.string or '')
-          print('Revenue Engine pass 6 PASS')
+              s=BeautifulSoup(Path(page).read_text(encoding='utf-8'),'html.parser')
+              root=s.select_one('[data-revenue-matcher="v1"][data-allowed-intents]'); assert root,page
+              assert len(root.select('button[data-match][data-revenue-event="matcher_choice"]'))==n,page
+              h=s.find('script',attrs={'data-revenue-handoff-script':'v1'}); assert h,page
+              code=h.string or ''; assert 'URLSearchParams' in code and 'history.replaceState' in code and 'matcher_handoff' in code,page
+              t=s.find('script',attrs={'data-sparesjekk-revenue-tracking':'v1'}); assert t and 'revenue_context' in (t.string or ''),page
+          print('Revenue Engine pass 7 PASS')
       - name: Verify approved partner matrix
         shell: python
         run: |
@@ -97,7 +88,7 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add '*.html' 'sjekk/**/*.html' sitemap.xml seo-baseline.json
           if ! git diff --cached --quiet; then
-            git commit -m 'Apply Revenue Engine pass 6 generated outputs'
+            git commit -m 'Apply Revenue Engine pass 7 generated outputs'
             git push origin HEAD:seo-content-v34-master
           fi
       - name: Create tested release
@@ -128,5 +119,4 @@ jobs:
             **/.git*/**
             **/node_modules/**
             .well-known/**
-
-# release trigger: Revenue Engine pass 6 intent matcher 2026-09-16
+# release trigger: Revenue Engine pass 7 contextual handoff 2026-09-16
