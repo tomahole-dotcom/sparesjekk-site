@@ -1,3 +1,4 @@
+# QA trigger 2026-09-16 generator-fix
 name: Traffic Bankbytte Capture QA
 on:
   push:
