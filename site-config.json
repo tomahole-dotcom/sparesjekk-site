@@ -1,123 +1,23 @@
 {
-  "site": {
-    "name": "Sparesjekk",
-    "base_url": "https://sparesjekk.no",
-    "ga4": "G-XYRPP78DJ5"
-  },
+  "site": {"name":"Sparesjekk","base_url":"https://sparesjekk.no","ga4":"G-XYRPP78DJ5"},
   "categories": [
-    {
-      "key": "boliglan",
-      "label": "Boliglån",
-      "page": "boliglan.html",
-      "landing": "sjekk/boliglan/"
-    },
-    {
-      "key": "forbrukslan",
-      "label": "Forbrukslån",
-      "page": "forbrukslan.html",
-      "landing": "sjekk/forbrukslan/"
-    },
-    {
-      "key": "omstartslan",
-      "label": "Omstartslån",
-      "page": "omstartslan.html",
-      "landing": "sjekk/omstartslan/"
-    },
-    {
-      "key": "kredittkort",
-      "label": "Kredittkort",
-      "page": "kredittkort.html",
-      "landing": "sjekk/kredittkort/"
-    }
+    {"key":"boliglan","label":"Boliglån","page":"boliglan.html","landing":"sjekk/boliglan/"},
+    {"key":"forbrukslan","label":"Forbrukslån","page":"forbrukslan.html","landing":"sjekk/forbrukslan/"},
+    {"key":"omstartslan","label":"Omstartslån","page":"omstartslan.html","landing":"sjekk/omstartslan/"},
+    {"key":"kredittkort","label":"Kredittkort","page":"kredittkort.html","landing":"sjekk/kredittkort/"}
   ],
   "partners": [
-    {
-      "name": "Zensum",
-      "approved": true,
-      "status": "active",
-      "categories": [
-        "forbrukslan"
-      ],
-      "url": "https://go.adt256.com/t/t?a=1638602458&as=2102543040&t=2&tk=1",
-      "priority": 10,
-      "description": "Sammenligning av tilbud fra flere långivere for forbrukslån og refinansiering.",
-      "badges": [
-        "Refinansiering",
-        "Sammenlign tilbud"
-      ],
-      "representative_example": "",
-      "tracking_verified": true
-    },
-    {
-      "name": "Tjenestetorget",
-      "approved": true,
-      "status": "active",
-      "categories": ["boliglan"],
-      "url": "https://go.adt253.net/t/t?a=1578043389&as=2102543040&t=2&tk=1",
-      "priority": 10,
-      "description": "Tjenestetorget for boliglån.",
-      "badges": ["Boliglån", "Sammenlign tilbud"],
-      "representative_example": "",
-      "tracking_verified": true
-    },
-    {
-      "name": "Tjenestetorget",
-      "approved": true,
-      "status": "active",
-      "categories": ["forbrukslan"],
-      "url": "https://go.adt253.net/t/t?a=1578043594&as=2102543040&t=2&tk=1",
-      "priority": 20,
-      "description": "Tjenestetorget for forbrukslån.",
-      "badges": ["Forbrukslån", "Sammenlign tilbud"],
-      "representative_example": "",
-      "tracking_verified": true
-    },
-    {
-      "name": "Tjenestetorget",
-      "approved": true,
-      "status": "active",
-      "categories": ["omstartslan"],
-      "url": "https://go.adt253.net/t/t?a=1578044122&as=2102543040&t=2&tk=1",
-      "priority": 10,
-      "description": "Tjenestetorget for omstartslån.",
-      "badges": ["Omstartslån", "Sammenlign tilbud"],
-      "representative_example": "",
-      "tracking_verified": true
-    },
-    {
-      "name": "Tjenestetorget",
-      "approved": true,
-      "status": "hold",
-      "categories": ["kjoretoylan"],
-      "url": "https://go.adt253.net/t/t?a=1578043798&as=2102543040&t=2&tk=1",
-      "priority": 10,
-      "description": "Tjenestetorget for kjøretøylån.",
-      "badges": ["Kjøretøylån", "Sammenlign tilbud"],
-      "representative_example": "",
-      "tracking_verified": true
-    }
+    {"name":"Zensum","approved":true,"status":"active","categories":["forbrukslan"],"url":"https://go.adt256.com/t/t?a=1638602458&as=2102543040&t=2&tk=1","priority":10,"description":"Sammenligning av tilbud fra flere långivere for forbrukslån og refinansiering.","badges":["Refinansiering","Sammenlign tilbud"],"representative_example":"","tracking_verified":true},
+    {"name":"Sambla","approved":true,"status":"active","categories":["forbrukslan"],"url":"https://go.adt246.net/t/t?a=1923319888&as=2102543040&t=2&tk=1","priority":20,"description":"Låneformidler for refinansiering og sammenligning av lånetilbud.","badges":["Refinansiering","Sammenlign tilbud"],"representative_example":"","tracking_verified":true},
+    {"name":"DigiFinans","approved":true,"status":"active","categories":["forbrukslan"],"url":"https://go.adt231.net/t/t?a=1923321285&as=2102543040&t=2&tk=1","priority":30,"description":"Alternativ for å undersøke forbrukslån eller refinansiering gjennom en låneformidler.","badges":["Forbrukslån","Refinansiering"],"representative_example":"","tracking_verified":true},
+    {"name":"Tjenestetorget","approved":true,"status":"active","categories":["forbrukslan"],"url":"https://go.adt253.net/t/t?a=1578043594&as=2102543040&t=2&tk=1","priority":40,"description":"Tjenestetorget for forbrukslån.","badges":["Forbrukslån","Sammenlign tilbud"],"representative_example":"","tracking_verified":true},
+    {"name":"Tjenestetorget","approved":true,"status":"active","categories":["boliglan"],"url":"https://go.adt253.net/t/t?a=1578043389&as=2102543040&t=2&tk=1","priority":10,"description":"Tjenestetorget for boliglån.","badges":["Boliglån","Sammenlign tilbud"],"representative_example":"","tracking_verified":true},
+    {"name":"Okida","approved":true,"status":"active","categories":["omstartslan"],"url":"https://at.okida.no/t/t?a=1259715125&as=2102543040&t=2&tk=1","priority":10,"description":"Refinansiering med sikkerhet i bolig, også for situasjoner med dyr gjeld eller betalingsanmerkninger.","badges":["Refinansiering med sikkerhet","Økonomiske utfordringer"],"representative_example":"","tracking_verified":true},
+    {"name":"Zen Finans","approved":true,"status":"active","categories":["omstartslan"],"url":"https://ion.zenfinans.no/t/t?a=2103897882&as=2102543040&t=2&tk=1","priority":20,"description":"Låneformidler for blant annet omstartslån og refinansiering med sikkerhet.","badges":["Omstartslån","Refinansiering"],"representative_example":"","tracking_verified":true},
+    {"name":"GjeldsMegleren Norge","approved":true,"status":"active","categories":["omstartslan"],"url":"https://at.gjeldsmeglerennorge.no/t/t?a=2069312844&as=2102543040&t=2&tk=1","priority":30,"description":"Alternativ for refinansiering og samling av gjeld når økonomien trenger en ny struktur.","badges":["Refinansiering","Samle gjeld"],"representative_example":"","tracking_verified":true},
+    {"name":"Tjenestetorget","approved":true,"status":"active","categories":["omstartslan"],"url":"https://go.adt253.net/t/t?a=1578044122&as=2102543040&t=2&tk=1","priority":40,"description":"Tjenestetorget for omstartslån.","badges":["Omstartslån","Sammenlign tilbud"],"representative_example":"","tracking_verified":true},
+    {"name":"Tjenestetorget","approved":true,"status":"hold","categories":["kjoretoylan"],"url":"https://go.adt253.net/t/t?a=1578043798&as=2102543040&t=2&tk=1","priority":10,"description":"Tjenestetorget for kjøretøylån.","badges":["Kjøretøylån","Sammenlign tilbud"],"representative_example":"","tracking_verified":true}
   ],
-  "rules": {
-    "only_approved_partners": true,
-    "preserve_existing_seo": true,
-    "affiliate_disclosure_required": true
-  },
-  "automation": {
-    "generated_blocks": [
-      "commercial partner cards on /sjekk/ landing pages",
-      "sitemap.xml"
-    ],
-    "sitemap_exclude": [
-      "kredittkort-valutapaslag.html"
-    ],
-    "seo_fields_locked": [
-      "title",
-      "meta description",
-      "canonical",
-      "robots",
-      "h1",
-      "JSON-LD"
-    ],
-    "release_rule": "build + full QA must pass"
-  }
+  "rules":{"only_approved_partners":true,"preserve_existing_seo":true,"affiliate_disclosure_required":true},
+  "automation":{"generated_blocks":["commercial partner cards on /sjekk/ landing pages","sitemap.xml"],"sitemap_exclude":["kredittkort-valutapaslag.html"],"seo_fields_locked":["title","meta description","canonical","robots","h1","JSON-LD"],"release_rule":"build + full QA must pass"}
 }
