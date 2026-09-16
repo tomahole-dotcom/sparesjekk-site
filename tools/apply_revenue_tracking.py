@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 
 ROOT = Path(__file__).resolve().parents[1]
 MARKER = 'v1'
-SCRIPT = """document.addEventListener('click',function(e){var a=e.target.closest('[data-revenue-event]');if(!a)return;if(typeof window.gtag!=='function')return;var eventName=a.dataset.revenueEvent;var payload={revenue_stage:eventName,source_path:window.location.pathname,destination:a.getAttribute('href')||'',link_text:(a.textContent||'').trim().slice(0,100)};if(a.dataset.revenuePartner)payload.partner=a.dataset.revenuePartner;window.gtag('event',eventName,payload);});"""
+SCRIPT = """document.addEventListener('click',function(e){var a=e.target.closest('[data-revenue-event]');if(!a)return;if(typeof window.gtag!=='function')return;var eventName=a.dataset.revenueEvent;var payload={revenue_stage:eventName,source_path:window.location.pathname,destination:a.getAttribute('href')||'',link_text:(a.textContent||'').trim().slice(0,100)};if(a.dataset.revenuePartner)payload.partner=a.dataset.revenuePartner;if(a.dataset.revenueContext)payload.revenue_context=a.dataset.revenueContext;window.gtag('event',eventName,payload);});"""
 
 changed = 0
 for path in sorted(ROOT.rglob('*.html')):
