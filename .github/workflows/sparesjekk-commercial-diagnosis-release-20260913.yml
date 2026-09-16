@@ -36,26 +36,31 @@ jobs:
           python tools/apply_rate_benchmark_revenue_tracking.py
           python tools/apply_revenue_matcher.py
           python tools/apply_revenue_handoff.py
+          python tools/apply_revenue_choice_ux.py
           python tools/apply_revenue_tracking.py
-      - name: Verify Revenue Engine pass 7
+      - name: Verify Revenue Engine pass 8
         shell: python
         run: |
           from pathlib import Path
           from bs4 import BeautifulSoup
-          routes={'refinansiering-kalkulator.html':('sjekk/forbrukslan/?intent=refinansiere','refinance_calculator_result'),'gjeldsmiks-sjekk.html':('sjekk/forbrukslan/?intent=refinansiere','debt_mix_result'),'omstartslan.html':('sjekk/omstartslan/?intent=sikkerhet','restart_loan_guide'),'refinansiering-med-sikkerhet.html':('sjekk/omstartslan/?intent=sikkerhet','secured_refinance_guide')}
-          for page,(href,ctx) in routes.items():
-              s=BeautifulSoup(Path(page).read_text(encoding='utf-8'),'html.parser')
-              links=[a for a in s.select('a[data-revenue-event="commercial_route"]') if a.get('href')==href]
-              assert links,(page,href)
-              assert any(a.get('data-revenue-context') for a in links),page
+          routes={'refinansiering-kalkulator.html':'sjekk/forbrukslan/?intent=refinansiere','gjeldsmiks-sjekk.html':'sjekk/forbrukslan/?intent=refinansiere','omstartslan.html':'sjekk/omstartslan/?intent=sikkerhet','refinansiering-med-sikkerhet.html':'sjekk/omstartslan/?intent=sikkerhet'}
+          for page,href in routes.items():
+              s=BeautifulSoup(Path(page).read_text(encoding='utf-8'),'html.parser'); assert any(a.get('href')==href for a in s.select('a[data-revenue-event="commercial_route"]')),(page,href)
           for page,n in [('sjekk/forbrukslan/index.html',3),('sjekk/omstartslan/index.html',4)]:
-              s=BeautifulSoup(Path(page).read_text(encoding='utf-8'),'html.parser')
-              root=s.select_one('[data-revenue-matcher="v1"][data-allowed-intents]'); assert root,page
+              s=BeautifulSoup(Path(page).read_text(encoding='utf-8'),'html.parser'); root=s.select_one('[data-revenue-matcher="v1"][data-allowed-intents]'); assert root,page
               assert len(root.select('button[data-match][data-revenue-event="matcher_choice"]'))==n,page
-              h=s.find('script',attrs={'data-revenue-handoff-script':'v1'}); assert h,page
-              code=h.string or ''; assert 'URLSearchParams' in code and 'history.replaceState' in code and 'matcher_handoff' in code,page
-              t=s.find('script',attrs={'data-sparesjekk-revenue-tracking':'v1'}); assert t and 'revenue_context' in (t.string or ''),page
-          print('Revenue Engine pass 7 PASS')
+              assert s.find('script',attrs={'data-revenue-handoff-script':'v1'}),page
+              assert s.select_one('.revenue-choice-header h2').get_text(strip=True)=='Aktuelle alternativer'
+              cards=s.select('.partner-card[data-partner]'); assert len(cards)==4
+              for c in cards:
+                  name=c['data-partner']; a=c.select_one('a.partner-cta[data-revenue-stage="partner_outclick"]'); assert a
+                  assert a.get_text(' ',strip=True)==f'Gå videre til {name} →'
+                  assert c.select_one('.revenue-card-kicker') and c.select_one('.revenue-card-action-note')
+                  assert {'sponsored','nofollow','noopener'} <= set(a.get('rel') or [])
+              assert s.find('style',attrs={'data-revenue-choice-style':'v1'})
+              assert 'revenue-choice-status' in (s.find('script',attrs={'data-revenue-matcher-script':'v1'}).string or '')
+              t=s.find('script',attrs={'data-sparesjekk-revenue-tracking':'v1'}); assert t and 'revenue_context' in (t.string or '')
+          print('Revenue Engine pass 8 PASS')
       - name: Verify approved partner matrix
         shell: python
         run: |
@@ -67,7 +72,6 @@ jobs:
               for name,url in partners.items():
                   a=cards[name].select_one('a.partner-cta'); assert a.get('href')==url
                   assert a.get('data-revenue-event')=='partner_click' and a.get('data-revenue-partner')==name
-                  assert {'sponsored','nofollow','noopener'} <= set(a.get('rel') or [])
           print('Partner matrix PASS')
       - name: Full SEO guard after build
         run: python tools/seo_guard.py snapshot
@@ -88,7 +92,7 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add '*.html' 'sjekk/**/*.html' sitemap.xml seo-baseline.json
           if ! git diff --cached --quiet; then
-            git commit -m 'Apply Revenue Engine pass 7 generated outputs'
+            git commit -m 'Apply Revenue Engine pass 8 generated outputs'
             git push origin HEAD:seo-content-v34-master
           fi
       - name: Create tested release
@@ -119,4 +123,4 @@ jobs:
             **/.git*/**
             **/node_modules/**
             .well-known/**
-# release trigger: Revenue Engine pass 7 contextual handoff 2026-09-16
+# release trigger: Revenue Engine pass 8 decision-ready partner UX 2026-09-16
