@@ -190,6 +190,16 @@
       "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"name\":\"Boligverdi og boliglånsrente – hvorfor verdien kan ha betydning\",\"headline\":\"Boligverdi og boliglånsrente – hvorfor verdien kan ha betydning\",\"description\":\"Boligens verdi påvirker belåningsgraden. Se hvorfor en ny verdivurdering i noen tilfeller kan være relevant når renten vurderes.\",\"url\":\"https://sparesjekk.no/boligverdi-og-boliglansrente.html\",\"inLanguage\":\"nb-NO\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"dateModified\":\"2026-08-26\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/redaksjon.html\"},\"keywords\":[\"boligverdi og boliglansrente\",\"boliglån\"]}"
     ]
   },
+  "bor-jeg-bytte-bank.html": {
+    "title": "Bør jeg bytte bank? Sjekk boliglånet før du bestemmer deg | Sparesjekk",
+    "description": "Bør du bytte bank for boliglånet? Ta en rask sjekk og se hva som er fornuftig å undersøke videre.",
+    "canonical": "https://sparesjekk.no/bor-jeg-bytte-bank.html",
+    "robots": "index,follow,max-image-preview:large,max-snippet:-1",
+    "h1": [
+      "Bør jeg bytte bank?"
+    ],
+    "schemas": []
+  },
   "bytte-bank-boliglan-komplett.html": {
     "title": "Bytte bank med boliglån – komplett guide | Sparesjekk",
     "description": "Hva skjer når du flytter boliglånet, hva bør du sammenligne og hvilke spørsmål bør du stille før du bytter bank?",
