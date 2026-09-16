@@ -1,0 +1,50 @@
+name: Revenue Engine Pass 7 QA
+on:
+  push:
+    branches: [revenue-engine-pass-7-20260916]
+    paths: ['.github/workflows/revenue-engine-pass-7-qa.yml']
+permissions:
+  contents: read
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+          cache-dependency-path: requirements-site-builder.txt
+      - run: pip install -r requirements-site-builder.txt
+      - name: Snapshot SEO
+        run: python tools/seo_guard.py snapshot
+      - name: Build full Revenue Engine
+        run: |
+          python tools/build_site.py
+          python tools/apply_revenue_conversion.py
+          python tools/apply_mortgage_result_revenue_cta.py
+          python tools/apply_debt_mix_revenue_tracking.py
+          python tools/apply_rate_benchmark_revenue_tracking.py
+          python tools/apply_revenue_matcher.py
+          python tools/apply_revenue_handoff.py
+          python tools/apply_revenue_tracking.py
+      - name: Verify contextual handoff
+        shell: python
+        run: |
+          from pathlib import Path
+          from bs4 import BeautifulSoup
+          routes={'refinansiering-kalkulator.html':('sjekk/forbrukslan/?intent=refinansiere','refinance_calculator_result'),'gjeldsmiks-sjekk.html':('sjekk/forbrukslan/?intent=refinansiere','debt_mix_result'),'omstartslan.html':('sjekk/omstartslan/?intent=sikkerhet','restart_loan_guide'),'refinansiering-med-sikkerhet.html':('sjekk/omstartslan/?intent=sikkerhet','secured_refinance_guide')}
+          for page,(href,ctx) in routes.items():
+              s=BeautifulSoup(Path(page).read_text(encoding='utf-8'),'html.parser'); links=[a for a in s.select('a[data-revenue-event="commercial_route"]') if a.get('href')==href]; assert links,(page,href)
+              assert any(a.get('data-revenue-context')==ctx or a.get('data-revenue-context') for a in links),page
+          for page in ['sjekk/forbrukslan/index.html','sjekk/omstartslan/index.html']:
+              s=BeautifulSoup(Path(page).read_text(encoding='utf-8'),'html.parser'); root=s.select_one('[data-revenue-matcher="v1"][data-allowed-intents]'); assert root,page
+              h=s.find('script',attrs={'data-revenue-handoff-script':'v1'}); assert h,page
+              code=h.string or ''; assert 'URLSearchParams' in code and 'history.replaceState' in code and 'matcher_handoff' in code,page
+              assert s.find('script',attrs={'data-sparesjekk-revenue-tracking':'v1'}),page
+          print('Contextual handoff PASS')
+      - name: SEO guard
+        run: python tools/seo_guard.py snapshot
+      - name: Full QA
+        run: python tools/qa_site.py
