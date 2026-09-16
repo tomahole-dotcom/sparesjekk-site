@@ -1,0 +1,47 @@
+name: Revenue Engine Pass 10 QA
+on:
+  push:
+    branches: [revenue-engine-pass-10-20260916]
+    paths: ['.github/workflows/revenue-engine-pass-10-qa.yml']
+permissions: {contents: read}
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12', cache: 'pip', cache-dependency-path: requirements-site-builder.txt}
+      - run: pip install -r requirements-site-builder.txt
+      - run: python tools/seo_guard.py snapshot
+      - name: Build complete Revenue Engine
+        run: |
+          python tools/build_site.py
+          python tools/apply_revenue_conversion.py
+          python tools/apply_mortgage_result_revenue_cta.py
+          python tools/apply_debt_mix_revenue_tracking.py
+          python tools/apply_rate_benchmark_revenue_tracking.py
+          python tools/apply_revenue_matcher.py
+          python tools/apply_revenue_handoff.py
+          python tools/apply_revenue_choice_ux.py
+          python tools/apply_revenue_tracking.py
+          python tools/apply_revenue_intent_attribution.py
+          python tools/apply_revenue_sticky_cta.py
+      - name: Verify mobile sticky CTA
+        shell: python
+        run: |
+          from pathlib import Path
+          from bs4 import BeautifulSoup
+          for page in ['sjekk/forbrukslan/index.html','sjekk/omstartslan/index.html']:
+            s=BeautifulSoup(Path(page).read_text(encoding='utf-8'),'html.parser')
+            bar=s.select_one('[data-revenue-sticky="v1"]'); assert bar and bar.has_attr('hidden'),page
+            a=bar.select_one('a[data-revenue-event="sticky_partner_click"][data-revenue-stage="partner_outclick"]'); assert a,page
+            assert a.get('href')=='#partneralternativer' and not a.get('rel'),page
+            assert s.find('style',attrs={'data-revenue-sticky-style':'v1'}),page
+            js=s.find('script',attrs={'data-revenue-sticky-script':'v1'}); assert js,page
+            code=js.string or ''
+            for x in ['partner_click','revenuePartner','matcherIntent','revenueContext','setTimeout(sync,0)',"out.rel='sponsored nofollow noopener'"]: assert x in code,(page,x)
+          print('Mobile sticky CTA PASS')
+      - run: python tools/seo_guard.py snapshot
+      - run: python tools/qa_site.py
+# rerun after placeholder affiliate URL fix
