@@ -704,6 +704,16 @@
       "{\"@context\":\"https://schema.org\",\"@type\":\"WebPage\",\"name\":\"Alle guider på Sparesjekk\",\"headline\":\"Alle guider på Sparesjekk\",\"description\":\"Samtlige guider på Sparesjekk om boliglån, forbrukslån, refinansiering, kredittkort, renter og lånekostnader.\",\"url\":\"https://sparesjekk.no/guider.html\",\"inLanguage\":\"nb-NO\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"}}"
     ]
   },
+  "hva-bor-jeg-gjore-med-dyr-gjeld.html": {
+    "title": "Dyr gjeld? Sjekk hva du bør undersøke først | Sparesjekk",
+    "description": "Har du dyr forbruksgjeld eller kredittkortgjeld? Svar på tre spørsmål og finn riktig neste steg for oversikt, refinansiering eller sikkerhet i bolig.",
+    "canonical": "https://sparesjekk.no/hva-bor-jeg-gjore-med-dyr-gjeld.html",
+    "robots": "index,follow,max-image-preview:large,max-snippet:-1",
+    "h1": [
+      "Har du dyr gjeld? Finn riktig neste steg"
+    ],
+    "schemas": []
+  },
   "hva-er-effektiv-rente.html": {
     "title": "Hva er effektiv rente? Slik bruker du den når du sammenligner lån | Sparesjekk",
     "description": "Effektiv rente samler renter og relevante kostnader i ett prosenttall. Lær hva tallet betyr, hva det ikke forteller og hvordan du bruker det når du sammenligner lån.",
@@ -1006,6 +1016,16 @@
     "schemas": [
       "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"headline\":\"Lavere månedsbeløp, men høyere totalpris?\",\"url\":\"https://sparesjekk.no/lavere-manedsbelop-hoyere-totalpris.html\",\"inLanguage\":\"nb-NO\",\"dateModified\":\"2026-09-11\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/redaksjon.html\"}}"
     ]
+  },
+  "mangler-egenkapital-bolig.html": {
+    "title": "Mangler egenkapital til bolig? Sjekk mulighetene | Sparesjekk",
+    "description": "Mangler du egenkapital til bolig? Sjekk hvilke spor som kan være relevante, som egenkapital, kausjonist eller tilleggssikkerhet.",
+    "canonical": "https://sparesjekk.no/mangler-egenkapital-bolig.html",
+    "robots": "index,follow,max-image-preview:large,max-snippet:-1",
+    "h1": [
+      "Mangler du egenkapital til bolig?"
+    ],
+    "schemas": []
   },
   "medlantaker-boliglan.html": {
     "title": "Medlåntaker på boliglån – hva innebærer det? | Sparesjekk",
