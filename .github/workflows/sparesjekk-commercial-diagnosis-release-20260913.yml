@@ -43,6 +43,9 @@ jobs:
           python tools/apply_bank_switch_capture.py
           python tools/apply_rate_negotiation_capture.py
           python tools/apply_rate_negotiation_links.py
+          python tools/apply_equity_gap_capture.py
+          python tools/apply_debt_conversion_capture.py
+          python tools/apply_conversion_capture_links.py
       - name: Verify Revenue Engine pass 10 and Traffic Engine batch
         shell: python
         run: |
@@ -70,15 +73,23 @@ jobs:
           s=BeautifulSoup(p.read_text(encoding='utf-8'),'html.parser')
           assert s.select_one('#rateNegotiationCheck') and len(s.select('#rateNegotiationCheck select'))==3
           assert s.select_one('#compareCta[data-revenue-event="commercial_route"]').get('href')=='sjekk/boliglan/'
-          assets=['embed/renteforskjell.html','bygg-inn-rentekalkulator.html','embed/gjeldsrente-sjekk.html','bygg-inn-gjeldsrente-sjekk.html','embed/valutapaslag.html','bygg-inn-valutapaslag-kalkulator.html','embed/kredittkort-minstebelop.html','bygg-inn-kredittkort-minstebelop.html','betalingsproblemer-hva-gjor-jeg.html']
+          assets=['embed/renteforskjell.html','bygg-inn-rentekalkulator.html','embed/gjeldsrente-sjekk.html','bygg-inn-gjeldsrente-sjekk.html','embed/valutapaslag.html','bygg-inn-valutapaslag-kalkulator.html','embed/kredittkort-minstebelop.html','bygg-inn-kredittkort-minstebelop.html','betalingsproblemer-hva-gjor-jeg.html','mangler-egenkapital-bolig.html','hva-bor-jeg-gjore-med-dyr-gjeld.html']
           for f in assets: assert Path(f).exists(),f
           for f in ['embed/renteforskjell.html','embed/gjeldsrente-sjekk.html','embed/valutapaslag.html','embed/kredittkort-minstebelop.html']:
               t=Path(f).read_text(encoding='utf-8').lower(); assert 'noindex' in t and 'sjekk/' not in t,f
           t=Path('betalingsproblemer-hva-gjor-jeg.html').read_text(encoding='utf-8')
           assert 'sjekk/omstartslan/?intent=utfordringer' in t
+          eq=Path('mangler-egenkapital-bolig.html').read_text(encoding='utf-8')
+          assert 'equity_gap_check_complete' in eq and 'data-revenue-context="equity_gap_security"' in eq
+          debt=Path('hva-bor-jeg-gjore-med-dyr-gjeld.html').read_text(encoding='utf-8')
+          assert 'debt_conversion_check_complete' in debt and 'sjekk/omstartslan/?intent=sikkerhet' in debt and 'sjekk/forbrukslan/?intent=refinansiere' in debt
+          for source in ['boliglan-uten-egenkapital.html','kausjonist-boliglan.html','egenkapital-bolig.html']:
+              assert 'mangler-egenkapital-bolig.html' in Path(source).read_text(encoding='utf-8'),source
+          for source in ['refinansiere-forbruksgjeld.html','guide-refinansiering.html','gjeldsmiks-sjekk.html','samle-smalan-kredittkortgjeld.html']:
+              assert 'hva-bor-jeg-gjore-med-dyr-gjeld.html' in Path(source).read_text(encoding='utf-8'),source
           matcher=Path('tools/apply_revenue_matcher.py').read_text(encoding='utf-8')
           assert "'utfordringer':['Okida','GjeldsMegleren Norge','Zen Finans','Tjenestetorget']" in matcher
-          print('Revenue Engine pass 10 + Traffic Engine batch PASS')
+          print('Revenue Engine pass 10 + Traffic Engine conversion batch PASS')
       - name: Full SEO guard after build
         run: python tools/seo_guard.py snapshot
       - name: Full QA
@@ -137,4 +148,4 @@ jobs:
             **/.git*/**
             **/node_modules/**
             .well-known/**
-# release trigger: Traffic Engine GA4 scope fix 2026-09-17
+# release trigger: Conversion Capture batch 2026-09-17
