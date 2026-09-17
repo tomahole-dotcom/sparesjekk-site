@@ -1,0 +1,54 @@
+name: Traffic Conversion Batch QA 20260917
+
+on:
+  push:
+    branches: [traffic-gsc-debt-capture-20260917]
+    paths: ['.github/workflows/traffic-conversion-batch-qa-20260917.yml']
+
+permissions:
+  contents: read
+
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+          cache-dependency-path: requirements-site-builder.txt
+      - name: Dependencies
+        run: pip install -r requirements-site-builder.txt
+      - name: Generate conversion captures
+        run: |
+          python tools/apply_equity_gap_capture.py
+          python tools/apply_debt_conversion_capture.py
+          python tools/apply_conversion_capture_links.py
+      - name: Verify conversion intent and privacy
+        shell: python
+        run: |
+          from pathlib import Path
+          checks={
+            'mangler-egenkapital-bolig.html':['equity_gap_check_complete','sjekk/boliglan/','data-revenue-context="equity_gap_security"','belaningsgrad-sjekk.html'],
+            'hva-bor-jeg-gjore-med-dyr-gjeld.html':['debt_conversion_check_complete','sjekk/omstartslan/?intent=sikkerhet','sjekk/forbrukslan/?intent=refinansiere','gjeldsmiks-sjekk.html']
+          }
+          for page,tokens in checks.items():
+              s=Path(page).read_text(encoding='utf-8')
+              for token in tokens: assert token in s,(page,token)
+              assert '<title>' in s and 'name="description"' in s and 'rel="canonical"' in s and '<h1' in s,page
+              assert 'G-XYRPP78DJ5' in s,page
+          eq=Path('mangler-egenkapital-bolig.html').read_text(encoding='utf-8')
+          debt=Path('hva-bor-jeg-gjore-med-dyr-gjeld.html').read_text(encoding='utf-8')
+          assert "gtag('event','equity_gap_check_complete',{result:kind})" in eq
+          assert "gtag('event','debt_conversion_check_complete',{result:kind})" in debt
+          for source in ['boliglan-uten-egenkapital.html','kausjonist-boliglan.html','egenkapital-bolig.html']:
+              assert 'mangler-egenkapital-bolig.html' in Path(source).read_text(encoding='utf-8'),source
+          for source in ['refinansiere-forbruksgjeld.html','guide-refinansiering.html','gjeldsmiks-sjekk.html','samle-smalan-kredittkortgjeld.html']:
+              assert 'hva-bor-jeg-gjore-med-dyr-gjeld.html' in Path(source).read_text(encoding='utf-8'),source
+          print('Conversion batch checks PASS')
+      - name: Full SEO guard
+        run: python tools/seo_guard.py check
+      - name: Full site QA
+        run: python tools/qa_site.py
