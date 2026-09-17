@@ -93,7 +93,7 @@ jobs:
               assert 'data-conversion-route="credit-debt-v1"' in html,source
               assert 'hva-bor-jeg-gjore-med-dyr-gjeld.html' in html,source
           overview=Path('gjeldsregisteret-forbrukslan.html').read_text(encoding='utf-8')
-          assert 'data-debt-overview-next="true"' in overview
+          assert 'data-debt-overview-next="v1"' in overview
           for route in ['gjeldsmiks-sjekk.html','hva-bor-jeg-gjore-med-dyr-gjeld.html','betalingsproblemer-hva-gjor-jeg.html']:
               assert route in overview,route
           matcher=Path('tools/apply_revenue_matcher.py').read_text(encoding='utf-8')
@@ -174,3 +174,4 @@ jobs:
 # release trigger: bank-switch intent cleanup 2026-09-17
 # release trigger: credit-debt conversion routing 2026-09-17
 # release trigger: GSC debt-overview routing 2026-09-17
+# release trigger: debt-overview QA selector fix 2026-09-17
