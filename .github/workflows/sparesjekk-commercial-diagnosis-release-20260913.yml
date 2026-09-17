@@ -48,6 +48,7 @@ jobs:
           python tools/apply_conversion_capture_links.py
           python tools/apply_credit_debt_conversion_links.py
           python tools/apply_refinance_authority_batch.py
+          python tools/apply_consumer_loan_authority_batch.py
       - name: Verify Revenue Engine pass 10 and Traffic Engine batch
         shell: python
         run: |
@@ -105,6 +106,14 @@ jobs:
               assert marker in html,(page,marker)
           for page in ['forbrukslan.html','omstartslan.html','guider.html']:
               assert 'data-refi-authority-link="v1"' in Path(page).read_text(encoding='utf-8'),page
+          for page,marker in [
+              ('forbrukslan-komplett-guide.html','data-consumer-authority="definition-v1"'),
+              ('effektiv-rente-forbrukslan.html','data-consumer-authority="compare-signal-v1"'),
+              ('sammenligne-forbrukslan.html','data-consumer-authority="process-v1"')]:
+              html=Path(page).read_text(encoding='utf-8')
+              assert marker in html,(page,marker)
+          for page in ['forbrukslan.html','forbrukslan-guider.html','guider.html']:
+              assert 'data-consumer-authority-link="v1"' in Path(page).read_text(encoding='utf-8'),page
           matcher=Path('tools/apply_revenue_matcher.py').read_text(encoding='utf-8')
           assert "'utfordringer':['Okida','GjeldsMegleren Norge','Zen Finans','Tjenestetorget']" in matcher
           cc=Path('sjekk/kredittkort/index.html').read_text(encoding='utf-8')
@@ -186,3 +195,5 @@ jobs:
 # release trigger: debt-overview QA selector fix 2026-09-17
 
 # release trigger: refinance authority batch 2026-09-18
+
+# release trigger: consumer-loan authority batch 2026-09-18
