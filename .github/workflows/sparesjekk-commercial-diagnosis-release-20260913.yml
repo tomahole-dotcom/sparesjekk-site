@@ -50,6 +50,7 @@ jobs:
           python tools/apply_refinance_authority_batch.py
           python tools/apply_consumer_loan_authority_batch.py
           python tools/apply_mortgage_equity_authority_batch.py
+          python tools/apply_credit_card_quickwin_batch.py
       - name: Verify Revenue Engine pass 10 and Traffic Engine batch
         shell: python
         run: |
@@ -124,6 +125,13 @@ jobs:
               assert marker in html,(page,marker)
           for page in ['boliglan.html','boliglan-guider.html','guider.html']:
               assert 'data-mortgage-equity-link="v1"' in Path(page).read_text(encoding='utf-8'),page
+          for page,marker in [
+              ('cashback-bonus-kredittkort.html','data-credit-quickwin="bonus-v1"'),
+              ('minimumsbetaling-kredittkort.html','data-credit-quickwin="paydown-v1"'),
+              ('valutapaslag-kredittkort.html','data-credit-quickwin="fx-v1"')]:
+              assert marker in Path(page).read_text(encoding='utf-8'),(page,marker)
+          for page in ['kredittkort.html','kredittkort-komplett-guide.html','kredittkort-guider.html']:
+              assert 'data-credit-quickwin-link="v1"' in Path(page).read_text(encoding='utf-8'),page
           matcher=Path('tools/apply_revenue_matcher.py').read_text(encoding='utf-8')
           assert "'utfordringer':['Okida','GjeldsMegleren Norge','Zen Finans','Tjenestetorget']" in matcher
           cc=Path('sjekk/kredittkort/index.html').read_text(encoding='utf-8')
@@ -209,3 +217,5 @@ jobs:
 # release trigger: consumer-loan authority batch 2026-09-18
 
 # release trigger: mortgage equity authority batch 2026-09-18
+
+# release trigger: credit-card quick-win batch 2026-09-18
