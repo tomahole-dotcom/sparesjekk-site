@@ -47,6 +47,16 @@
       "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"headline\":\"Banken satte ikke ned renten – hva gjør du?\",\"url\":\"https://sparesjekk.no/banken-satte-ikke-ned-renten.html\",\"inLanguage\":\"nb-NO\",\"dateModified\":\"2026-09-11\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\"},\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\"}}"
     ]
   },
+  "banken-vil-ikke-senke-renten.html": {
+    "title": "Banken vil ikke senke renten – hva gjør du nå? | Sparesjekk",
+    "description": "Fikk du nei til lavere boliglånsrente? Bruk denne korte veiviseren for å finne et fornuftig neste steg før du vurderer å bytte bank.",
+    "canonical": "https://sparesjekk.no/banken-vil-ikke-senke-renten.html",
+    "robots": "index,follow,max-image-preview:large,max-snippet:-1",
+    "h1": [
+      "Banken vil ikke senke renten – hva gjør du nå?"
+    ],
+    "schemas": []
+  },
   "belaningsgrad-sjekk.html": {
     "title": "Belåningsgrad kalkulator – sjekk boliglånet | Sparesjekk",
     "description": "Regn ut belåningsgraden fra boligverdi og lån med pant i boligen. Se hva nivået betyr og hvilke spørsmål du kan ta med til banken.",
@@ -58,6 +68,16 @@
     "schemas": [
       "{\"@context\":\"https://schema.org\",\"@type\":\"WebApplication\",\"name\":\"Belåningsgrad-sjekk\",\"url\":\"https://sparesjekk.no/belaningsgrad-sjekk.html\",\"applicationCategory\":\"FinanceApplication\",\"operatingSystem\":\"Any\",\"offers\":{\"@type\":\"Offer\",\"price\":\"0\",\"priceCurrency\":\"NOK\"},\"inLanguage\":\"nb-NO\"}"
     ]
+  },
+  "betalingsproblemer-hva-gjor-jeg.html": {
+    "title": "Betalingsproblemer – hva gjør jeg først? | Sparesjekk",
+    "description": "Har du problemer med å betale regninger, kredittkort eller lån? Bruk veiviseren for å finne et fornuftig første steg før situasjonen blir verre.",
+    "canonical": "https://sparesjekk.no/betalingsproblemer-hva-gjor-jeg.html",
+    "robots": "index,follow,max-image-preview:large,max-snippet:-1",
+    "h1": [
+      "Betalingsproblemer – hva bør du gjøre først?"
+    ],
+    "schemas": []
   },
   "boligen-har-steget-i-verdi-boliglan.html": {
     "title": "Boligen har steget i verdi – kan du få bedre rente? | Sparesjekk",
@@ -200,6 +220,46 @@
     ],
     "schemas": []
   },
+  "bygg-inn-gjeldsrente-sjekk.html": {
+    "title": "Gratis gjeldsrente-kalkulator til nettsiden din | Sparesjekk",
+    "description": "Bygg inn Sparesjekks gratis gjeldsrente-sjekk. Vis hva en lavere rente kan bety for forbruksgjeld og kredittkortgjeld.",
+    "canonical": "https://sparesjekk.no/bygg-inn-gjeldsrente-sjekk.html",
+    "robots": "index,follow,max-image-preview:large,max-snippet:-1",
+    "h1": [
+      "Bygg inn vår gjeldsrente-sjekk gratis"
+    ],
+    "schemas": []
+  },
+  "bygg-inn-kredittkort-minstebelop.html": {
+    "title": "Gratis kalkulator for kredittkortgjeld til nettsiden din | Sparesjekk",
+    "description": "Bygg inn en gratis kalkulator som viser hva renter kan bety for en kredittkortbetaling. Mobilvennlig iframe med kildehenvisning.",
+    "canonical": "https://sparesjekk.no/bygg-inn-kredittkort-minstebelop.html",
+    "robots": "index,follow,max-image-preview:large,max-snippet:-1",
+    "h1": [
+      "Bygg inn kalkulator for kredittkortbetaling gratis"
+    ],
+    "schemas": []
+  },
+  "bygg-inn-rentekalkulator.html": {
+    "title": "Gratis rentekalkulator til nettsiden din | Sparesjekk",
+    "description": "Bygg inn Sparesjekks gratis kalkulator for renteforskjell på nettsiden din. Enkel iframe, mobilvennlig og uten affiliate-lenker i kalkulatoren.",
+    "canonical": "https://sparesjekk.no/bygg-inn-rentekalkulator.html",
+    "robots": "index,follow,max-image-preview:large,max-snippet:-1",
+    "h1": [
+      "Bygg inn vår renteforskjell-kalkulator gratis"
+    ],
+    "schemas": []
+  },
+  "bygg-inn-valutapaslag-kalkulator.html": {
+    "title": "Gratis valutapåslag-kalkulator til nettsiden din | Sparesjekk",
+    "description": "Bygg inn Sparesjekks gratis kalkulator for valutapåslag på nettsiden din. Mobilvennlig iframe med synlig kildehenvisning.",
+    "canonical": "https://sparesjekk.no/bygg-inn-valutapaslag-kalkulator.html",
+    "robots": "index,follow,max-image-preview:large,max-snippet:-1",
+    "h1": [
+      "Bygg inn vår valutapåslag-kalkulator gratis"
+    ],
+    "schemas": []
+  },
   "bytte-bank-boliglan-komplett.html": {
     "title": "Bytte bank med boliglån – komplett guide | Sparesjekk",
     "description": "Hva skjer når du flytter boliglånet, hva bør du sammenligne og hvilke spørsmål bør du stille før du bytter bank?",
@@ -264,6 +324,46 @@
       "{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Sparesjekk\",\"item\":\"https://sparesjekk.no/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Boliglån\",\"item\":\"https://sparesjekk.no/boliglan.html\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Ekstra nedbetaling på boliglånet – hva betyr det?\",\"item\":\"https://sparesjekk.no/ekstra-nedbetaling-boliglan.html\"}]}",
       "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"name\":\"Ekstra nedbetaling på boliglånet – hva betyr det?\",\"headline\":\"Ekstra nedbetaling på boliglånet – hva betyr det?\",\"description\":\"Ekstra innbetaling reduserer restgjelden og kan redusere fremtidige rentekostnader.\",\"url\":\"https://sparesjekk.no/ekstra-nedbetaling-boliglan.html\",\"inLanguage\":\"nb-NO\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"dateModified\":\"2026-08-25\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/redaksjon.html\"},\"keywords\":[\"ekstra nedbetaling boliglån\",\"boliglån\"]}"
     ]
+  },
+  "embed/gjeldsrente-sjekk.html": {
+    "title": "Gjeldsrente-sjekk | Sparesjekk",
+    "description": "",
+    "canonical": "",
+    "robots": "noindex,follow",
+    "h1": [
+      "Hva betyr lavere rente på gjelden?"
+    ],
+    "schemas": []
+  },
+  "embed/kredittkort-minstebelop.html": {
+    "title": "Kredittkortgjeld – minstebeløp-kalkulator | Sparesjekk",
+    "description": "",
+    "canonical": "",
+    "robots": "noindex,follow",
+    "h1": [
+      "Kredittkortgjeld: hva betyr minstebeløpet?"
+    ],
+    "schemas": []
+  },
+  "embed/renteforskjell.html": {
+    "title": "Renteforskjell-kalkulator | Sparesjekk",
+    "description": "",
+    "canonical": "",
+    "robots": "noindex,follow",
+    "h1": [
+      "Renteforskjell-kalkulator"
+    ],
+    "schemas": []
+  },
+  "embed/valutapaslag.html": {
+    "title": "Valutapåslag-kalkulator | Sparesjekk",
+    "description": "",
+    "canonical": "",
+    "robots": "noindex,follow",
+    "h1": [
+      "Hva koster valutapåslaget?"
+    ],
+    "schemas": []
   },
   "far-ikke-betalt-regninger-hva-gjor-jeg.html": {
     "title": "Får ikke betalt regningene – hva gjør jeg først? | Sparesjekk",
