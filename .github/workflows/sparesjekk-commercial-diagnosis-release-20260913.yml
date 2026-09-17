@@ -89,6 +89,8 @@ jobs:
               assert 'hva-bor-jeg-gjore-med-dyr-gjeld.html' in Path(source).read_text(encoding='utf-8'),source
           matcher=Path('tools/apply_revenue_matcher.py').read_text(encoding='utf-8')
           assert "'utfordringer':['Okida','GjeldsMegleren Norge','Zen Finans','Tjenestetorget']" in matcher
+          cc=Path('sjekk/kredittkort/index.html').read_text(encoding='utf-8')
+          assert 'data-partner="Zensum"' in cc and 'ANNONSE / REKLAME' in cc
           print('Revenue Engine pass 10 + Traffic Engine conversion batch PASS')
       - name: Full SEO guard after build
         run: python tools/seo_guard.py snapshot
@@ -149,3 +151,4 @@ jobs:
             **/node_modules/**
             .well-known/**
 # release trigger: Conversion Capture batch 2026-09-17
+# release trigger: Zensum credit card route 2026-09-17
