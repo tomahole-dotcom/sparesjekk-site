@@ -261,12 +261,12 @@
     "schemas": []
   },
   "bytte-bank-boliglan-komplett.html": {
-    "title": "Bytte bank med boliglån – komplett guide | Sparesjekk",
-    "description": "Hva skjer når du flytter boliglånet, hva bør du sammenligne og hvilke spørsmål bør du stille før du bytter bank?",
+    "title": "Bytte bank med boliglån – bør du bytte? | Sparesjekk",
+    "description": "Vurder om det lønner seg å bytte bank med boliglån. Sammenlign rente, kostnader og break-even før du bestemmer deg.",
     "canonical": "https://sparesjekk.no/bytte-bank-boliglan-komplett.html",
     "robots": "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
     "h1": [
-      "Bytte bank med boliglån – komplett guide"
+      "Bytte bank med boliglån – bør du bytte?"
     ],
     "schemas": [
       "{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Sparesjekk\",\"item\":\"https://sparesjekk.no/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Boliglån\",\"item\":\"https://sparesjekk.no/boliglan.html\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Bytte bank med boliglån\",\"item\":\"https://sparesjekk.no/bytte-bank-boliglan-komplett.html\"}]}",
@@ -378,12 +378,12 @@
     ]
   },
   "flytte-boliglan.html": {
-    "title": "Flytte boliglån til en annen bank – steg for steg | Sparesjekk",
-    "description": "En praktisk guide til å hente tilbud, sammenligne kostnader og flytte boliglånet dersom et annet tilbud er bedre.",
+    "title": "Flytte boliglån til annen bank – selve låneflyttingen | Sparesjekk",
+    "description": "Har du bestemt deg? Se den praktiske prosessen for å flytte selve boliglånet til en annen bank, uten å gjøre siden til en generell bankbytteguide.",
     "canonical": "https://sparesjekk.no/flytte-boliglan.html",
     "robots": "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
     "h1": [
-      "Flytte boliglån til en annen bank – steg for steg"
+      "Flytte boliglån til en annen bank – selve låneflyttingen"
     ],
     "schemas": [
       "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"headline\":\"Flytte boliglån til en annen bank – steg for steg\",\"description\":\"En praktisk guide til å hente tilbud, sammenligne kostnader og flytte boliglånet dersom et annet tilbud er bedre.\",\"dateModified\":\"2026-08-13\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\"},\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\"},\"keywords\":[\"flytte boliglån\",\"boliglån\"]}",
@@ -523,12 +523,12 @@
     ]
   },
   "guide-bytte-bank-steg.html": {
-    "title": "Slik går du frem når du vil bytte bank | Sparesjekk",
-    "description": "Et bankbytte kan virke omfattende, men selve boliglånet kan ofte flyttes uten at du må endre alt annet samtidig.",
+    "title": "Bytte bank steg for steg – konto, kort og betalinger | Sparesjekk",
+    "description": "Sjekkliste for å flytte hele bankforholdet: kontoer, kort, lønn, AvtaleGiro, eFaktura og andre betalinger når du bytter bank.",
     "canonical": "https://sparesjekk.no/guide-bytte-bank-steg.html",
     "robots": "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
     "h1": [
-      "Slik går du frem når du vil bytte bank"
+      "Bytte bank steg for steg – konto, kort og betalinger"
     ],
     "schemas": [
       "{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Sparesjekk\",\"item\":\"https://sparesjekk.no/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Boliglån\",\"item\":\"https://sparesjekk.no/boliglan.html\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Slik går du frem når du vil bytte bank\",\"item\":\"https://sparesjekk.no/guide-bytte-bank-steg.html\"}]}",
@@ -536,12 +536,12 @@
     ]
   },
   "guide-bytte-bank.html": {
-    "title": "Når bør du vurdere å bytte bank? | Sparesjekk",
-    "description": "Du trenger ikke være misfornøyd med alt i banken for å undersøke boliglånsrenten.",
+    "title": "Når bør du vurdere å bytte bank? 5 tegn | Sparesjekk",
+    "description": "Fem situasjoner der det kan være naturlig å undersøke banken og boliglånsrenten på nytt – før du bestemmer deg for et bankbytte.",
     "canonical": "https://sparesjekk.no/guide-bytte-bank.html",
     "robots": "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1",
     "h1": [
-      "Når bør du vurdere å bytte bank?"
+      "Når bør du vurdere å bytte bank? 5 tegn"
     ],
     "schemas": [
       "{\"@context\":\"https://schema.org\",\"@type\":\"BreadcrumbList\",\"itemListElement\":[{\"@type\":\"ListItem\",\"position\":1,\"name\":\"Sparesjekk\",\"item\":\"https://sparesjekk.no/\"},{\"@type\":\"ListItem\",\"position\":2,\"name\":\"Boliglån\",\"item\":\"https://sparesjekk.no/boliglan.html\"},{\"@type\":\"ListItem\",\"position\":3,\"name\":\"Når bør du vurdere å bytte bank?\",\"item\":\"https://sparesjekk.no/guide-bytte-bank.html\"}]}",
