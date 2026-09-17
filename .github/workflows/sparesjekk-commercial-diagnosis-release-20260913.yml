@@ -91,6 +91,16 @@ jobs:
           assert "'utfordringer':['Okida','GjeldsMegleren Norge','Zen Finans','Tjenestetorget']" in matcher
           cc=Path('sjekk/kredittkort/index.html').read_text(encoding='utf-8')
           assert 'data-partner="Zensum"' in cc and 'ANNONSE / REKLAME' in cc
+          bank_roles={
+              'bytte-bank-boliglan-komplett.html':'decision',
+              'flytte-boliglan.html':'mortgage-transfer',
+              'guide-bytte-bank-steg.html':'full-bank-move',
+              'guide-bytte-bank.html':'trigger',
+          }
+          for page,role in bank_roles.items():
+              s=BeautifulSoup(Path(page).read_text(encoding='utf-8'),'html.parser')
+              assert s.body.get('data-search-intent')==role,(page,role)
+              assert s.title and s.find('h1'),page
           print('Revenue Engine pass 10 + Traffic Engine conversion batch PASS')
       - name: Full SEO guard after build
         run: python tools/seo_guard.py snapshot
@@ -152,3 +162,4 @@ jobs:
             .well-known/**
 # release trigger: Conversion Capture batch 2026-09-17
 # release trigger: Zensum credit card route 2026-09-17
+# release trigger: bank-switch intent cleanup 2026-09-17
