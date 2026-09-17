@@ -49,6 +49,7 @@ jobs:
           python tools/apply_credit_debt_conversion_links.py
           python tools/apply_refinance_authority_batch.py
           python tools/apply_consumer_loan_authority_batch.py
+          python tools/apply_mortgage_equity_authority_batch.py
       - name: Verify Revenue Engine pass 10 and Traffic Engine batch
         shell: python
         run: |
@@ -114,6 +115,15 @@ jobs:
               assert marker in html,(page,marker)
           for page in ['forbrukslan.html','forbrukslan-guider.html','guider.html']:
               assert 'data-consumer-authority-link="v1"' in Path(page).read_text(encoding='utf-8'),page
+          for page,marker in [
+              ('boliglan-uten-egenkapital.html','data-mortgage-equity="gap-v1"'),
+              ('kausjonist-boliglan.html','data-mortgage-equity="guarantor-v1"'),
+              ('medlantaker-boliglan.html','data-mortgage-equity="coborrower-v1"'),
+              ('egenkapital-bolig.html','data-mortgage-equity="capital-v1"')]:
+              html=Path(page).read_text(encoding='utf-8')
+              assert marker in html,(page,marker)
+          for page in ['boliglan.html','boliglan-guider.html','guider.html']:
+              assert 'data-mortgage-equity-link="v1"' in Path(page).read_text(encoding='utf-8'),page
           matcher=Path('tools/apply_revenue_matcher.py').read_text(encoding='utf-8')
           assert "'utfordringer':['Okida','GjeldsMegleren Norge','Zen Finans','Tjenestetorget']" in matcher
           cc=Path('sjekk/kredittkort/index.html').read_text(encoding='utf-8')
@@ -197,3 +207,5 @@ jobs:
 # release trigger: refinance authority batch 2026-09-18
 
 # release trigger: consumer-loan authority batch 2026-09-18
+
+# release trigger: mortgage equity authority batch 2026-09-18
