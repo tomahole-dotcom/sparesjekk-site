@@ -54,6 +54,7 @@ jobs:
           python tools/apply_rate_authority_batch.py
           python tools/apply_housing_finance_intent_batch.py
           python tools/apply_debt_search_to_revenue_batch.py
+          python tools/apply_borrowing_capacity_conversion_batch.py
       - name: Verify Revenue Engine pass 10 and Traffic Engine batch
         shell: python
         run: |
@@ -166,6 +167,13 @@ jobs:
           assert 'sjekk/forbrukslan/?intent=refinansiere' in Path('samle-smalan-kredittkortgjeld.html').read_text(encoding='utf-8')
           for page in ['forbrukslan.html','forbrukslan-guider.html','kredittkort.html','kredittkort-guider.html']:
               assert 'data-debt-search-revenue-link="v1"' in Path(page).read_text(encoding='utf-8'),page
+          capacity=Path('hvor-mye-kan-jeg-lane-bolig.html').read_text(encoding='utf-8')
+          assert 'data-borrowing-capacity="v1"' in capacity
+          assert 'sjekk/boliglan/' in capacity
+          assert 'mangler-egenkapital-bolig.html' in capacity
+          assert 'belaningsgrad-sjekk.html' in capacity
+          for page in ['boliglan.html','boliglan-guider.html','guider.html']:
+              assert 'data-borrowing-capacity-link="v1"' in Path(page).read_text(encoding='utf-8'),page
           matcher=Path('tools/apply_revenue_matcher.py').read_text(encoding='utf-8')
           assert "'utfordringer':['Okida','GjeldsMegleren Norge','Zen Finans','Tjenestetorget']" in matcher
           cc=Path('sjekk/kredittkort/index.html').read_text(encoding='utf-8')
@@ -259,3 +267,5 @@ jobs:
 # release trigger: housing finance intent conversion batch 2026-09-18
 
 # release trigger: debt search-to-revenue conversion batch 2026-09-18
+
+# release trigger: borrowing capacity conversion batch 2026-09-18
