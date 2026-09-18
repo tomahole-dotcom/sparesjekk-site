@@ -52,6 +52,7 @@ jobs:
           python tools/apply_mortgage_equity_authority_batch.py
           python tools/apply_credit_card_quickwin_batch.py
           python tools/apply_rate_authority_batch.py
+          python tools/apply_housing_finance_intent_batch.py
       - name: Verify Revenue Engine pass 10 and Traffic Engine batch
         shell: python
         run: |
@@ -142,6 +143,18 @@ jobs:
               assert 'sjekk/boliglan/' in html,(page,'commercial handoff')
           for page in ['boliglan.html','boliglan-guider.html','guider.html']:
               assert 'data-rate-authority-link="v1"' in Path(page).read_text(encoding='utf-8'),page
+          for page,marker in [
+              ('guide-mellomfinansiering.html','data-housing-intent="bridge-v1"'),
+              ('oke-boliglanet.html','data-housing-intent="increase-v1"'),
+              ('rammelan-bolig.html','data-housing-intent="creditline-v1"')]:
+              html=Path(page).read_text(encoding='utf-8')
+              assert marker in html,(page,marker)
+              assert 'sjekk/boliglan/' in html,(page,'commercial handoff')
+          relief=Path('guide-avdragsfrihet.html').read_text(encoding='utf-8')
+          assert 'data-housing-intent="payment-relief-v1"' in relief
+          assert 'betalingsproblemer-hva-gjor-jeg.html' in relief
+          for page in ['boliglan.html','boliglan-guider.html','guider.html']:
+              assert 'data-housing-intent-link="v1"' in Path(page).read_text(encoding='utf-8'),page
           matcher=Path('tools/apply_revenue_matcher.py').read_text(encoding='utf-8')
           assert "'utfordringer':['Okida','GjeldsMegleren Norge','Zen Finans','Tjenestetorget']" in matcher
           cc=Path('sjekk/kredittkort/index.html').read_text(encoding='utf-8')
@@ -231,3 +244,5 @@ jobs:
 # release trigger: credit-card quick-win batch 2026-09-18
 
 # release trigger: rate authority conversion batch 2026-09-18
+
+# release trigger: housing finance intent conversion batch 2026-09-18
