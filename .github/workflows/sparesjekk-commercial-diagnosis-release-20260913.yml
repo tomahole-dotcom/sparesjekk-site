@@ -65,6 +65,7 @@ jobs:
           python tools/apply_mortgage_cost_ranking_batch.py
           python tools/apply_bank_switch_ranking_batch.py
           python tools/apply_refinance_intent_ranking_batch.py
+          python tools/apply_ltv_borrowing_ranking_batch.py
       - name: Verify Revenue Engine pass 10 and Traffic Engine batch
         shell: python
         run: |
@@ -346,3 +347,5 @@ jobs:
 # release trigger bank switch ranking 20260918
 
 # release trigger refinance intent ranking 20260918
+
+# release trigger ltv borrowing conversion ranking 20260918
