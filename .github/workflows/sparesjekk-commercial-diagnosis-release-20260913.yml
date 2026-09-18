@@ -60,6 +60,7 @@ jobs:
           python tools/apply_rate_search_to_revenue_batch.py
           python tools/apply_secured_refi_search_to_revenue_batch.py
           python tools/apply_housing_product_conversion_batch.py
+          python tools/apply_refi_ranking_conversion_batch.py
       - name: Verify Revenue Engine pass 10 and Traffic Engine batch
         shell: python
         run: |
@@ -331,3 +332,5 @@ jobs:
 # release trigger: secured refinancing search-to-revenue batch 2026-09-18
 
 # release trigger: housing product conversion batch 2026-09-18
+
+# release trigger refi ranking conversion 20260918
