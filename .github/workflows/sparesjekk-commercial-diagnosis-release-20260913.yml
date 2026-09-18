@@ -62,6 +62,7 @@ jobs:
           python tools/apply_housing_product_conversion_batch.py
           python tools/apply_refi_ranking_conversion_batch.py
           python tools/apply_equity_ranking_batch.py
+          python tools/apply_mortgage_cost_ranking_batch.py
       - name: Verify Revenue Engine pass 10 and Traffic Engine batch
         shell: python
         run: |
@@ -337,3 +338,5 @@ jobs:
 # release trigger refi ranking conversion 20260918
 
 # release trigger equity ranking cluster 20260918
+
+# release trigger mortgage cost ranking 20260918
