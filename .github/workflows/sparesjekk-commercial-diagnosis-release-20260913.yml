@@ -67,6 +67,7 @@ jobs:
           python tools/apply_refinance_intent_ranking_batch.py
           python tools/apply_ltv_borrowing_ranking_batch.py
           python tools/apply_first_home_conversion_batch.py
+          python tools/apply_consumer_loan_conversion_bridge.py
       - name: Verify Revenue Engine pass 10 and Traffic Engine batch
         shell: python
         run: |
@@ -352,3 +353,5 @@ jobs:
 # release trigger ltv borrowing conversion ranking 20260918
 
 # release trigger first home conversion 20260918
+
+# release trigger consumer loan conversion bridge 20260918
