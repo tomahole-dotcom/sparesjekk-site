@@ -56,6 +56,7 @@ jobs:
           python tools/apply_debt_search_to_revenue_batch.py
           python tools/apply_borrowing_capacity_conversion_batch.py
           python tools/apply_bank_switch_consolidation_batch.py
+          python tools/apply_equity_search_to_revenue_batch.py
       - name: Verify Revenue Engine pass 10 and Traffic Engine batch
         shell: python
         run: |
@@ -185,6 +186,16 @@ jobs:
               html=Path(page).read_text(encoding='utf-8')
               assert f'data-bank-switch-consolidation="{marker}"' in html,page
               assert 'sjekk/boliglan/' in html,page
+          equity_pages={
+              'boliglan-uten-egenkapital.html':'gap-v2',
+              'kausjonist-boliglan.html':'guarantor-v2',
+              'medlantaker-boliglan.html':'coborrower-v2',
+              'egenkapital-bolig.html':'capital-v2',
+          }
+          for page,marker in equity_pages.items():
+              html=Path(page).read_text(encoding='utf-8')
+              assert f'data-equity-search-revenue="{marker}"' in html,page
+              assert 'sjekk/boliglan/' in html,page
           matcher=Path('tools/apply_revenue_matcher.py').read_text(encoding='utf-8')
           assert "'utfordringer':['Okida','GjeldsMegleren Norge','Zen Finans','Tjenestetorget']" in matcher
           cc=Path('sjekk/kredittkort/index.html').read_text(encoding='utf-8')
@@ -282,3 +293,5 @@ jobs:
 # release trigger: borrowing capacity conversion batch 2026-09-18
 
 # release trigger: bank-switch consolidation conversion batch 2026-09-18
+
+# release trigger: equity search-to-revenue batch 2026-09-18
