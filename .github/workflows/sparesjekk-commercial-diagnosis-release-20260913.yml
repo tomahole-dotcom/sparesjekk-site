@@ -53,6 +53,7 @@ jobs:
           python tools/apply_credit_card_quickwin_batch.py
           python tools/apply_rate_authority_batch.py
           python tools/apply_housing_finance_intent_batch.py
+          python tools/apply_debt_search_to_revenue_batch.py
       - name: Verify Revenue Engine pass 10 and Traffic Engine batch
         shell: python
         run: |
@@ -155,6 +156,16 @@ jobs:
           assert 'betalingsproblemer-hva-gjor-jeg.html' in relief
           for page in ['boliglan.html','boliglan-guider.html','guider.html']:
               assert 'data-housing-intent-link="v1"' in Path(page).read_text(encoding='utf-8'),page
+          for page,marker in [
+              ('gjeldsregisteret-forbrukslan.html','data-debt-search-revenue="overview-v1"'),
+              ('refinansiere-forbruksgjeld.html','data-debt-search-revenue="refi-credit-v1"'),
+              ('samle-smalan-kredittkortgjeld.html','data-debt-search-revenue="consolidate-v1"')]:
+              html=Path(page).read_text(encoding='utf-8')
+              assert marker in html,(page,marker)
+          assert 'sjekk/forbrukslan/?intent=refinansiere' in Path('refinansiere-forbruksgjeld.html').read_text(encoding='utf-8')
+          assert 'sjekk/forbrukslan/?intent=refinansiere' in Path('samle-smalan-kredittkortgjeld.html').read_text(encoding='utf-8')
+          for page in ['forbrukslan.html','forbrukslan-guider.html','kredittkort.html','kredittkort-guider.html']:
+              assert 'data-debt-search-revenue-link="v1"' in Path(page).read_text(encoding='utf-8'),page
           matcher=Path('tools/apply_revenue_matcher.py').read_text(encoding='utf-8')
           assert "'utfordringer':['Okida','GjeldsMegleren Norge','Zen Finans','Tjenestetorget']" in matcher
           cc=Path('sjekk/kredittkort/index.html').read_text(encoding='utf-8')
@@ -246,3 +257,5 @@ jobs:
 # release trigger: rate authority conversion batch 2026-09-18
 
 # release trigger: housing finance intent conversion batch 2026-09-18
+
+# release trigger: debt search-to-revenue conversion batch 2026-09-18
