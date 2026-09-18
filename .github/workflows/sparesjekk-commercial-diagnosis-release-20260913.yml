@@ -59,6 +59,7 @@ jobs:
           python tools/apply_equity_search_to_revenue_batch.py
           python tools/apply_rate_search_to_revenue_batch.py
           python tools/apply_secured_refi_search_to_revenue_batch.py
+          python tools/apply_housing_product_conversion_batch.py
       - name: Verify Revenue Engine pass 10 and Traffic Engine batch
         shell: python
         run: |
@@ -216,6 +217,15 @@ jobs:
               html=Path(page).read_text(encoding='utf-8')
               assert f'data-secured-refi-revenue="{marker}"' in html,page
               assert 'sjekk/omstartslan/' in html,page
+          housing_product_pages={
+              'guide-mellomfinansiering.html':'bridge-v2',
+              'rammelan-bolig.html':'creditline-v2',
+              'oke-boliglanet.html':'increase-v2',
+          }
+          for page,marker in housing_product_pages.items():
+              html=Path(page).read_text(encoding='utf-8')
+              assert f'data-housing-product-revenue="{marker}"' in html,page
+              assert 'sjekk/boliglan/' in html,page
           matcher=Path('tools/apply_revenue_matcher.py').read_text(encoding='utf-8')
           assert "'utfordringer':['Okida','GjeldsMegleren Norge','Zen Finans','Tjenestetorget']" in matcher
           cc=Path('sjekk/kredittkort/index.html').read_text(encoding='utf-8')
@@ -319,3 +329,5 @@ jobs:
 # release trigger: rate search-to-revenue batch 2026-09-18
 
 # release trigger: secured refinancing search-to-revenue batch 2026-09-18
+
+# release trigger: housing product conversion batch 2026-09-18
