@@ -68,6 +68,7 @@ jobs:
           python tools/apply_ltv_borrowing_ranking_batch.py
           python tools/apply_first_home_conversion_batch.py
           python tools/apply_consumer_loan_conversion_bridge.py
+          python tools/apply_payment_relief_conversion_batch.py
       - name: Verify Revenue Engine pass 10 and Traffic Engine batch
         shell: python
         run: |
@@ -355,3 +356,5 @@ jobs:
 # release trigger first home conversion 20260918
 
 # release trigger consumer loan conversion bridge 20260918
+
+# release trigger payment relief conversion 20260918
