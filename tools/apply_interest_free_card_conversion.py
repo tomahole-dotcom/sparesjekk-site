@@ -1,0 +1,12 @@
+from pathlib import Path
+from bs4 import BeautifulSoup
+P=Path(__file__).resolve().parents[1]/'kredittkort-rentefri-periode.html'
+s=BeautifulSoup(P.read_text(encoding='utf-8'),'html.parser')
+if not s.select_one('[data-interest-free-card-check="v1"]'):
+ sec=BeautifulSoup('''<section class="tool-card card-use-check" data-interest-free-card-check="v1"><p class="eyebrow">BRUKSMØNSTER-SJEKK</p><h2>Hva er viktigst når du velger kredittkort?</h2><p>Velg det som ligner mest på hvordan du faktisk bruker kortet. Da sender vi deg til riktig neste sjekk.</p><div class="decision-actions"><button type="button" data-card-path="full">Jeg betaler normalt hele fakturaen</button><button type="button" data-card-path="balance">Jeg kan ha saldo over tid</button><button type="button" data-card-path="travel">Jeg bruker kortet mye på reise / i utlandet</button></div><div aria-live="polite" class="tool-result" id="card-use-result">Velg bruksmønster for å se hva du bør prioritere.</div></section>''','html.parser').section
+ anchor=s.select_one('.rf-check');anchor.insert_after(sec)
+ js=s.new_tag('script');js.string="""(function(){var out=document.getElementById('card-use-result');document.querySelectorAll('[data-card-path]').forEach(function(b){b.addEventListener('click',function(){var p=b.dataset.cardPath;if(p==='full')out.innerHTML='<strong>Rentefrihet og relevante kortfordeler kan være viktigst.</strong><a class="result-next" data-revenue-event="commercial_route" data-revenue-context="interest_free_fullpay_v1" href="kredittkort-match.html">Finn kort som passer bruksmønsteret →</a>';else if(p==='balance')out.innerHTML='<strong>Da bør du prioritere rente og kostnaden ved delbetaling.</strong><a class="result-next" data-revenue-event="problem_route" data-revenue-context="interest_free_balance_v1" href="kredittkort-effektiv-rente.html">Se hva renten betyr for kostnaden →</a>';else out.innerHTML='<strong>Da bør du også kontrollere valutapåslag og uttakskostnader.</strong><a class="result-next" data-revenue-event="problem_route" data-revenue-context="interest_free_travel_v1" href="valutapaslag-kredittkort.html">Sjekk kostnader ved kortbruk i utlandet →</a>';});});})();"""
+ s.body.append(js)
+ if not s.select_one('link[href="design-v44.css"]'): s.head.append(s.new_tag('link',rel='stylesheet',href='design-v44.css'))
+P.write_text(str(s),encoding='utf-8')
+print('Interest-free card conversion path applied')
