@@ -1,6 +1,6 @@
 {
   "name": "Sparesjekk Rentegap-indeks",
-  "checked_date": "2026-09-11",
+  "checked_date": "2026-09-20",
   "reference_period": "2026-07",
   "policy_rate": 4.25,
   "new_mortgage_rate": 5.29,
@@ -17,13 +17,15 @@
       "name": "Norges Bank – styringsrenten",
       "url": "https://www.norges-bank.no/tema/pengepolitikk/Styringsrenten/",
       "value": "4,25 %",
-      "published": "2026-08-13"
+      "published": "2026-08-13",
+      "verified_through": "2026-09-17"
     },
     {
       "name": "SSB – renter i banker og kredittforetak",
       "url": "https://www.ssb.no/bank-og-finansmarked/finansinstitusjoner-og-andre-finansielle-foretak/statistikk/renter-i-banker-og-kredittforetak",
       "reference_period": "2026-07",
-      "published": "2026-08-27"
+      "published": "2026-08-27",
+      "verified_on": "2026-09-20"
     }
   ],
   "next_updates": {
