@@ -73,6 +73,7 @@ jobs:
           python tools/apply_commercial_ranking_links_batch.py
           python tools/apply_equity_cluster_authority_links.py
           python tools/apply_mortgage_move_query_ownership.py
+          python tools/apply_debt_refi_authority_links.py
       - name: Verify Revenue Engine pass 10 and Traffic Engine batch
         shell: python
         run: |
@@ -370,3 +371,5 @@ jobs:
 # release trigger equity cluster authority 20260919
 
 # release trigger mortgage move query ownership 20260919
+
+# release trigger debt refi authority 20260919
