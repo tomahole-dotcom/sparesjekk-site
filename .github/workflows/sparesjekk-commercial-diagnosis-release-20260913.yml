@@ -103,6 +103,7 @@ jobs:
           python tools/apply_credit_card_intent_attribution.py
           python tools/apply_rentegap_conversion_privacy.py
           python tools/apply_fixed_vs_floating_break_even.py
+          python tools/apply_ta_sparesjekken_v1.py
       - name: Verify Revenue Engine pass 10 and Traffic Engine batch
         shell: python
         run: |
@@ -486,3 +487,5 @@ jobs:
 # rentegap citation consolidation release 20260920
 
 # fixed-vs-floating break-even traffic asset release 20260920
+
+# Ta Sparesjekken V1 lead-routing release 20260920
