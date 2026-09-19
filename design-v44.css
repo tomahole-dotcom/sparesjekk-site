@@ -170,3 +170,13 @@
 /* Official mortgage rate-gap asset — locked BLUE V36+ */
 .rate-gap-asset{max-width:900px;margin:auto}.rate-gap-source,.rate-gap-tool{margin:22px 0;padding:22px;border:1px solid rgba(10,102,232,.18);border-radius:16px;background:#fff;box-shadow:0 8px 28px rgba(8,52,110,.06)}
 .rate-gap-source strong{font-size:1.25rem;color:var(--brand-dark)}.rate-gap-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}.rate-gap-grid label{font-weight:750}.rate-gap-grid input{display:block;width:100%;box-sizing:border-box;margin-top:7px;padding:13px;border:1px solid #cbd8e6;border-radius:10px;font:inherit}.rate-gap-tool button{border:0;border-radius:11px;padding:14px 18px;background:var(--brand);color:#fff;font-weight:850;font:inherit;cursor:pointer}.rate-gap-result{margin-top:18px;padding:18px;border-radius:14px;background:#f2f7ff;border:1px solid rgba(10,102,232,.16)}.rate-gap-result h3{margin-top:0}.rate-gap-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:14px}.rate-gap-actions .cta{margin:0}@media(max-width:680px){.rate-gap-grid{grid-template-columns:1fr}.rate-gap-actions{align-items:stretch;flex-direction:column}.rate-gap-actions a{text-align:center}}
+
+/* Rentegap conversion — locked BLUE V36+ */
+.rentegap-conversion{margin:30px 0;padding:22px;border:1px solid rgba(10,102,232,.18);border-radius:16px;background:#fff;box-shadow:0 8px 28px rgba(8,52,110,.06)}
+.rentegap-conversion h2{margin:0 0 8px;color:var(--brand-dark)}
+.rentegap-conversion .decision-actions{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:15px}
+.rentegap-conversion .decision-actions a{display:block;padding:16px;border:1px solid rgba(10,102,232,.20);border-radius:13px;color:var(--brand-dark)!important;text-decoration:none;background:#fff}
+.rentegap-conversion .decision-actions a:first-child{background:linear-gradient(135deg,var(--brand),#0876F9);color:#fff!important;border-color:transparent}
+.rentegap-conversion .decision-actions strong,.rentegap-conversion .decision-actions span{display:block}
+.rentegap-conversion .decision-actions span{margin-top:5px;font-size:.93rem;opacity:.88}
+@media(max-width:680px){.rentegap-conversion .decision-actions{grid-template-columns:1fr}}
