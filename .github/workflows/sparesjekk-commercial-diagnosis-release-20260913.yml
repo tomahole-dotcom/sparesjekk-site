@@ -78,6 +78,7 @@ jobs:
           python tools/apply_existing_mortgage_change_cluster.py
           python tools/apply_rate_meeting_conversion_bridge.py
           python tools/apply_rate_history_commercial_bridge.py
+          python tools/apply_consumer_loan_early_repayment_cluster.py
       - name: Verify Revenue Engine pass 10 and Traffic Engine batch
         shell: python
         run: |
@@ -385,3 +386,5 @@ jobs:
 # release trigger rate meeting conversion bridge 20260919
 
 # release trigger rate history commercial bridge 20260919
+
+# release trigger consumer loan early repayment cluster 20260919
