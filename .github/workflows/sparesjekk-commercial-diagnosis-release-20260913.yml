@@ -97,6 +97,7 @@ jobs:
           python tools/apply_consumer_hub_intent.py
           python tools/apply_restart_hub_intent.py
           python tools/apply_credit_card_hub_intent.py
+          python tools/apply_credit_card_match_conversion.py
       - name: Verify Revenue Engine pass 10 and Traffic Engine batch
         shell: python
         run: |
@@ -462,3 +463,5 @@ jobs:
 # omstartslan hub intent release 20260919
 
 # credit card hub intent release 20260919
+
+# credit card matcher result conversion release 20260919
