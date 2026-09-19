@@ -102,7 +102,6 @@ jobs:
           python tools/apply_mortgage_compare_early_conversion.py
           python tools/apply_credit_card_intent_attribution.py
           python tools/apply_rentegap_conversion_privacy.py
-          python tools/apply_mortgage_rate_gap_asset.py
       - name: Verify Revenue Engine pass 10 and Traffic Engine batch
         shell: python
         run: |
@@ -482,3 +481,5 @@ jobs:
 # retry rate-gap asset after GA4 invariant fix 20260920
 
 # rentegap conversion privacy release 20260920
+
+# rentegap citation consolidation release 20260920
