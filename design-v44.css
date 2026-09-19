@@ -41,7 +41,10 @@
 .rate-cost-tool>p>a:not(.cta){color:var(--green-dark);font-weight:800}
 @media(max-width:760px){.rate-cost-tool{max-width:none;margin:28px 0!important;padding:20px 16px!important;border-radius:16px!important}.rate-cost-grid{grid-template-columns:1fr}.rate-cost-tool input,.rate-cost-tool .calc-action{min-height:50px}.rate-cost-tool .cta{width:100%;box-sizing:border-box}}
 
-/* rate-cost-button-final: override legacy/global calculator button decoration */
-.rate-cost-tool button.calc-action#rc-btn{background:var(--green)!important;color:#fff!important;background-image:none!important;padding-left:18px!important}
-.rate-cost-tool button.calc-action#rc-btn:hover,.rate-cost-tool button.calc-action#rc-btn:focus{background:var(--green-dark)!important}
-.rate-cost-tool button.calc-action#rc-btn::before,.rate-cost-tool button.calc-action#rc-btn::after{content:none!important;display:none!important;background:none!important}
+
+/* DESIGN PROFILE LOCK — 2026-09-19
+   Sparesjekk uses the unified BLUE V36+ brand system.
+   New/changed tools and pages must inherit --brand / --brand-dark / blue CTA styling.
+   Do not introduce a separate green CTA/profile. */
+.rate-cost-tool .calc-action{background:linear-gradient(135deg,var(--brand),#0876F9)!important;color:#fff!important;background-image:linear-gradient(135deg,var(--brand),#0876F9)!important}
+.rate-cost-tool .calc-action:hover,.rate-cost-tool .calc-action:focus{background:linear-gradient(135deg,#0757C7,var(--brand))!important}
