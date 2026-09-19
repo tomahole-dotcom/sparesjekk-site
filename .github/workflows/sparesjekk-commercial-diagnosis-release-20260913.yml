@@ -88,6 +88,7 @@ jobs:
           python tools/apply_toploan_housing_intent.py
           python tools/apply_late_interest_calculator.py
           python tools/apply_recent_ui_design_qa.py
+          python tools/apply_nominal_rate_cost_comparator.py
       - name: Verify Revenue Engine pass 10 and Traffic Engine batch
         shell: python
         run: |
@@ -419,3 +420,5 @@ jobs:
 # release trigger recent UI design QA v44 20260919
 
 # release trigger UI stylesheet wiring 20260919
+
+# release trigger nominal rate cost comparator + design 20260919
