@@ -12,20 +12,20 @@ for rel in PAGES:
   cta=card.select_one('a.partner-cta')
   if not cta: continue
   cta['data-revenue-stage']='partner_outclick'
-  cta.string='Gå videre til '+name+' →'
+  cta.string='Se tilbud og vilkår hos '+name+' →'
   if not card.select_one('.revenue-card-kicker'):
    kicker=s.new_tag('p'); kicker['class']=['revenue-card-kicker']; kicker.string='Kommersielt alternativ'
    h=card.find(['h2','h3'])
    if h: h.insert_before(kicker)
   if not card.select_one('.revenue-card-action-note'):
-   note=s.new_tag('p'); note['class']=['revenue-card-action-note']; note.string='Åpner tilbyderens side. Sjekk vilkår, kostnader og om løsningen passer situasjonen din før du går videre.'
+   note=s.new_tag('p'); note['class']=['revenue-card-action-note']; note.string='Du sendes videre til '+name+' for å se aktuelle muligheter og vilkår. Sparesjekk kan motta provisjon dersom du går videre. Det koster ikke ekstra å bruke lenken. Ingen godkjenning eller besparelse er garantert.'
    cta.insert_after(note)
  # Add a compact decision header immediately above partner cards.
  old=s.select_one('.revenue-choice-header')
  if old: old.decompose()
  head=s.new_tag('div'); head['class']=['revenue-choice-header']; head['aria-live']='polite'
  h=s.new_tag('h2'); h.string='Aktuelle alternativer'; head.append(h)
- t=s.new_tag('p'); t.string='Alternativene under er kommersielle partnere. Bruk situasjonsvalget over for å sortere dem, og sammenlign faktiske vilkår hos tilbyder før du søker.'; head.append(t)
+ t=s.new_tag('p'); t.string='Alternativene under er kommersielle partnere. Velg situasjonen din over for å få de mest relevante alternativene først. Når du klikker, går du videre til partneren for å se muligheter og faktiske vilkår før du eventuelt søker.'; head.append(t)
  preview.insert_before(head)
  # Improve selected-state copy after manual matching, without claiming recommendation/best.
  js=s.find('script',attrs={'data-revenue-matcher-script':'v1'})
