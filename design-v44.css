@@ -135,3 +135,14 @@
 .restart-hub-intent .decision-actions strong,.restart-hub-intent .decision-actions span{display:block}
 .restart-hub-intent .decision-actions span{margin-top:6px;font-size:.94rem;opacity:.88}
 @media(max-width:760px){.restart-hub-intent{margin:20px 0 30px!important;padding:20px 16px!important}.restart-hub-intent .decision-actions{grid-template-columns:1fr}}
+
+/* Credit card hub intent — locked BLUE V36+ */
+.card-hub-intent{max-width:920px;margin:24px auto 36px!important;padding:28px!important;background:#fff}
+.card-hub-intent h2{margin:6px 0 10px;color:var(--brand-dark)}
+.card-hub-intent .decision-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}
+.card-hub-intent .decision-actions a{display:block;padding:17px;border:1px solid rgba(10,102,232,.20);border-radius:14px;background:#fff;color:var(--brand-dark)!important;text-decoration:none}
+.card-hub-intent .decision-actions a:first-child{background:linear-gradient(135deg,var(--brand),#0876F9);color:#fff!important;border-color:transparent}
+.card-hub-intent .decision-actions a:hover,.card-hub-intent .decision-actions a:focus{box-shadow:0 0 0 3px rgba(10,102,232,.10);outline:0}
+.card-hub-intent .decision-actions strong,.card-hub-intent .decision-actions span{display:block}
+.card-hub-intent .decision-actions span{margin-top:6px;font-size:.94rem;opacity:.88}
+@media(max-width:760px){.card-hub-intent{margin:20px 0 30px!important;padding:20px 16px!important}.card-hub-intent .decision-actions{grid-template-columns:1fr}}
