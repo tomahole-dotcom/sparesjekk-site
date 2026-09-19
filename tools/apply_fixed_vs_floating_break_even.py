@@ -7,6 +7,7 @@ if PAGE.exists() and "G-XYRPP78DJ5" in PAGE.read_text(encoding="utf-8"):
 
 html=r'''<!doctype html>
 <html lang="nb"><head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XYRPP78DJ5"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-XYRPP78DJ5');</script>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Fastrente vs flytende rente: break-even-kalkulator | Sparesjekk</title>
 <meta name="description" content="Sammenlign et konkret fastrentetilbud med flytende boliglånsrente. Se break-even-renten og hva renteforskjellen betyr i kroner.">
