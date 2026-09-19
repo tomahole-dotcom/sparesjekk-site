@@ -92,6 +92,7 @@ jobs:
           python tools/apply_cash_withdrawal_cost_tool.py
           python tools/apply_borrowing_capacity_tool.py
           python tools/apply_interest_free_card_conversion.py
+          python tools/apply_consumer_loan_early_intent.py
       - name: Verify Revenue Engine pass 10 and Traffic Engine batch
         shell: python
         run: |
@@ -435,3 +436,5 @@ jobs:
 # release trigger borrowing capacity conversion tool blue profile 20260919
 
 # release trigger interest-free card conversion blue profile 20260919
+
+# release trigger consumer-loan early intent 20260919
