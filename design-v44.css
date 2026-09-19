@@ -146,3 +146,13 @@
 .card-hub-intent .decision-actions strong,.card-hub-intent .decision-actions span{display:block}
 .card-hub-intent .decision-actions span{margin-top:6px;font-size:.94rem;opacity:.88}
 @media(max-width:760px){.card-hub-intent{margin:20px 0 30px!important;padding:20px 16px!important}.card-hub-intent .decision-actions{grid-template-columns:1fr}}
+
+/* Credit-card commercial cluster — locked BLUE V36+ */
+.card-commercial-bridge{margin:20px 0 28px;padding:22px;border:1px solid rgba(10,102,232,.18);border-radius:16px;background:#fff;box-shadow:0 8px 28px rgba(8,52,110,.06)}
+.card-commercial-bridge h2{margin:0 0 8px;color:var(--brand-dark)}
+.card-commercial-bridge .decision-actions{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:15px}
+.card-commercial-bridge .decision-actions a{display:block;padding:16px;border:1px solid rgba(10,102,232,.20);border-radius:13px;color:var(--brand-dark)!important;text-decoration:none;background:#fff}
+.card-commercial-bridge .decision-actions a:first-child{background:linear-gradient(135deg,var(--brand),#0876F9);color:#fff!important;border-color:transparent}
+.card-commercial-bridge .decision-actions strong,.card-commercial-bridge .decision-actions span{display:block}
+.card-commercial-bridge .decision-actions span{margin-top:5px;font-size:.93rem;opacity:.88}
+@media(max-width:680px){.card-commercial-bridge .decision-actions{grid-template-columns:1fr}}
