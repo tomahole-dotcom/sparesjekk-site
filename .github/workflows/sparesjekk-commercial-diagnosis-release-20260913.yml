@@ -93,6 +93,7 @@ jobs:
           python tools/apply_borrowing_capacity_tool.py
           python tools/apply_interest_free_card_conversion.py
           python tools/apply_consumer_loan_early_intent.py
+          python tools/apply_creditline_early_intent.py
       - name: Verify Revenue Engine pass 10 and Traffic Engine batch
         shell: python
         run: |
@@ -446,3 +447,5 @@ jobs:
 # production trigger consumer early intent final 20260919-1543
 
 # consumer intent placement+anchor fix release 20260919
+
+# rammelan early-intent release 20260919
