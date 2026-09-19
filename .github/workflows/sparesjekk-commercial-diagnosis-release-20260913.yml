@@ -438,3 +438,5 @@ jobs:
 # release trigger interest-free card conversion blue profile 20260919
 
 # release trigger consumer-loan early intent 20260919
+
+# force production release after consumer-loan early-intent integration
