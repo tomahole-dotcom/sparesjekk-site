@@ -10,7 +10,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   qa-deploy:
-    if: contains(github.event.head_commit.message, 'Run V45 GSC internal-link QA and production release')
+    if: startsWith(github.event.head_commit.message, 'RELEASE:') || contains(github.event.head_commit.message, 'Run V45 GSC internal-link QA and production release')
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:
