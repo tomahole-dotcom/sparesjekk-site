@@ -156,3 +156,13 @@
 .card-commercial-bridge .decision-actions strong,.card-commercial-bridge .decision-actions span{display:block}
 .card-commercial-bridge .decision-actions span{margin-top:5px;font-size:.93rem;opacity:.88}
 @media(max-width:680px){.card-commercial-bridge .decision-actions{grid-template-columns:1fr}}
+
+/* Mortgage compare early conversion — locked BLUE V36+ */
+.mortgage-compare-early{margin:20px 0 30px;padding:22px;border:1px solid rgba(10,102,232,.18);border-radius:16px;background:#fff;box-shadow:0 8px 28px rgba(8,52,110,.06)}
+.mortgage-compare-early h2{margin:0 0 8px;color:var(--brand-dark)}
+.mortgage-compare-early .decision-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:15px}
+.mortgage-compare-early .decision-actions a{display:block;padding:16px;border:1px solid rgba(10,102,232,.20);border-radius:13px;color:var(--brand-dark)!important;text-decoration:none;background:#fff}
+.mortgage-compare-early .decision-actions a:first-child{background:linear-gradient(135deg,var(--brand),#0876F9);color:#fff!important;border-color:transparent}
+.mortgage-compare-early .decision-actions strong,.mortgage-compare-early .decision-actions span{display:block}
+.mortgage-compare-early .decision-actions span{margin-top:5px;font-size:.93rem;opacity:.88}
+@media(max-width:760px){.mortgage-compare-early .decision-actions{grid-template-columns:1fr}}
