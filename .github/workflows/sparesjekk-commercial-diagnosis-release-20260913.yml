@@ -106,6 +106,7 @@ jobs:
           python tools/apply_fixed_vs_floating_break_even.py
           python tools/apply_ta_sparesjekken_v1.py
           python tools/apply_ta_sparesjekken_traffic_entry_v1.py
+          python tools/apply_ta_sparesjekken_gsc_entry_v1.py
           python tools/apply_mortgage_matcher_handoff_v1.py
       - name: Verify Revenue Engine pass 10 and Traffic Engine batch
         shell: python
@@ -491,4 +492,4 @@ jobs:
 
 # fixed-vs-floating break-even traffic asset release 20260920
 
-# Ta Sparesjekken V1 lead-routing release 20260920 retry9
+# Ta Sparesjekken V1 lead-routing release 20260920 retry10
