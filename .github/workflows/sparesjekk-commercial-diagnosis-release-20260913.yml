@@ -87,6 +87,7 @@ jobs:
           python tools/apply_mortgage_compare_intent_consolidation_v2.py
           python tools/apply_toploan_housing_intent.py
           python tools/apply_late_interest_calculator.py
+          python tools/apply_recent_ui_design_qa.py
       - name: Verify Revenue Engine pass 10 and Traffic Engine batch
         shell: python
         run: |
@@ -414,3 +415,5 @@ jobs:
 # release trigger topplaan housing intent 20260919
 
 # release trigger late interest calculator 20260919
+
+# release trigger recent UI design QA v44 20260919
