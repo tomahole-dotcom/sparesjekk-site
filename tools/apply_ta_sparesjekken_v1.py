@@ -1,0 +1,90 @@
+from pathlib import Path
+from bs4 import BeautifulSoup
+
+page=Path("ta-sparesjekken.html")
+html=r'''<!doctype html><html lang="nb"><head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XYRPP78DJ5"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-XYRPP78DJ5');</script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ta Sparesjekken – sjekk lån, gjeld og kredittkort | Sparesjekk</title>
+<meta name="description" content="Svar på noen enkle spørsmål om boliglån, gjeld og kredittkort. Få forståelige neste steg og se hvilke områder det kan være verdt å sammenligne.">
+<meta name="robots" content="index,follow,max-image-preview:large"><link rel="canonical" href="https://sparesjekk.no/ta-sparesjekken.html">
+<link rel="stylesheet" href="style.css?v=27"><link rel="stylesheet" href="design-v36.css"><link rel="stylesheet" href="design-v44.css">
+<style>
+.ss{max-width:900px;margin:auto;padding:42px 18px 80px}.ss-hero{text-align:center;max-width:720px;margin:auto}.ss-hero h1{font-size:clamp(2.25rem,7vw,4rem);line-height:1.02}.ss-progress{height:8px;background:#e7eef7;border-radius:99px;overflow:hidden;margin:26px 0}.ss-progress i{display:block;height:100%;width:20%;background:var(--green);transition:.25s}.ss-card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:clamp(20px,5vw,34px);box-shadow:0 14px 40px rgba(10,45,90,.08)}.ss-step[hidden],#ss-results[hidden]{display:none}.ss-options{display:grid;gap:11px;margin:20px 0}.ss-choice{width:100%;text-align:left;background:#fff;border:1px solid #cbd9e8;border-radius:14px;padding:16px;font:inherit;font-weight:750;cursor:pointer}.ss-choice[aria-pressed=true]{outline:3px solid var(--green);border-color:var(--green)}.ss-nav{display:flex;gap:10px;justify-content:space-between;margin-top:22px}.ss-nav button{min-height:48px}.ss-result{border:1px solid var(--line);border-radius:18px;padding:20px;margin:15px 0;background:#fff}.ss-result.primary{box-shadow:0 0 0 3px rgba(20,80,140,.13)}.ss-result .cta{display:block;text-align:center;margin-top:14px}.ss-kicker{font-size:.78rem;font-weight:850;letter-spacing:.06em;text-transform:uppercase}.ss-disclosure{font-size:.88rem;line-height:1.5;margin-top:20px;padding:14px;border-radius:12px;background:var(--soft)}.ss-trust{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;font-size:.9rem;margin:18px 0}.ss-start{display:inline-block;margin-top:8px}.ss-help{font-size:.9rem;opacity:.78}.ss-num{width:100%;box-sizing:border-box;margin-top:8px}.ss-again{margin-top:20px}@media(max-width:600px){.ss{padding-top:25px}.ss-nav{flex-direction:column-reverse}.ss-nav button{width:100%}}
+</style></head><body>
+<header class="header"><a class="logo" href="index.html">Spare<span>sjekk</span></a><button aria-label="Åpne meny" class="menu-btn" onclick="document.querySelector('.topnav').classList.toggle('open')">☰</button><nav class="topnav"><a href="boliglan.html">Boliglån</a><a href="forbrukslan.html">Forbrukslån</a><a href="omstartslan.html">Omstartslån</a><a href="kredittkort.html">Kredittkort</a><a href="guider.html">Guider</a></nav></header>
+<main class="ss">
+<section class="ss-hero" id="ss-intro"><p class="eyebrow">GRATIS · CA. 2 MINUTTER</p><h1>Ta Sparesjekken</h1><p class="lead">Sjekk om boliglånet, dyr gjeld eller kredittkortet ditt er verdt å se nærmere på. Du får en enkel forklaring og konkrete neste steg.</p><div class="ss-trust"><span>✓ Ingen registrering</span><span>✓ Tallene dine sendes ikke til analyse</span><span>✓ Du velger selv om du vil gå videre</span></div><button class="cta ss-start" id="ss-start">Start Sparesjekken →</button></section>
+<section id="ss-flow" hidden><div class="ss-progress" aria-label="Fremdrift"><i id="ss-bar"></i></div><div class="ss-card">
+<div class="ss-step" data-step="1"><p class="ss-kicker">1 av 5</p><h2>Har du boliglån?</h2><div class="ss-options"><button class="ss-choice" data-key="mortgage" data-value="yes">Ja</button><button class="ss-choice" data-key="mortgage" data-value="no">Nei</button></div></div>
+<div class="ss-step" data-step="2" hidden><p class="ss-kicker">2 av 5</p><h2>Hvordan opplever du boliglånsrenten?</h2><p class="ss-help">Velg det som passer best. Du trenger ikke vite nøyaktig markedsrente.</p><div class="ss-options"><button class="ss-choice" data-key="mortgageRate" data-value="high">Jeg tror den er høy / har ikke forhandlet på en stund</button><button class="ss-choice" data-key="mortgageRate" data-value="ok">Jeg har nylig sammenlignet eller forhandlet</button><button class="ss-choice" data-key="mortgageRate" data-value="unknown">Usikker</button><button class="ss-choice" data-key="mortgageRate" data-value="na">Har ikke boliglån</button></div></div>
+<div class="ss-step" data-step="3" hidden><p class="ss-kicker">3 av 5</p><h2>Har du dyr usikret gjeld?</h2><p class="ss-help">For eksempel forbrukslån eller kredittkortsaldo som du betaler renter på.</p><div class="ss-options"><button class="ss-choice" data-key="debt" data-value="yes">Ja</button><button class="ss-choice" data-key="debt" data-value="no">Nei</button><button class="ss-choice" data-key="debt" data-value="unknown">Usikker</button></div></div>
+<div class="ss-step" data-step="4" hidden><p class="ss-kicker">4 av 5</p><h2>Er økonomien blitt vanskelig å håndtere?</h2><p class="ss-help">For eksempel inkasso, betalingsanmerkning eller problemer med å få vanlig refinansiering.</p><div class="ss-options"><button class="ss-choice" data-key="difficulty" data-value="yes">Ja</button><button class="ss-choice" data-key="difficulty" data-value="no">Nei</button></div><h3>Eier du bolig eller kan refinansiering med sikkerhet være aktuelt?</h3><div class="ss-options"><button class="ss-choice" data-key="security" data-value="yes">Ja</button><button class="ss-choice" data-key="security" data-value="no">Nei / usikker</button></div></div>
+<div class="ss-step" data-step="5" hidden><p class="ss-kicker">5 av 5</p><h2>Hvordan bruker du kredittkort?</h2><div class="ss-options"><button class="ss-choice" data-key="card" data-value="full">Jeg betaler normalt hele fakturaen</button><button class="ss-choice" data-key="card" data-value="balance">Jeg lar saldo stå og betaler renter</button><button class="ss-choice" data-key="card" data-value="none">Jeg bruker ikke kredittkort</button></div></div>
+<div class="ss-nav"><button id="ss-back" type="button">← Tilbake</button><button class="cta" id="ss-next" type="button">Neste →</button></div></div></section>
+<section id="ss-results" hidden><div class="ss-hero"><p class="eyebrow">DIN SPARESJEKK</p><h1 id="ss-title">Her er det vi ville sjekket først</h1><p id="ss-summary" class="lead"></p></div><div id="ss-list"></div><div class="ss-disclosure"><strong>ANNONSE / REKLAME</strong><br>Noen neste steg går til våre kommersielle sammenligninger og samarbeidspartnere. Sparesjekk kan motta provisjon hvis du går videre. Det koster ikke ekstra å bruke lenken. Resultatet er generell informasjon, ikke et løfte om lavere rente eller godkjenning.</div><button id="ss-again" class="ss-again">Ta sjekken på nytt</button></section>
+</main>
+<footer><div class="footer-logo">Spare<span>sjekk</span></div><p>En uavhengig informasjonsside om privatøkonomi.</p></footer>
+<script>
+(function(){
+var state={},step=1,steps=5;
+var intro=document.getElementById('ss-intro'),flow=document.getElementById('ss-flow'),results=document.getElementById('ss-results'),bar=document.getElementById('ss-bar');
+function event(n,p){if(typeof gtag==='function')gtag('event',n,Object.assign({source_path:location.pathname},p||{}))}
+function show(){document.querySelectorAll('.ss-step').forEach(function(x){x.hidden=Number(x.dataset.step)!==step});bar.style.width=(step/steps*100)+'%';document.getElementById('ss-back').style.visibility=step===1?'hidden':'visible';document.getElementById('ss-next').textContent=step===steps?'Vis resultat →':'Neste →'}
+document.querySelectorAll('.ss-choice').forEach(function(b){b.onclick=function(){var k=b.dataset.key;state[k]=b.dataset.value;document.querySelectorAll('[data-key="'+k+'"]').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')})}})
+document.getElementById('ss-start').onclick=function(){intro.hidden=true;flow.hidden=false;event('savings_check_start',{revenue_stage:'tool_start'});show()}
+document.getElementById('ss-back').onclick=function(){if(step>1){step--;show()}}
+document.getElementById('ss-next').onclick=function(){
+ var need=step===1?['mortgage']:step===2?['mortgageRate']:step===3?['debt']:step===4?['difficulty','security']:['card'];
+ if(need.some(function(k){return !state[k]})){alert('Velg et svar før du går videre.');return}
+ if(step<steps){step++;show()}else finish()
+};
+function card(kind,title,why,href,cta,context,primary){
+ return '<article class="ss-result '+(primary?'primary':'')+'"><p class="ss-kicker">'+kind+'</p><h2>'+title+'</h2><p>'+why+'</p><a class="cta" data-ss-route="'+context+'" href="'+href+'">'+cta+' →</a></article>'
+}
+function finish(){
+ var items=[];
+ if(state.difficulty==='yes'&&state.security==='yes'){
+   items.push({p:100,h:card('BØR SJEKKES FØRST','Omstartslån / refinansiering med sikkerhet','Du beskriver økonomiske utfordringer og mulig sikkerhet i bolig. Da kan et omstartslån eller refinansiering med sikkerhet være mer relevant å undersøke enn et vanlig usikret lån. Dette er ikke en garanti for at du får tilbud.','sjekk/omstartslan/?intent=utfordringer','Se aktuelle muligheter for omstartslån','restart_opportunity',true)});
+ } else if(state.debt==='yes'){
+   items.push({p:90,h:card('HØY PRIORITET','Refinansiering av dyr gjeld','Du oppgir dyr usikret gjeld. Det kan være verdt å undersøke om gjelden kan samles eller refinansieres på bedre vilkår. Sammenlign total kostnad og løpetid – ikke bare månedsbeløpet.','sjekk/forbrukslan/?intent=refinansiere','Sjekk muligheter for refinansiering','refinance_opportunity',true)});
+ }
+ if(state.mortgage==='yes'&&(state.mortgageRate==='high'||state.mortgageRate==='unknown')){
+   items.push({p:70,h:card('VERDT Å SAMMENLIGNE','Boliglånet ditt','Du har boliglån og er usikker på om renten er konkurransedyktig. Et nytt tilbud eller en sammenligning kan gi deg et konkret grunnlag for å vurdere dagens bank.','sjekk/boliglan/?intent=sammenligne','Sammenlign boliglånstilbud','mortgage_opportunity',false)});
+ }
+ if(state.card==='full'&&state.debt!=='yes'&&state.difficulty!=='yes'){
+   items.push({p:50,h:card('KAN VÆRE VERDT Å SJEKKE','Kredittkortet ditt','Du betaler normalt hele fakturaen. Da kan gebyrer, valutapåslag og relevante fordeler være mer nyttige å sammenligne enn lånerenten alene.','sjekk/kredittkort/?intent=match','Sammenlign kredittkortalternativer','card_match',false)});
+ }
+ if(state.card==='balance'&&!items.some(function(x){return x.p>=90})){
+   items.push({p:85,h:card('HØY PRIORITET','Rentebærende kredittkortgjeld','Du lar kredittkortsaldo stå og betaler renter. Før du vurderer et nytt kort, er det mer relevant å undersøke kostnaden på gjelden og muligheten for refinansiering.','sjekk/forbrukslan/?intent=refinansiere','Sjekk refinansieringsmuligheter','card_debt_refinance',true)});
+ }
+ items.sort(function(a,b){return b.p-a.p});
+ if(!items.length)items.push({p:0,h:card('INGEN TYDELIG ALARM','Vi fant ingen åpenbar kommersiell handling','Svarene dine peker ikke på et tydelig behov for å bytte eller refinansiere akkurat nå. Du kan fortsatt kontrollere renten og vilkårene dine med våre gratis verktøy.','guider.html','Se gratis guider og kalkulatorer','no_commercial_route',false)});
+ flow.hidden=true;results.hidden=false;document.getElementById('ss-list').innerHTML=items.map(function(x,i){return x.h.replace('ss-result '+(x.p&&i===0?'primary':''),'ss-result '+(i===0?'primary':''))}).join('');
+ document.getElementById('ss-summary').textContent=items.length===1?'Vi fant ett naturlig neste steg basert på svarene dine.':'Vi fant '+items.length+' områder det kan være verdt å se nærmere på. Start øverst.';
+ var classes=items.map(function(x){return x.h.match(/data-ss-route="([^"]+)/)[1]});
+ event('savings_check_result',{revenue_stage:'tool_result',result_count:items.length,primary_route:classes[0]});
+ document.querySelectorAll('[data-ss-route]').forEach(function(a){a.onclick=function(){event('commercial_route',{revenue_stage:'commercial_route',revenue_context:a.dataset.ssRoute,destination:a.getAttribute('href'),link_text:(a.textContent||'').trim().slice(0,100)})}});
+ scrollTo({top:0,behavior:'smooth'});
+}
+document.getElementById('ss-again').onclick=function(){state={};step=1;document.querySelectorAll('.ss-choice').forEach(function(x){x.removeAttribute('aria-pressed')});results.hidden=true;intro.hidden=false;event('savings_check_restart',{revenue_stage:'tool_restart'});scrollTo({top:0,behavior:'smooth'})}
+})();
+</script></body></html>'''
+page.write_text(html,encoding="utf-8")
+
+# Add one prominent discovery block to home; preserve existing content.
+p=Path("index.html")
+if p.exists():
+ s=BeautifulSoup(p.read_text(encoding="utf-8"),"html.parser")
+ if not s.select_one('[data-savings-check-entry="v1"]'):
+  block=BeautifulSoup('<section data-savings-check-entry="v1" class="campaign-panel"><p class="eyebrow">NYTT VERKTØY</p><h2>Hvor kan økonomien din være verdt å sjekke?</h2><p>Svar på noen enkle spørsmål om boliglån, dyr gjeld og kredittkort. Sparesjekken viser hvilke områder som kan være verdt å sammenligne først.</p><p><a class="cta" href="ta-sparesjekken.html">Ta Sparesjekken →</a></p><small>Gratis · ingen registrering · ca. 2 minutter</small></section>',"html.parser")
+  main=s.find("main") or s.body
+  main.insert(0,block)
+  p.write_text(str(s),encoding="utf-8")
+
+# sitemap
+p=Path("sitemap.xml")
+if p.exists():
+ t=p.read_text(encoding="utf-8");u="https://sparesjekk.no/ta-sparesjekken.html"
+ if u not in t:t=t.replace("</urlset>",f"<url><loc>{u}</loc></url></urlset>");p.write_text(t,encoding="utf-8")
+print("Ta Sparesjekken V1 applied")
