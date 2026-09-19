@@ -102,6 +102,7 @@ jobs:
           python tools/apply_mortgage_compare_early_conversion.py
           python tools/apply_credit_card_intent_attribution.py
           python tools/apply_rentegap_conversion_privacy.py
+          python tools/apply_fixed_vs_floating_break_even.py
       - name: Verify Revenue Engine pass 10 and Traffic Engine batch
         shell: python
         run: |
@@ -483,3 +484,5 @@ jobs:
 # rentegap conversion privacy release 20260920
 
 # rentegap citation consolidation release 20260920
+
+# fixed-vs-floating break-even traffic asset release 20260920
