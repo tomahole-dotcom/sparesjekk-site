@@ -75,6 +75,7 @@ jobs:
           python tools/apply_mortgage_move_query_ownership.py
           python tools/apply_debt_refi_authority_links.py
           python tools/apply_mortgage_rate_authority_links_v2.py
+          python tools/apply_existing_mortgage_change_cluster.py
       - name: Verify Revenue Engine pass 10 and Traffic Engine batch
         shell: python
         run: |
@@ -376,3 +377,5 @@ jobs:
 # release trigger debt refi authority 20260919
 
 # release trigger mortgage rate authority v2 20260919
+
+# release trigger existing mortgage change cluster 20260919
