@@ -95,6 +95,7 @@ jobs:
           python tools/apply_consumer_loan_early_intent.py
           python tools/apply_creditline_early_intent.py
           python tools/apply_consumer_hub_intent.py
+          python tools/apply_restart_hub_intent.py
       - name: Verify Revenue Engine pass 10 and Traffic Engine batch
         shell: python
         run: |
@@ -456,3 +457,5 @@ jobs:
 # consumer hub intent release 20260919
 
 # consumer hub single-primary conversion fix 20260919
+
+# omstartslan hub intent release 20260919
