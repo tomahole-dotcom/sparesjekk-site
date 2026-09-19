@@ -2,7 +2,7 @@ from pathlib import Path
 from bs4 import BeautifulSoup
 
 PAGE=Path("fastrente-vs-flytende-kalkulator.html")
-if PAGE.exists():
+if PAGE.exists() and "G-XYRPP78DJ5" in PAGE.read_text(encoding="utf-8"):
     raise SystemExit("page already exists")
 
 html=r'''<!doctype html>
