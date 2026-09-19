@@ -83,6 +83,7 @@ jobs:
           python tools/apply_fx_fee_credit_card_conversion.py
           python tools/apply_credit_card_debt_conversion_bridge.py
           python tools/apply_ltv_rate_decision_cluster_v2.py
+          python tools/apply_payment_relief_authority_v2.py
       - name: Verify Revenue Engine pass 10 and Traffic Engine batch
         shell: python
         run: |
@@ -402,3 +403,5 @@ jobs:
 # release trigger ltv rate decision cluster v2 20260919
 
 # release trigger ltv rate decision cluster v2 20260919
+
+# release trigger payment relief authority v2 20260919
