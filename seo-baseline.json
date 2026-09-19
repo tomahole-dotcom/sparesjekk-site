@@ -1280,6 +1280,16 @@
       "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"name\":\"Renteendring på boliglån – slik slår den ut\",\"headline\":\"Renteendring på boliglån – slik slår den ut\",\"description\":\"Se hva som avgjør når en renteendring faktisk påvirker boliglånet, månedsbeløpet og rentekostnaden over tid.\",\"url\":\"https://sparesjekk.no/rente-prosentpoeng-kalkulator-guide.html\",\"inLanguage\":\"nb-NO\",\"publisher\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/\"},\"dateModified\":\"2026-09-10\",\"author\":{\"@type\":\"Organization\",\"name\":\"Sparesjekk\",\"url\":\"https://sparesjekk.no/redaksjon.html\"},\"keywords\":[\"renteendring boliglån\",\"renteendring lån\",\"boliglån\"]}"
     ]
   },
+  "rentegap-boliglan.html": {
+    "title": "Rentegap-sjekk: Er boliglånsrenten din over markedet? | Sparesjekk",
+    "description": "Sammenlign boliglånsrenten din med siste offisielle SSB-statistikk og se hva rentegapet tilsvarer i kroner per år.",
+    "canonical": "https://sparesjekk.no/rentegap-boliglan.html",
+    "robots": "index,follow",
+    "h1": [
+      "Rentegap-sjekk: Hvordan ligger boliglånsrenten din mot markedet?"
+    ],
+    "schemas": []
+  },
   "rentegap-indeks.html": {
     "title": "Rentegap-indeks: styringsrente vs boliglånsrente | Sparesjekk",
     "description": "Sparesjekk Rentegap viser avstanden mellom styringsrenten og faktiske boliglånsrenter i Norge. Se siste offisielle tall, utvikling og hva gapet betyr.",
