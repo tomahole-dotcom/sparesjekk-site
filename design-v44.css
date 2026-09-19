@@ -113,3 +113,14 @@
 .creditline-early-intent .decision-actions strong,.creditline-early-intent .decision-actions span{display:block}
 .creditline-early-intent .decision-actions span{margin-top:5px;font-size:.95rem;opacity:.88}
 @media(max-width:760px){.creditline-early-intent{max-width:none;margin:22px 0 30px!important;padding:20px 16px!important}}
+
+/* Consumer hub intent — locked BLUE V36+ */
+.consumer-hub-intent{max-width:920px;margin:24px auto 36px!important;padding:28px!important;background:#fff}
+.consumer-hub-intent h2{margin:6px 0 10px;color:var(--brand-dark)}
+.consumer-hub-intent .decision-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}
+.consumer-hub-intent .decision-actions a{display:block;padding:17px;border:1px solid rgba(10,102,232,.20);border-radius:14px;background:#fff;color:var(--brand-dark)!important;text-decoration:none}
+.consumer-hub-intent .decision-actions a:first-child{background:linear-gradient(135deg,var(--brand),#0876F9);color:#fff!important;border-color:transparent}
+.consumer-hub-intent .decision-actions a:hover,.consumer-hub-intent .decision-actions a:focus{box-shadow:0 0 0 3px rgba(10,102,232,.10);outline:0}
+.consumer-hub-intent .decision-actions strong,.consumer-hub-intent .decision-actions span{display:block}
+.consumer-hub-intent .decision-actions span{margin-top:6px;font-size:.94rem;opacity:.88}
+@media(max-width:760px){.consumer-hub-intent{margin:20px 0 30px!important;padding:20px 16px!important}.consumer-hub-intent .decision-actions{grid-template-columns:1fr}}
