@@ -86,6 +86,7 @@ jobs:
           python tools/apply_payment_relief_authority_v2.py
           python tools/apply_mortgage_compare_intent_consolidation_v2.py
           python tools/apply_toploan_housing_intent.py
+          python tools/apply_late_interest_calculator.py
       - name: Verify Revenue Engine pass 10 and Traffic Engine batch
         shell: python
         run: |
@@ -411,3 +412,5 @@ jobs:
 # release trigger mortgage compare intent consolidation v2 20260919
 
 # release trigger topplaan housing intent 20260919
+
+# release trigger late interest calculator 20260919
