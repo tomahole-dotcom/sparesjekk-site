@@ -89,6 +89,7 @@ jobs:
           python tools/apply_late_interest_calculator.py
           python tools/apply_recent_ui_design_qa.py
           python tools/apply_nominal_rate_cost_comparator.py
+          python tools/apply_cash_withdrawal_cost_tool.py
       - name: Verify Revenue Engine pass 10 and Traffic Engine batch
         shell: python
         run: |
@@ -424,3 +425,5 @@ jobs:
 # release trigger nominal rate cost comparator + design 20260919
 
 # release trigger rate comparator visual final 20260919
+
+# release trigger cash withdrawal cost tool blue design 20260919
