@@ -100,6 +100,7 @@ jobs:
           python tools/apply_credit_card_match_conversion.py
           python tools/apply_credit_card_commercial_cluster.py
           python tools/apply_mortgage_compare_early_conversion.py
+          python tools/apply_credit_card_intent_attribution.py
       - name: Verify Revenue Engine pass 10 and Traffic Engine batch
         shell: python
         run: |
@@ -471,3 +472,5 @@ jobs:
 # credit card commercial cluster release 20260919
 
 # mortgage compare early conversion release 20260919
+
+# credit card end-to-end attribution release 20260919
