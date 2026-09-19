@@ -70,6 +70,7 @@ jobs:
           python tools/apply_consumer_loan_conversion_bridge.py
           python tools/apply_payment_relief_conversion_batch.py
           python tools/apply_unsecured_debt_conversion_bridge.py
+          python tools/apply_commercial_ranking_links_batch.py
       - name: Verify Revenue Engine pass 10 and Traffic Engine batch
         shell: python
         run: |
@@ -361,3 +362,5 @@ jobs:
 # release trigger payment relief conversion 20260918
 
 # release trigger unsecured debt conversion 20260919
+
+# release trigger commercial ranking links 20260919
