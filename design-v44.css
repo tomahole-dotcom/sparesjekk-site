@@ -64,3 +64,19 @@
 .cash-withdrawal-tool .article-note{margin:14px 0 18px}
 .cash-withdrawal-tool>p>a:not(.cta){color:var(--brand);font-weight:800}
 @media(max-width:760px){.cash-withdrawal-tool{max-width:none;margin:28px 0!important;padding:20px 16px!important;border-radius:16px!important}.cash-tool-grid{grid-template-columns:1fr}.cash-withdrawal-tool input,.cash-withdrawal-tool .calc-action{min-height:50px}.cash-withdrawal-tool .cta{width:100%;box-sizing:border-box}}
+
+/* Borrowing capacity conversion tool — locked BLUE V36+ profile */
+.borrowing-capacity-tool{max-width:700px;margin:28px auto 38px!important;padding:28px!important;background:#fff}
+.borrowing-capacity-tool h2{margin:6px 0 12px;color:var(--brand-dark)}
+.borrowing-capacity-tool label{display:block;margin:14px 0 7px;color:var(--brand-dark);font-size:14px;font-weight:750}
+.borrowing-capacity-tool input{display:block;width:100%;min-height:50px;box-sizing:border-box;padding:12px 14px;margin-top:6px;border:1px solid var(--line);border-radius:11px;background:#fff;color:var(--brand-dark);font-size:16px}
+.borrowing-capacity-tool input:focus{outline:0;border-color:var(--brand);box-shadow:0 0 0 3px rgba(10,102,232,.12)}
+.borrowing-tool-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.borrowing-capacity-tool .calc-action{width:100%;min-height:52px;margin-top:12px;border:0;border-radius:999px;background:linear-gradient(135deg,var(--brand),#0876F9)!important;color:#fff!important;font-size:16px;font-weight:850;cursor:pointer;box-shadow:0 10px 24px rgba(10,102,232,.18)}
+.borrowing-capacity-tool .tool-result{display:block;min-height:64px;margin-top:16px;padding:18px;background:var(--brand-soft);border:1px solid var(--line);border-radius:13px;color:var(--brand-dark);line-height:1.55}
+.borrowing-capacity-tool .tool-result strong{display:block;margin-bottom:5px;color:var(--brand);font-size:22px}
+.borrowing-capacity-tool .tool-result span{display:block;margin-top:6px}
+.borrowing-capacity-tool .result-next{display:block;margin-top:14px;padding:13px 16px;border-radius:999px;background:var(--brand);color:#fff!important;text-align:center;text-decoration:none;font-weight:850}
+.borrowing-capacity-tool .article-note{margin:14px 0 18px}
+.borrowing-capacity-tool>p>a:not(.cta){color:var(--brand);font-weight:800}
+@media(max-width:760px){.borrowing-capacity-tool{max-width:none;margin:24px 0 32px!important;padding:20px 16px!important}.borrowing-tool-grid{grid-template-columns:1fr}.borrowing-capacity-tool input,.borrowing-capacity-tool .calc-action{min-height:50px}.borrowing-capacity-tool .cta,.borrowing-capacity-tool .result-next{width:100%;box-sizing:border-box}}
