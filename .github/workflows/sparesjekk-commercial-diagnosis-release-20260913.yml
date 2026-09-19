@@ -90,6 +90,7 @@ jobs:
           python tools/apply_recent_ui_design_qa.py
           python tools/apply_nominal_rate_cost_comparator.py
           python tools/apply_cash_withdrawal_cost_tool.py
+          python tools/apply_borrowing_capacity_tool.py
       - name: Verify Revenue Engine pass 10 and Traffic Engine batch
         shell: python
         run: |
@@ -429,3 +430,5 @@ jobs:
 # release trigger cash withdrawal cost tool blue design 20260919
 
 # release trigger cash withdrawal cost tool blue design 20260919
+
+# release trigger borrowing capacity conversion tool blue profile 20260919
