@@ -3,7 +3,8 @@ from bs4 import BeautifulSoup
 
 PAGE=Path("fastrente-vs-flytende-kalkulator.html")
 if PAGE.exists() and "G-XYRPP78DJ5" in PAGE.read_text(encoding="utf-8"):
-    raise SystemExit("page already exists")
+    print("page already exists; no changes needed")
+    raise SystemExit(0)
 
 html=r'''<!doctype html>
 <html lang="nb"><head>
