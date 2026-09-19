@@ -477,3 +477,5 @@ jobs:
 # credit card end-to-end attribution release 20260919
 
 # official mortgage rate-gap traffic asset release 20260919
+
+# retry rate-gap asset after GA4 invariant fix 20260920
