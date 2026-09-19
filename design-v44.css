@@ -24,3 +24,19 @@
  .late-interest-tool{max-width:none;margin:26px 0!important;padding:20px 16px!important;border-radius:16px!important}
  .late-interest-tool input,.late-interest-tool .calc-action{width:100%;min-height:50px}
 }
+
+/* Nominal-rate cost comparator — aligned with approved calculator UI */
+.rate-cost-tool{max-width:660px;margin:34px auto!important;padding:26px!important;background:#fff;box-shadow:0 12px 34px rgba(16,47,64,.07)}
+.rate-cost-tool h2{margin:6px 0 12px;color:var(--navy)}
+.rate-cost-tool>p:not(.eyebrow):not(.article-note){line-height:1.6}
+.rate-cost-tool label{display:block;margin:14px 0 7px;color:var(--navy);font-size:14px;font-weight:750}
+.rate-cost-tool input{display:block;width:100%;min-height:48px;box-sizing:border-box;padding:12px 14px;margin-top:6px;border:1px solid #cbd8d1;border-radius:10px;background:#fff;color:var(--navy);font-size:16px}
+.rate-cost-tool input:focus{outline:0;border-color:var(--green);box-shadow:0 0 0 3px rgba(32,168,107,.10)}
+.rate-cost-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.rate-cost-tool .calc-action{width:100%;min-height:50px;margin-top:10px;border:0;border-radius:10px;background:var(--green);color:#fff;font-size:15px;font-weight:800;cursor:pointer}
+.rate-cost-tool .calc-action:hover{background:var(--green-dark)}
+.rate-cost-tool .tool-result{min-height:58px;display:flex;align-items:center;margin-top:14px;padding:15px;background:var(--soft);border-radius:11px;color:var(--navy)}
+.rate-cost-tool .tool-result strong{margin-right:5px;color:var(--green-dark)}
+.rate-cost-tool .article-note{margin:14px 0 18px}
+.rate-cost-tool>p>a:not(.cta){color:var(--green-dark);font-weight:800}
+@media(max-width:760px){.rate-cost-tool{max-width:none;margin:28px 0!important;padding:20px 16px!important;border-radius:16px!important}.rate-cost-grid{grid-template-columns:1fr}.rate-cost-tool input,.rate-cost-tool .calc-action{min-height:50px}.rate-cost-tool .cta{width:100%;box-sizing:border-box}}
