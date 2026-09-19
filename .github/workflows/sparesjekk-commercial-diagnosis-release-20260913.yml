@@ -80,6 +80,7 @@ jobs:
           python tools/apply_rate_history_commercial_bridge.py
           python tools/apply_consumer_loan_early_repayment_cluster.py
           python tools/apply_bridge_financing_authority_cluster.py
+          python tools/apply_fx_fee_credit_card_conversion.py
       - name: Verify Revenue Engine pass 10 and Traffic Engine batch
         shell: python
         run: |
@@ -391,3 +392,5 @@ jobs:
 # release trigger consumer loan early repayment cluster 20260919
 
 # release trigger bridge financing authority cluster 20260919
+
+# release trigger fx fee credit card conversion 20260919
