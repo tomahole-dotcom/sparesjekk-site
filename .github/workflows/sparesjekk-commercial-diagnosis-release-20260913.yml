@@ -111,6 +111,7 @@ jobs:
           python tools/apply_cost_intent_routes_v1.py
           python tools/apply_card_debt_rescue_routes_v1.py
           python tools/apply_remaining_intent_routes_v1.py
+          python tools/apply_mortgage_decision_routes_v1.py
           python tools/apply_savings_check_attribution_v1.py
           echo "Verify Savings Check source attribution"
           grep -q 'ta-sparesjekken.html?src=traffic_mortgage' banken-vil-ikke-senke-renten.html
@@ -500,4 +501,4 @@ jobs:
 
 # fixed-vs-floating break-even traffic asset release 20260920
 
-# Ta Sparesjekken V1 lead-routing release 20260920 retry16
+# Ta Sparesjekken V1 lead-routing release 20260920 retry17
