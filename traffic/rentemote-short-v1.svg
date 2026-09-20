@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920">
+<rect width="1080" height="1920" fill="#071B3A"/>
+<rect x="70" y="80" width="940" height="92" rx="46" fill="#123C79"/>
+<text x="540" y="140" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-size="42" font-weight="700">SPARESJEKK • RENTEPULS</text>
+<text x="90" y="330" fill="white" font-family="Arial,sans-serif" font-size="78" font-weight="800">0,25 prosentpoeng</text>
+<text x="90" y="425" fill="#A8C9FF" font-family="Arial,sans-serif" font-size="62" font-weight="700">Hva betyr det i kroner?</text>
+<rect x="70" y="540" width="940" height="500" rx="44" fill="#FFFFFF"/>
+<text x="130" y="675" fill="#071B3A" font-family="Arial,sans-serif" font-size="58" font-weight="700">1 mill. lån</text><text x="900" y="675" text-anchor="end" fill="#071B3A" font-family="Arial,sans-serif" font-size="58" font-weight="800">≈ 2 500 kr/år</text>
+<line x1="130" y1="730" x2="950" y2="730" stroke="#DCE6F5" stroke-width="3"/>
+<text x="130" y="835" fill="#071B3A" font-family="Arial,sans-serif" font-size="58" font-weight="700">2 mill. lån</text><text x="900" y="835" text-anchor="end" fill="#071B3A" font-family="Arial,sans-serif" font-size="58" font-weight="800">≈ 5 000 kr/år</text>
+<line x1="130" y1="890" x2="950" y2="890" stroke="#DCE6F5" stroke-width="3"/>
+<text x="130" y="995" fill="#071B3A" font-family="Arial,sans-serif" font-size="58" font-weight="700">4 mill. lån</text><text x="900" y="995" text-anchor="end" fill="#071B3A" font-family="Arial,sans-serif" font-size="58" font-weight="800">≈ 10 000 kr/år</text>
+<text x="90" y="1190" fill="white" font-family="Arial,sans-serif" font-size="52" font-weight="700">Rentemøte 24. september</text>
+<text x="90" y="1270" fill="#D7E6FF" font-family="Arial,sans-serif" font-size="42">Styringsrente før møtet: 4,25 %</text>
+<text x="90" y="1335" fill="#D7E6FF" font-family="Arial,sans-serif" font-size="42">Nye boliglån, siste SSB-tall: 5,29 %</text>
+<rect x="70" y="1480" width="940" height="170" rx="38" fill="#2F74E8"/>
+<text x="540" y="1555" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-size="48" font-weight="800">Regn på ditt eget lån</text>
+<text x="540" y="1620" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-size="38">sparesjekk.no</text>
+<text x="90" y="1775" fill="#A8BBD8" font-family="Arial,sans-serif" font-size="28">Enkelt årsoverslag før avdrag og skatt. Ingen besparelse garanteres.</text>
+</svg>
