@@ -23,9 +23,9 @@
 <footer><div class="footer-logo">Spare<span>sjekk</span></div><p>En uavhengig informasjonsside om privatøkonomi.</p></footer>
 <script>
 (function(){
-var state={},step=1,steps=5;
+var state={},step=1,steps=5;var entrySource=(new URLSearchParams(location.search).get('src')||'direct').slice(0,80);
 var intro=document.getElementById('ss-intro'),flow=document.getElementById('ss-flow'),results=document.getElementById('ss-results'),bar=document.getElementById('ss-bar');
-function event(n,p){if(typeof gtag==='function')gtag('event',n,Object.assign({source_path:location.pathname},p||{}))}
+function event(n,p){if(typeof gtag==='function')gtag('event',n,Object.assign({source_path:location.pathname,entry_source:entrySource},p||{}))}
 function show(){document.querySelectorAll('.ss-step').forEach(function(x){x.hidden=Number(x.dataset.step)!==step});bar.style.width=(step/steps*100)+'%';document.getElementById('ss-back').style.visibility=step===1?'hidden':'visible';document.getElementById('ss-next').textContent=step===steps?'Vis resultat →':'Neste →'}
 document.querySelectorAll('.ss-choice').forEach(function(b){b.onclick=function(){var k=b.dataset.key;state[k]=b.dataset.value;document.querySelectorAll('[data-key="'+k+'"]').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});if(k==='difficulty'){var sec=document.getElementById('ss-security');sec.hidden=b.dataset.value!=='yes';if(b.dataset.value!=='yes'){delete state.security;document.querySelectorAll('[data-key="security"]').forEach(function(x){x.setAttribute('aria-pressed','false')})}}}})
 document.getElementById('ss-start').onclick=function(){intro.hidden=true;flow.hidden=false;event('savings_check_start',{revenue_stage:'tool_start'});show()}
