@@ -77,6 +77,7 @@ jobs:
           python tools/apply_mortgage_rate_authority_links_v2.py
           python tools/apply_existing_mortgage_change_cluster.py
           python tools/apply_rate_meeting_conversion_bridge.py
+          python tools/apply_rentemote_traffic_blitz_v1.py
           python tools/apply_rate_history_commercial_bridge.py
           python tools/apply_consumer_loan_early_repayment_cluster.py
           python tools/apply_bridge_financing_authority_cluster.py
@@ -506,4 +507,4 @@ jobs:
 
 # fixed-vs-floating break-even traffic asset release 20260920
 
-# Ta Sparesjekken V1 lead-routing release 20260920 retry24
+# Ta Sparesjekken V1 lead-routing release 20260920 retry25
