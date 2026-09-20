@@ -8,7 +8,7 @@ for p in R.rglob('*.html'):
  for a in s.select('a[href^="ta-sparesjekken.html"][data-revenue-context]'):
   ctx=a.get('data-revenue-context','').strip()
   if ctx:
-   a['href']='ta-sparesjekken.html?src='+ctx;changed=True
+   a['href']='ta-sparesjekken.html?src='+ctx;a['data-entry-source']=ctx;changed=True
  if changed:p.write_text(str(s),encoding='utf-8')
 # Enhance Ta Sparesjekken event attribution without sending financial answers.
 p=R/'ta-sparesjekken.html';t=p.read_text(encoding='utf-8')
@@ -21,4 +21,5 @@ new2="function event(n,p){if(typeof gtag==='function')gtag('event',n,Object.assi
 if old2 not in t and new2 not in t: raise SystemExit('Event marker missing')
 t=t.replace(old2,new2)
 p.write_text(t,encoding='utf-8')
+# Ensure the generated funnel exposes a stable, testable source marker on all entry links.
 print('Savings Check attribution applied')
