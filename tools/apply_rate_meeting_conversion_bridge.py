@@ -11,7 +11,7 @@ ul=s.new_tag('ul')
 for href,label,etype in [
  ('boliglansrente-komplett-guide.html','Forstå og vurder boliglånsrenten din →','problem_route'),
  ('bor-jeg-bytte-bank.html','Sjekk om bankbytte kan være relevant →','problem_route'),
- ('sjekk/boliglan/','Undersøk boliglånsalternativer →','commercial_route')]:
- li=s.new_tag('li');a=s.new_tag('a',href=href);a.string=label;a['data-event']=etype;a['data-context']='rate_meeting_gsc_v1';li.append(a);ul.append(li)
+ ('sjekk/boliglan/?intent=sammenligne','Undersøk boliglånsalternativer →','commercial_route')]:
+ li=s.new_tag('li');a=s.new_tag('a',href=href);a.string=label;a['data-event']=etype;a['data-context']='rate_meeting_gsc_v1';a['data-revenue-event']=etype;a['data-revenue-context']='rate_meeting' if etype=='commercial_route' else 'rate_meeting_info';li.append(a);ul.append(li)
 sec.append(ul);root.append(sec);p.write_text(str(s),encoding='utf-8')
 print('Rate meeting conversion bridge applied')
