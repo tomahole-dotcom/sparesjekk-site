@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920">
 <rect width="1080" height="1920" fill="#071B3A"/>
 <rect x="70" y="80" width="940" height="92" rx="46" fill="#123C79"/>
-<text x="540" y="140" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-size="42" font-weight="700">SPARESJEKK • RENTEPULS</text>
+<text x="540" y="140" text-anchor="middle" fill="white" font-family="Arial,sans-serif" font-size="42" font-weight="700">SPARESJEKK • RENTEPULS </text>
 <text x="90" y="330" fill="white" font-family="Arial,sans-serif" font-size="78" font-weight="800">0,25 prosentpoeng</text>
 <text x="90" y="425" fill="#A8C9FF" font-family="Arial,sans-serif" font-size="62" font-weight="700">Hva betyr det i kroner?</text>
 <rect x="70" y="540" width="940" height="500" rx="44" fill="#FFFFFF"/>
