@@ -112,6 +112,7 @@ jobs:
           python tools/apply_card_debt_rescue_routes_v1.py
           python tools/apply_remaining_intent_routes_v1.py
           python tools/apply_refi_rejection_triage_v1.py
+          python tools/apply_refi_duration_handoff_v1.py
           python tools/apply_mortgage_decision_routes_v1.py
           python tools/apply_bank_switch_intent_handoff_v1.py
           python tools/apply_rentemote_authority_links_v1.py
@@ -504,4 +505,4 @@ jobs:
 
 # fixed-vs-floating break-even traffic asset release 20260920
 
-# Ta Sparesjekken V1 lead-routing release 20260920 retry21
+# Ta Sparesjekken V1 lead-routing release 20260920 retry22
