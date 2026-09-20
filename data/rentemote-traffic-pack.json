@@ -1,0 +1,26 @@
+{
+  "version": "2026-09-20-v1",
+  "event": "Norges Bank rentebeslutning 24. september 2026 kl. 10:00",
+  "status": "pre_decision",
+  "facts": {
+    "policy_rate_before": 4.25,
+    "new_mortgage_rate_july": 5.29,
+    "outstanding_mortgage_rate_july": 5.31,
+    "ssb_next_update": "2026-09-25"
+  },
+  "hooks": [
+    "Rentemøte 24. september: dette bør boliglånskunder faktisk følge med på",
+    "0,25 prosentpoeng er 2 500 kr per million i lån per år – før avdrag og skatt",
+    "Styringsrenten er ikke boliglånsrenten: sjekk forskjellen før du reagerer på overskriftene"
+  ],
+  "destinations": {
+    "primary": "https://sparesjekk.no/rentemote-hva-betyr-det.html?utm_source=social&utm_medium=organic&utm_campaign=rentemote_20260924",
+    "calculator": "https://sparesjekk.no/boliglanskalkulator-renteforskjell.html?utm_source=social&utm_medium=organic&utm_campaign=rentemote_20260924",
+    "savings_check": "https://sparesjekk.no/ta-sparesjekken.html?src=rentemote_social&utm_source=social&utm_medium=organic&utm_campaign=rentemote_20260924"
+  },
+  "guardrails": [
+    "Do not predict the rate decision.",
+    "Use official Norges Bank/SSB figures only.",
+    "Do not promise savings or approval."
+  ]
+}
