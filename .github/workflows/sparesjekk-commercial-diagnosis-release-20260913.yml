@@ -112,6 +112,9 @@ jobs:
           python tools/apply_card_debt_rescue_routes_v1.py
           python tools/apply_remaining_intent_routes_v1.py
           python tools/apply_savings_check_attribution_v1.py
+          echo "Verify Savings Check source attribution"
+          grep -q 'ta-sparesjekken.html?src=traffic_mortgage' banken-vil-ikke-senke-renten.html
+          grep -q 'entry_source:entrySource' ta-sparesjekken.html
           python tools/apply_mortgage_matcher_handoff_v1.py
       - name: Verify Revenue Engine pass 10 and Traffic Engine batch
         shell: python
@@ -497,4 +500,4 @@ jobs:
 
 # fixed-vs-floating break-even traffic asset release 20260920
 
-# Ta Sparesjekken V1 lead-routing release 20260920 retry15
+# Ta Sparesjekken V1 lead-routing release 20260920 retry16
