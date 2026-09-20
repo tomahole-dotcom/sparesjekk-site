@@ -1,6 +1,7 @@
 name: Build Rentemote Distribution Pack
 on:
   workflow_dispatch:
+  # trigger: distribution-v2
   push:
     branches: [seo-content-v34-master]
     paths:
