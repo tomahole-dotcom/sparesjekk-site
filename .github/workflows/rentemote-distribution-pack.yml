@@ -1,0 +1,30 @@
+name: Build Rentemote Distribution Pack
+on:
+  workflow_dispatch:
+  push:
+    branches: [seo-content-v34-master]
+    paths:
+      - 'data/rentemote-traffic-pack.json'
+      - 'tools/build_rentemote_distribution_pack.py'
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: seo-content-v34-master
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build channel-ready drafts
+        run: python tools/build_rentemote_distribution_pack.py
+      - name: Commit generated distribution pack
+        run: |
+          git config user.name "sparesjekk-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add traffic/rentemote-distribution-pack-20260924.md
+          git diff --cached --quiet && exit 0
+          git commit -m "Generate Rentemote distribution pack"
+          git push origin HEAD:seo-content-v34-master
