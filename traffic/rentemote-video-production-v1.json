@@ -1,0 +1,42 @@
+{
+  "campaign": "rentemote_20260924",
+  "format": "1080x1920",
+  "duration_seconds": 12,
+  "source_asset": "traffic/rentemote-short-v1.svg",
+  "scenes": [
+    {
+      "from": 0,
+      "to": 3,
+      "text": "0,25 prosentpoeng – hva betyr det i kroner?"
+    },
+    {
+      "from": 3,
+      "to": 7,
+      "text": "1 mill. ≈ 2 500 kr • 2 mill. ≈ 5 000 kr • 4 mill. ≈ 10 000 kr per år"
+    },
+    {
+      "from": 7,
+      "to": 10,
+      "text": "Rentemøte 24. september • styringsrente før møtet 4,25 %"
+    },
+    {
+      "from": 10,
+      "to": 12,
+      "text": "Regn på ditt eget lån • sparesjekk.no"
+    }
+  ],
+  "voiceover": "Hva betyr null komma tjuefem prosentpoeng for boliglånet? Omtrent to tusen fem hundre kroner per million i restgjeld per år, før avdrag og skatt. Rentemøte tjuefjerde september. Regn på ditt eget lån hos Sparesjekk.",
+  "caption": "0,25 prosentpoeng kan være tusenlapper i året. Se hva en renteendring betyr for ditt lån. #boliglån #rente #privatøkonomi #sparesjekk",
+  "destination": "https://sparesjekk.no/boliglanskalkulator-renteforskjell.html?utm_source={{network}}&utm_medium=organic_video&utm_campaign=rentemote_20260924&utm_content=025pp",
+  "publishing": {
+    "tiktok": true,
+    "instagram_reel": true,
+    "facebook_reel": true,
+    "youtube_short": true
+  },
+  "guardrails": [
+    "pre-decision asset",
+    "no prediction",
+    "no savings promise"
+  ]
+}
