@@ -3,7 +3,7 @@
 import json, os, sys, urllib.parse, urllib.request, urllib.error
 
 key=os.environ.get("AXO_TUNE_API_KEY","").strip()
-network=os.environ.get("AXO_TUNE_NETWORK_ID","axofinance").strip()
+network=os.environ.get("AXO_TUNE_NETWORK_ID","axofinansno").strip()
 if not key:
     raise SystemExit("AXO_TUNE_API_KEY missing")
 
