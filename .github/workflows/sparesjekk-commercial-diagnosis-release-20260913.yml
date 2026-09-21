@@ -123,6 +123,11 @@ jobs:
           grep -q 'ta-sparesjekken.html?src=traffic_mortgage' banken-vil-ikke-senke-renten.html
           grep -q 'entry_source:entrySource' ta-sparesjekken.html
           python tools/apply_mortgage_matcher_handoff_v1.py
+          echo "Verify Axo Finans intent routing"
+          grep -q 'data-partner="Axo Finans"' sjekk/forbrukslan/index.html
+          grep -q 'data-url-refinansiere=' sjekk/forbrukslan/index.html
+          grep -q 'url_id=896' sjekk/forbrukslan/index.html
+          grep -q 'url_id=897' sjekk/forbrukslan/index.html
       - name: Verify Revenue Engine pass 10 and Traffic Engine batch
         shell: python
         run: |
