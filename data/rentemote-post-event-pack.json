@@ -1,0 +1,48 @@
+{
+  "version": "2026-09-21-v1",
+  "purpose": "Post-event traffic templates for 24-25 September 2026. Fill only from official Norges Bank/SSB releases before publishing.",
+  "norges_bank": {
+    "release": "2026-09-24T10:00:00+02:00",
+    "source": "https://www.norges-bank.no/aktuelt/kalender/rentemoter/26-09-24/",
+    "status": "awaiting_release",
+    "fields": {
+      "policy_rate_after": null,
+      "change_pp": null,
+      "guidance_summary": null
+    },
+    "hooks": [
+      "Rentebeslutningen er ute: dette betyr den for boliglånet ditt",
+      "Styringsrenten er {policy_rate_after} %. Men det viktigste er hva banken faktisk tar fra deg.",
+      "Hva betyr dagens rentebeslutning i kroner? Regn på ditt eget lån."
+    ],
+    "primary_destination": "https://sparesjekk.no/rentemote-hva-betyr-det.html?utm_source=social&utm_medium=organic&utm_campaign=rentemote_20260924&utm_content=post_decision"
+  },
+  "ssb": {
+    "release_date": "2026-09-25",
+    "source": "https://www.ssb.no/bank-og-finansmarked/finansinstitusjoner-og-andre-finansielle-foretak/statistikk/renter-i-banker-og-kredittforetak",
+    "status": "awaiting_release",
+    "fields": {
+      "reference_period": null,
+      "new_mortgage_rate": null,
+      "outstanding_mortgage_rate": null,
+      "deposit_rate": null
+    },
+    "hooks": [
+      "Nye boliglånstall er ute: slik ligger markedet nå",
+      "Betaler du mer enn markedet? Sammenlign renten din med de nye offisielle tallene.",
+      "Rentemøtet er én ting. Dette er renten bankkundene faktisk har fått."
+    ],
+    "primary_destination": "https://sparesjekk.no/min-rente-vs-markedet.html?utm_source=social&utm_medium=organic&utm_campaign=ssb_renter_20260925"
+  },
+  "conversion_routes": [
+    "https://sparesjekk.no/boliglanskalkulator-renteforskjell.html",
+    "https://sparesjekk.no/ta-sparesjekken.html?src=rentemote_post_event",
+    "https://sparesjekk.no/sjekk/boliglan/?intent=sammenligne"
+  ],
+  "guardrails": [
+    "Never populate release fields before the official source is published.",
+    "Do not predict the Norges Bank decision.",
+    "Do not claim that policy-rate changes automatically equal mortgage-rate changes.",
+    "Do not promise savings, approval or a specific bank offer."
+  ]
+}
