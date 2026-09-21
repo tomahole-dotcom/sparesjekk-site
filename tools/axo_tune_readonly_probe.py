@@ -32,7 +32,7 @@ if not acct["ok"]:
 fields=["Offer.name","Goal.name","Stat.datetime","Stat.conversion_status","Stat.payout","Stat.approved_payout","Stat.currency","Stat.affiliate_info1","Stat.affiliate_info2","Stat.source","Stat.ad_id"]
 params=[]
 for x in fields: params.append(("fields[]",x))
-params += [("sort[Stat.datetime]","desc"),("limit",10)]
+params += [("filters[Stat.datetime][conditional]","GREATER_THAN_OR_EQUAL_TO"),("filters[Stat.datetime][values]","2026-09-01 00:00:00"),("sort[Stat.datetime]","desc"),("limit",10)]
 conv=call("Affiliate_Report","getConversions",params)
 print("CONVERSIONS_ACCESS:", "OK" if conv["ok"] else "FAILED", "HTTP",conv.get("http"))
 if conv["ok"]:
