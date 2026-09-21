@@ -39,11 +39,28 @@ if conv["ok"]:
     data=conv.get("data")
     rows=data if isinstance(data,list) else (list(data.values()) if isinstance(data,dict) else [])
     print("CONVERSION_ROWS_RETURNED:",len(rows))
-    # Only non-sensitive commercial metadata; never emit IP/user-agent/referrer.
+    # Inspect only schema + explicitly requested commercial fields. Never emit PII/referrer/IP.
+    def schema(v,prefix=""):
+        out=[]
+        if isinstance(v,dict):
+            for k,val in v.items():
+                path=f"{prefix}.{k}" if prefix else k
+                out.append(path)
+                if isinstance(val,(dict,list)): out.extend(schema(val,path))
+        elif isinstance(v,list) and v:
+            out.extend(schema(v[0],prefix+"[]"))
+        return out
+    if rows:
+        print("ROW_SCHEMA:",json.dumps(sorted(set(schema(rows[0]))),ensure_ascii=False))
     safe=[]
+    allowed_leaf={"name","datetime","conversion_status","payout","approved_payout","currency","affiliate_info1","affiliate_info2","source","ad_id"}
     for row in rows[:10]:
         if not isinstance(row,dict): continue
-        safe.append({k:v for k,v in row.items() if k in fields or k in ("Offer","Goal","Stat")})
-    print("CONVERSION_SAMPLE:",json.dumps(safe,ensure_ascii=False,default=str)[:6000])
-else:
-    print("CONVERSION_ERROR:",conv.get("errorMessage") or conv.get("errors") or conv.get("error"))
+        z={}
+        for k,val in row.items():
+            if k in ("Offer","Goal","Stat") and isinstance(val,dict):
+                z[k]={kk:vv for kk,vv in val.items() if kk in allowed_leaf}
+            elif k in allowed_leaf:
+                z[k]=val
+        safe.append(z)
+    print("COMMERCIAL_SAMPLE:",json.dumps(safe,ensure_ascii=False,default=str)[:6000])
