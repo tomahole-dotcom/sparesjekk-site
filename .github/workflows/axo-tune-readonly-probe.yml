@@ -1,0 +1,20 @@
+name: Axo TUNE read-only probe
+on:
+  push:
+    branches: [seo-content-v34-master]
+    paths:
+      - '.github/workflows/axo-tune-readonly-probe.yml'
+      - 'tools/axo_tune_readonly_probe.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read-only authentication and conversion probe
+        env:
+          AXO_TUNE_API_KEY: ${{ secrets.AXO_TUNE_API_KEY }}
+        run: python tools/axo_tune_readonly_probe.py
