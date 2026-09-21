@@ -17,12 +17,14 @@ def active_partners(cat):
 
 def card(p):
     name=html.escape(p['name']); url=html.escape(p['url'],quote=True)
+    intent_urls=p.get('intent_urls',{})
+    intent_attrs=''.join(f' data-url-{html.escape(str(k),quote=True)}="{html.escape(str(v),quote=True)}"' for k,v in intent_urls.items())
     desc=html.escape(p.get('description','Se vilkår hos tilbyder.'))
     badges=''.join(f'<span>{html.escape(str(x))}</span>' for x in p.get('badges',[])[:3])
     rep=p.get('representative_example','').strip()
     rep_html=(f'<div class="partner-example"><b>Rente- og kostnadseksempel:</b> {html.escape(rep)}</div>' if rep else '')
     cta={'boliglan':'Sjekk aktuelle boliglånstilbud →','forbrukslan':'Sammenlign faktiske tilbud →','omstartslan':'Undersøk aktuelle alternativer →'}.get(next(iter(p.get('categories',[])),''),'Se hos tilbyder →')
-    return f'<div class="partner-card" data-partner="{name}"><div><h3>{name}</h3><p>{desc}</p><div class="partner-badges">{badges}</div>{rep_html}</div><a class="partner-cta" data-revenue-event="partner_click" data-revenue-partner="{name}" href="{url}" rel="sponsored nofollow noopener" target="_blank">{cta}</a></div>'
+    return f'<div class="partner-card" data-partner="{name}"{intent_attrs}><div><h3>{name}</h3><p>{desc}</p><div class="partner-badges">{badges}</div>{rep_html}</div><a class="partner-cta" data-revenue-event="partner_click" data-revenue-partner="{name}" href="{url}" rel="sponsored nofollow noopener" target="_blank">{cta}</a></div>'
 
 def render_landing(cat):
     path=ROOT/'sjekk'/cat/'index.html'
