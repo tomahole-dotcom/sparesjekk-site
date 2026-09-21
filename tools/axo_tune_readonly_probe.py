@@ -37,7 +37,18 @@ conv=call("Affiliate_Report","getConversions",params)
 print("CONVERSIONS_ACCESS:", "OK" if conv["ok"] else "FAILED", "HTTP",conv.get("http"))
 if conv["ok"]:
     data=conv.get("data")
-    rows=data if isinstance(data,list) else (list(data.values()) if isinstance(data,dict) else [])
+    # TUNE returns an array; some responses wrap rows in a data key.
+    if isinstance(data,list):
+        rows=data
+    elif isinstance(data,dict) and isinstance(data.get("data"),list):
+        rows=data["data"]
+    elif isinstance(data,dict) and isinstance(data.get("data"),dict):
+        rows=list(data["data"].values())
+    else:
+        rows=[]
+    print("TOP_LEVEL_DATA_TYPE:",type(data).__name__)
+    if isinstance(data,dict):
+        print("TOP_LEVEL_KEYS:",json.dumps(sorted(data.keys())))
     print("CONVERSION_ROWS_RETURNED:",len(rows))
     # Inspect only schema + explicitly requested commercial fields. Never emit PII/referrer/IP.
     def schema(v,prefix=""):
