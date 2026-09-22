@@ -8,6 +8,7 @@ on:
     branches: [seo-content-v34-master]
     paths:
       - '.github/workflows/rentegap-history.yml'
+      - 'tools/update_rentegap_history.py'
 
 permissions:
   contents: write
