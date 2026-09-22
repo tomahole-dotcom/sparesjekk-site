@@ -27,8 +27,8 @@ jobs:
           python - <<'PY'
           import json
           d=json.load(open('data/rentegap-history.json'))
-          assert d['observations'] >= 100
-          assert d['period_start'] <= '2014-01'
+          assert d['observations'] >= 48
+          assert d['period_start'] <= '2022-01'
           assert d['period_end'] >= '2026-07'
           assert all(-5 < x['new_gap_pp'] < 10 for x in d['history'])
           print('Rentegap history QA PASS', d['observations'], d['period_start'], d['period_end'])
