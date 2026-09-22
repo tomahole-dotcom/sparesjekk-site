@@ -1,0 +1,45 @@
+name: Update Rentegap History
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '20 8 26 * *'
+  push:
+    branches: [seo-content-v34-master]
+    paths:
+      - '.github/workflows/rentegap-history.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: seo-content-v34-master
+      - name: Build official history
+        run: python tools/update_rentegap_history.py
+      - name: Validate history
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('data/rentegap-history.json'))
+          assert d['observations'] >= 100
+          assert d['period_start'] <= '2014-01'
+          assert d['period_end'] >= '2026-07'
+          assert all(-5 < x['new_gap_pp'] < 10 for x in d['history'])
+          print('Rentegap history QA PASS', d['observations'], d['period_start'], d['period_end'])
+          PY
+      - name: Commit refreshed history
+        run: |
+          git config user.name "sparesjekk-data-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/rentegap-history.json
+          if git diff --cached --quiet; then
+            echo "No history changes"
+          else
+            git commit -m "Refresh official Rentegap history"
+            git push origin HEAD:seo-content-v34-master
+          fi
