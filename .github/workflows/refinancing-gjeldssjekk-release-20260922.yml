@@ -1,5 +1,5 @@
 name: Sparesjekk Gjeldssjekk Release 20260922
-# release-trigger-39
+# release-trigger-40
 on:
   push:
     branches: [seo-content-v34-master]
@@ -60,6 +60,10 @@ jobs:
           assert 'data-rentegap-history="v1"' in rg
           assert 'data-rentegap-history-ui="v1"' in rg
           assert 'rentegap-history.json' in rg
+          assert 'rentegapInsights' in rg
+          assert 'rentegapCitation' in rg
+          assert 'Høyeste gap, nye lån' in rg
+          assert 'Siterbart datapunkt' in rg
           assert 'temporalCoverage":"2021-09/2026-07"' in rg
           assert 'design-v44.css' in rg
           print('Rentegap history UI QA PASS')
