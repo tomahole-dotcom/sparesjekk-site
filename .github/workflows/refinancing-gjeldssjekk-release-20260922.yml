@@ -1,5 +1,5 @@
 name: Sparesjekk Gjeldssjekk Release 20260922
-# release-trigger-34
+# release-trigger-35
 on:
   push:
     branches: [seo-content-v34-master]
@@ -36,6 +36,18 @@ jobs:
           sm=Path('sitemap.xml').read_text(encoding='utf-8')
           for f in required[:5]:
               assert 'https://sparesjekk.no/'+f in sm, f
+          fav=Path('favicon.svg')
+          ico=Path('favicon.ico')
+          assert fav.exists() and fav.stat().st_size>100, 'favicon.svg'
+          assert ico.exists() and ico.stat().st_size>100, 'favicon.ico'
+          for p in Path('.').rglob('*.html'):
+              if any(part in {'.git','release'} for part in p.parts): continue
+              s=p.read_text(encoding='utf-8',errors='ignore')
+              icon_count=s.count('rel="icon"')+s.count("rel='icon'")
+              assert icon_count <= 1, f'duplicate favicon tags: {p}'
+              if icon_count:
+                  assert '/favicon.svg' in s, f'unexpected favicon href: {p}'
+          print('Favicon QA PASS')
           print('Gjeldssjekk release QA PASS')
       - name: Create tested release
         run: |
