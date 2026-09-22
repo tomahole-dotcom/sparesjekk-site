@@ -1,5 +1,5 @@
 name: Sparesjekk Gjeldssjekk Release 20260922
-# release-trigger-41
+# release-trigger-42
 on:
   push:
     branches: [seo-content-v34-master]
@@ -66,6 +66,13 @@ jobs:
           assert 'rentegap-history.json' in rg
           assert 'rentegap-history.csv' in rg
           assert 'rentegap-summary.json' in rg
+          assert 'rentegap-data.html' in rg
+          rd=Path('rentegap-data.html').read_text(encoding='utf-8')
+          assert 'data/rentegap-history.csv' in rd
+          assert 'data/rentegap-history.json' in rd
+          assert 'data/rentegap-summary.json' in rd
+          assert 'Rentegap = boliglånsrente' in rd
+          assert 'rentegap-data.html' in Path('sitemap.xml').read_text(encoding='utf-8')
           assert 'rentegapInsights' in rg
           assert 'rentegapCitation' in rg
           assert 'Høyeste gap, nye lån' in rg
