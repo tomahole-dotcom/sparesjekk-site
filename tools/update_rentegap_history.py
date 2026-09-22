@@ -30,7 +30,7 @@ def pick(meta, mode):
         elif "sektor" in label:
             terms=["hushold"]
         elif "binding" in label:
-            terms=["totale"]
+            terms=["totalt"]
         elif "statistikkvariabel" in label or "contents" in code.lower():
             terms=["renter"]
         else:
