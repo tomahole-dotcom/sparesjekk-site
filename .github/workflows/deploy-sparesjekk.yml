@@ -1,5 +1,5 @@
 name: Deploy Sparesjekk to Domene.no
-# deploy-trigger-v1
+# deploy-trigger-v2
 
 on:
   workflow_dispatch:
