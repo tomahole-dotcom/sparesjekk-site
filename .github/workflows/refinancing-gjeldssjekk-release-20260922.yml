@@ -1,5 +1,5 @@
 name: Sparesjekk Gjeldssjekk Release 20260922
-# release-trigger-40
+# release-trigger-41
 on:
   push:
     branches: [seo-content-v34-master]
@@ -55,11 +55,17 @@ jobs:
           assert '"@type":"Dataset"' in rg
           hist=json.loads(Path('data/rentegap-history.json').read_text(encoding='utf-8'))
           assert hist['observations'] >= 48
+          assert Path('data/rentegap-history.csv').exists()
+          summary=json.loads(Path('data/rentegap-summary.json').read_text(encoding='utf-8'))
+          assert summary['observations']==hist['observations']
+          assert summary['period']==hist['period_end']
           assert hist['period_end'] >= '2026-07'
           assert len(hist['history']) == hist['observations']
           assert 'data-rentegap-history="v1"' in rg
           assert 'data-rentegap-history-ui="v1"' in rg
           assert 'rentegap-history.json' in rg
+          assert 'rentegap-history.csv' in rg
+          assert 'rentegap-summary.json' in rg
           assert 'rentegapInsights' in rg
           assert 'rentegapCitation' in rg
           assert 'Høyeste gap, nye lån' in rg
