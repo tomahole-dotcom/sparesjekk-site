@@ -31,13 +31,21 @@ jobs:
           assert d['period_start'] <= '2022-01'
           assert d['period_end'] >= '2026-07'
           assert all(-5 < x['new_gap_pp'] < 10 for x in d['history'])
+          import csv
+          rows=list(csv.DictReader(open('data/rentegap-history.csv',encoding='utf-8')))
+          assert len(rows)==d['observations']
+          summary=json.load(open('data/rentegap-summary.json',encoding='utf-8'))
+          assert summary['observations']==d['observations']
+          assert summary['period']==d['period_end']
+          assert summary['change_pp']['12_months'] is not None
+          assert summary['change_pp']['48_months'] is not None
           print('Rentegap history QA PASS', d['observations'], d['period_start'], d['period_end'])
           PY
       - name: Commit refreshed history
         run: |
           git config user.name "sparesjekk-data-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/rentegap-history.json
+          git add data/rentegap-history.json data/rentegap-history.csv data/rentegap-summary.json
           if git diff --cached --quiet; then
             echo "No history changes"
           else
