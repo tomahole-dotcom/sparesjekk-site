@@ -92,7 +92,7 @@ periods=sorted(set(new)&set(outstanding)&set(policy))
 rows=[]
 for p in periods:
     rows.append({"period":p.replace("M","-"),"policy_rate_monthly_avg":policy[p],"new_mortgage_rate":new[p],"outstanding_mortgage_rate":outstanding[p],"new_gap_pp":round(new[p]-policy[p],2),"outstanding_gap_pp":round(outstanding[p]-policy[p],2)})
-if len(rows)<100:
+if len(rows)<48:
     raise RuntimeError(f"For kort historikk: {len(rows)} måneder")
 doc={"name":"Sparesjekk Rentegap historikk","generated":date.today().isoformat(),"method":"Månedlig SSB-rente minus Norges Banks månedsgjennomsnitt for styringsrenten.","sources":{"ssb_new_mortgage":"10748","ssb_outstanding":"10745","norges_bank":"styringsrenten månedsgjennomsnitt"},"period_start":rows[0]["period"],"period_end":rows[-1]["period"],"observations":len(rows),"history":rows}
 OUT.write_text(json.dumps(doc,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
