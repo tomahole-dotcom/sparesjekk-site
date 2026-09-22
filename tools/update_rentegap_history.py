@@ -17,22 +17,31 @@ def post_json(url, payload):
     with urllib.request.urlopen(req, timeout=30) as r:
         return json.load(r)
 
-def pick(meta, wanted):
+def pick(meta, mode):
     q=[]
     for v in meta["variables"]:
         code=v["code"]; texts=v.get("valueTexts",[]); vals=v.get("values",[])
-        if code.lower() in ("tid","time"):
+        label=v.get("text","").lower()
+        if code.lower() in ("tid","time") or label=="måned":
             q.append({"code":code,"selection":{"filter":"all","values":["*"]}})
             continue
+        if "utlånstype" in label:
+            terms=["totale","pant","bolig"]
+        elif "sektor" in label:
+            terms=["hushold"]
+        elif "binding" in label:
+            terms=["totale"]
+        elif "statistikkvariabel" in label or "contents" in code.lower():
+            terms=["renter"]
+        else:
+            terms=["totale"]
         chosen=None
-        for terms in wanted:
-            for val,txt in zip(vals,texts):
-                low=txt.lower()
-                if all(t in low for t in terms):
-                    chosen=val; break
-            if chosen: break
+        for val,txt in zip(vals,texts):
+            low=txt.lower()
+            if all(t in low for t in terms):
+                chosen=val; break
         if not chosen:
-            raise RuntimeError(f"Fant ikke verdi for {v['text']}: {texts[:20]}")
+            raise RuntimeError(f"Fant ikke {terms} for {v['text']}: {texts[:30]}")
         q.append({"code":code,"selection":{"filter":"item","values":[chosen]}})
     return q
 
