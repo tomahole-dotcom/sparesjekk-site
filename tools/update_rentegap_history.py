@@ -73,7 +73,7 @@ class Table(HTMLParser):
     def handle_startendtag(self,tag,attrs): pass
 
 def policy_monthly():
-    with urllib.request.urlopen(NB,timeout=30) as r: html=r.read().decode("utf-8")
+    req=urllib.request.Request(NB,headers={"User-Agent":"Mozilla/5.0 (compatible; SparesjekkDataBot/1.0; +https://sparesjekk.no/)","Accept":"text/html,application/xhtml+xml"})\n    with urllib.request.urlopen(req,timeout=30) as r: html=r.read().decode("utf-8")
     p=Table(); p.feed(html)
     months={"januar":"01","februar":"02","mars":"03","april":"04","mai":"05","juni":"06","juli":"07","august":"08","september":"09","oktober":"10","november":"11","desember":"12"}
     out={}
