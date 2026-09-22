@@ -1,0 +1,32 @@
+{
+  "name": "Sparesjekk Rentegap sammendrag",
+  "generated": "2026-09-22",
+  "period": "2026-07",
+  "latest": {
+    "period": "2026-07",
+    "policy_rate_monthly_avg": 4.25,
+    "new_mortgage_rate": 5.29,
+    "outstanding_mortgage_rate": 5.31,
+    "new_gap_pp": 1.04,
+    "outstanding_gap_pp": 1.06
+  },
+  "change_pp": {
+    "12_months": -0.09,
+    "24_months": -0.19,
+    "48_months": -0.4
+  },
+  "record_new_gap": {
+    "highest": {
+      "period": "2021-09",
+      "value_pp": 1.69
+    },
+    "lowest": {
+      "period": "2026-05",
+      "value_pp": 0.94
+    }
+  },
+  "observations": 59,
+  "history_url": "https://sparesjekk.no/data/rentegap-history.json",
+  "csv_url": "https://sparesjekk.no/data/rentegap-history.csv",
+  "canonical_url": "https://sparesjekk.no/rentegap-indeks.html"
+}
