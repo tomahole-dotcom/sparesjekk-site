@@ -1,0 +1,64 @@
+name: Sparesjekk Gjeldssjekk Release 20260922
+on:
+  push:
+    branches: [seo-content-v34-master]
+    paths: ['.github/workflows/refinancing-gjeldssjekk-release-20260922.yml']
+permissions:
+  contents: read
+concurrency:
+  group: sparesjekk-production-deploy
+  cancel-in-progress: false
+jobs:
+  qa-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: seo-content-v34-master
+      - name: Verify release files
+        shell: python
+        run: |
+          from pathlib import Path
+          required=[
+            'gjeldssjekk.html','refinansiere-kredittkortgjeld.html','samle-gjeld.html',
+            'refinansiere-smalan.html','bor-jeg-refinansiere.html',
+            'sjekk/forbrukslan/index.html','sitemap.xml'
+          ]
+          for f in required:
+              p=Path(f); assert p.exists() and p.stat().st_size>100, f
+          g=Path('gjeldssjekk.html').read_text(encoding='utf-8')
+          assert 'G-XYRPP78DJ5' in g
+          assert 'origin=' in g
+          m=Path('sjekk/forbrukslan/index.html').read_text(encoding='utf-8')
+          assert 'url_id=896' in m and 'data-origin-attribution="v1"' in m
+          sm=Path('sitemap.xml').read_text(encoding='utf-8')
+          for f in required[:5]:
+              assert 'https://sparesjekk.no/'+f in sm, f
+          print('Gjeldssjekk release QA PASS')
+      - name: Create tested release
+        run: |
+          mkdir -p release/site
+          rsync -a ./ release/site/ --exclude '.git/' --exclude '.github/' --exclude 'release/' --exclude 'tools/' --exclude 'seo-baseline.json' --exclude 'requirements-site-builder.txt' --exclude 'site-config.json'
+      - name: Validate FTP secrets
+        env:
+          FTP_HOST: ${{ secrets.SPARESJEKK_FTP_HOST }}
+          FTP_USER: ${{ secrets.SPARESJEKK_FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.SPARESJEKK_FTP_PASSWORD }}
+        run: 'set -euo pipefail; for v in FTP_HOST FTP_USER FTP_PASSWORD; do [ -n "${!v:-}" ] || exit 1; done'
+      - name: Deploy tested site to production
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+        with:
+          server: ${{ secrets.SPARESJEKK_FTP_HOST }}
+          username: ${{ secrets.SPARESJEKK_FTP_USER }}
+          password: ${{ secrets.SPARESJEKK_FTP_PASSWORD }}
+          protocol: ftp
+          port: 21
+          local-dir: ./release/site/
+          server-dir: ./
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            .well-known/**
