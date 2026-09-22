@@ -24,7 +24,7 @@ jobs:
           required=[
             'gjeldssjekk.html','refinansiere-kredittkortgjeld.html','samle-gjeld.html',
             'refinansiere-smalan.html','bor-jeg-refinansiere.html',
-            'sjekk/forbrukslan/index.html','sitemap.xml','index.html','hva-bor-jeg-gjore-med-dyr-gjeld.html'
+            'sjekk/forbrukslan/index.html','sitemap.xml','index.html','ta-sparesjekken.html','hva-bor-jeg-gjore-med-dyr-gjeld.html'
           ]
           for f in required:
               p=Path(f); assert p.exists() and p.stat().st_size>100, f
