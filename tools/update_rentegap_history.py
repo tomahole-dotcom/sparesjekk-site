@@ -2,11 +2,14 @@
 import json, re, urllib.request
 from html.parser import HTMLParser
 from pathlib import Path
+import csv
 from datetime import date
 
 SSB="https://data.ssb.no/api/v0/no/table/"
 NB="https://www.norges-bank.no/tema/Statistikk/Styringsrente-daglig/Styringsgrente-manedlig/"
 OUT=Path("data/rentegap-history.json")
+CSV_OUT=Path("data/rentegap-history.csv")
+SUMMARY_OUT=Path("data/rentegap-summary.json")
 
 def get_json(url):
     with urllib.request.urlopen(url, timeout=30) as r:
@@ -96,4 +99,15 @@ if len(rows)<48:
     raise RuntimeError(f"For kort historikk: {len(rows)} måneder")
 doc={"name":"Sparesjekk Rentegap historikk","generated":date.today().isoformat(),"method":"Månedlig SSB-rente minus Norges Banks månedsgjennomsnitt for styringsrenten.","sources":{"ssb_new_mortgage":"10748","ssb_outstanding":"10745","norges_bank":"styringsrenten månedsgjennomsnitt"},"period_start":rows[0]["period"],"period_end":rows[-1]["period"],"observations":len(rows),"history":rows}
 OUT.write_text(json.dumps(doc,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
-print(f"Skrev {len(rows)} måneder: {rows[0]['period']}–{rows[-1]['period']}")
+with CSV_OUT.open("w",encoding="utf-8",newline="") as f:
+    w=csv.writer(f)
+    w.writerow(["period","policy_rate_monthly_avg","new_mortgage_rate","outstanding_mortgage_rate","new_gap_pp","outstanding_gap_pp"])
+    for x in rows:
+        w.writerow([x["period"],x["policy_rate_monthly_avg"],x["new_mortgage_rate"],x["outstanding_mortgage_rate"],x["new_gap_pp"],x["outstanding_gap_pp"]])
+latest=rows[-1]
+hi=max(rows,key=lambda x:x["new_gap_pp"]); lo=min(rows,key=lambda x:x["new_gap_pp"])
+def delta(months):
+    return round(latest["new_gap_pp"]-rows[-1-months]["new_gap_pp"],2) if len(rows)>months else None
+summary={"name":"Sparesjekk Rentegap sammendrag","generated":date.today().isoformat(),"period":latest["period"],"latest":latest,"change_pp":{"12_months":delta(12),"24_months":delta(24),"48_months":delta(48)},"record_new_gap":{"highest":{"period":hi["period"],"value_pp":hi["new_gap_pp"]},"lowest":{"period":lo["period"],"value_pp":lo["new_gap_pp"]}},"observations":len(rows),"history_url":"https://sparesjekk.no/data/rentegap-history.json","csv_url":"https://sparesjekk.no/data/rentegap-history.csv","canonical_url":"https://sparesjekk.no/rentegap-indeks.html"}
+SUMMARY_OUT.write_text(json.dumps(summary,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+print(f"Skrev {len(rows)} måneder: {rows[0]['period']}–{rows[-1]['period']} + CSV/sammendrag")
