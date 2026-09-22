@@ -1,5 +1,5 @@
 name: Sparesjekk Gjeldssjekk Release 20260922
-# release-trigger-38
+# release-trigger-39
 on:
   push:
     branches: [seo-content-v34-master]
@@ -57,6 +57,12 @@ jobs:
           assert hist['observations'] >= 48
           assert hist['period_end'] >= '2026-07'
           assert len(hist['history']) == hist['observations']
+          assert 'data-rentegap-history="v1"' in rg
+          assert 'data-rentegap-history-ui="v1"' in rg
+          assert 'rentegap-history.json' in rg
+          assert 'temporalCoverage":"2021-09/2026-07"' in rg
+          assert 'design-v44.css' in rg
+          print('Rentegap history UI QA PASS')
           print('Rentegap history QA PASS', hist['observations'], hist['period_start'], hist['period_end'])
           print('Rentegap link-asset QA PASS')
           print('Favicon QA PASS')
