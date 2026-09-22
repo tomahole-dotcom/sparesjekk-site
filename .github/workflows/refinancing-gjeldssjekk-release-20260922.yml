@@ -1,5 +1,5 @@
 name: Sparesjekk Gjeldssjekk Release 20260922
-# release-trigger-11
+# release-trigger-12
 on:
   push:
     branches: [seo-content-v34-master]
