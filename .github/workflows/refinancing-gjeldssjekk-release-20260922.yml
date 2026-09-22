@@ -1,5 +1,5 @@
 name: Sparesjekk Gjeldssjekk Release 20260922
-# release-trigger-43
+# release-trigger-44
 on:
   push:
     branches: [seo-content-v34-master]
@@ -67,6 +67,13 @@ jobs:
           assert 'rentegap-history.csv' in rg
           assert 'rentegap-summary.json' in rg
           assert 'rentegap-data.html' in rg
+          assert 'rentegap-presse.html' in rg
+          rp=Path('rentegap-presse.html').read_text(encoding='utf-8')
+          assert '/favicon.svg' in rp
+          assert 'data/rentegap-summary.json' in rp
+          assert 'rentegap-data.html' in rp
+          assert 'post@sparesjekk.no' in rp
+          assert 'rentegap-presse.html' in Path('sitemap.xml').read_text(encoding='utf-8')
           rd=Path('rentegap-data.html').read_text(encoding='utf-8')
           assert 'data/rentegap-history.csv' in rd
           assert 'data/rentegap-history.json' in rd
