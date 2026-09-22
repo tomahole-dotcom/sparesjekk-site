@@ -1,5 +1,5 @@
 name: Sparesjekk Gjeldssjekk Release 20260922
-# release-trigger-44
+# release-trigger-45
 on:
   push:
     branches: [seo-content-v34-master]
@@ -68,6 +68,11 @@ jobs:
           assert 'rentegap-summary.json' in rg
           assert 'rentegap-data.html' in rg
           assert 'rentegap-presse.html' in rg
+          cc=Path('sjekk/kredittkort/index.html').read_text(encoding='utf-8')
+          assert 'data-credit-cost-example="v1"' in cc
+          assert 'representative kostnadseksempelet' in cc
+          assert 'background:#0b4f91!important' in cc
+          assert 'color:#fff!important' in cc
           rp=Path('rentegap-presse.html').read_text(encoding='utf-8')
           assert '/favicon.svg' in rp
           assert 'data/rentegap-summary.json' in rp
