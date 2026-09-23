@@ -1,5 +1,5 @@
 name: Sparesjekk Gjeldssjekk Release 20260922
-# release-trigger-45
+# release-trigger-46
 on:
   push:
     branches: [seo-content-v34-master]
@@ -22,78 +22,33 @@ jobs:
         run: |
           import json
           from pathlib import Path
-          required=[
-            'gjeldssjekk.html','refinansiere-kredittkortgjeld.html','samle-gjeld.html',
-            'refinansiere-smalan.html','bor-jeg-refinansiere.html',
-            'sjekk/forbrukslan/index.html','sitemap.xml','index.html','ta-sparesjekken.html','forbrukslan.html','refinansiere-forbruksgjeld.html','kredittkort.html','nedbetaling-kredittkortgjeld.html','samle-smalan-kredittkortgjeld.html','refinansiering-kalkulator.html','gjeldsmiks-sjekk.html','hva-bor-jeg-gjore-med-dyr-gjeld.html'
-          ]
+          required=['gjeldssjekk.html','refinansiere-kredittkortgjeld.html','samle-gjeld.html','refinansiere-smalan.html','bor-jeg-refinansiere.html','sjekk/forbrukslan/index.html','sitemap.xml','index.html','ta-sparesjekken.html','forbrukslan.html','refinansiere-forbruksgjeld.html','kredittkort.html','nedbetaling-kredittkortgjeld.html','samle-smalan-kredittkortgjeld.html','refinansiering-kalkulator.html','gjeldsmiks-sjekk.html','hva-bor-jeg-gjore-med-dyr-gjeld.html']
           for f in required:
               p=Path(f); assert p.exists() and p.stat().st_size>100, f
-          g=Path('gjeldssjekk.html').read_text(encoding='utf-8')
-          assert 'G-XYRPP78DJ5' in g
-          assert 'origin=' in g
-          m=Path('sjekk/forbrukslan/index.html').read_text(encoding='utf-8')
-          assert 'url_id=896' in m and 'data-origin-attribution="v1"' in m
+          g=Path('gjeldssjekk.html').read_text(encoding='utf-8'); assert 'G-XYRPP78DJ5' in g; assert 'origin=' in g
+          m=Path('sjekk/forbrukslan/index.html').read_text(encoding='utf-8'); assert 'url_id=896' in m and 'data-origin-attribution="v1"' in m
           sm=Path('sitemap.xml').read_text(encoding='utf-8')
-          for f in required[:5]:
-              assert 'https://sparesjekk.no/'+f in sm, f
-          fav=Path('favicon.svg')
-          ico=Path('favicon.ico')
-          assert fav.exists() and fav.stat().st_size>100, 'favicon.svg'
-          assert ico.exists() and ico.stat().st_size>100, 'favicon.ico'
+          for f in required[:5]: assert 'https://sparesjekk.no/'+f in sm, f
+          fav=Path('favicon.svg'); ico=Path('favicon.ico'); assert fav.exists() and fav.stat().st_size>100; assert ico.exists() and ico.stat().st_size>100
           for p in Path('.').rglob('*.html'):
               if any(part in {'.git','release'} for part in p.parts): continue
-              s=p.read_text(encoding='utf-8',errors='ignore')
-              icon_count=s.count('rel="icon"')+s.count("rel='icon'")
-              assert icon_count <= 1, f'duplicate favicon tags: {p}'
-              if icon_count:
-                  assert '/favicon.svg' in s, f'unexpected favicon href: {p}'
-          rg=Path('rentegap-indeks.html').read_text(encoding='utf-8')
-          assert 'Fast referanse: hva koster 0,10 prosentpoeng?' in rg
-          assert 'For medier og nettsteder' in rg
-          assert 'data/rentegap.json' in rg
-          assert '"@type":"Dataset"' in rg
-          hist=json.loads(Path('data/rentegap-history.json').read_text(encoding='utf-8'))
-          assert hist['observations'] >= 48
-          assert Path('data/rentegap-history.csv').exists()
-          summary=json.loads(Path('data/rentegap-summary.json').read_text(encoding='utf-8'))
-          assert summary['observations']==hist['observations']
-          assert summary['period']==hist['period_end']
-          assert hist['period_end'] >= '2026-07'
-          assert len(hist['history']) == hist['observations']
-          assert 'data-rentegap-history="v1"' in rg
-          assert 'data-rentegap-history-ui="v1"' in rg
-          assert 'rentegap-history.json' in rg
-          assert 'rentegap-history.csv' in rg
-          assert 'rentegap-summary.json' in rg
-          assert 'rentegap-data.html' in rg
-          assert 'rentegap-presse.html' in rg
+              z=p.read_text(encoding='utf-8',errors='ignore'); icon_count=z.count('rel="icon"')+z.count("rel='icon'"); assert icon_count<=1, f'duplicate favicon tags: {p}'
+              if icon_count: assert '/favicon.svg' in z, f'unexpected favicon href: {p}'
+          rg=Path('rentegap-indeks.html').read_text(encoding='utf-8'); assert 'Fast referanse: hva koster 0,10 prosentpoeng?' in rg; assert 'For medier og nettsteder' in rg; assert 'data/rentegap.json' in rg; assert '"@type":"Dataset"' in rg
+          hist=json.loads(Path('data/rentegap-history.json').read_text(encoding='utf-8')); assert hist['observations']>=48; assert Path('data/rentegap-history.csv').exists(); summary=json.loads(Path('data/rentegap-summary.json').read_text(encoding='utf-8')); assert summary['observations']==hist['observations']; assert summary['period']==hist['period_end']; assert hist['period_end']>='2026-07'; assert len(hist['history'])==hist['observations']
+          for x in ['data-rentegap-history="v1"','data-rentegap-history-ui="v1"','rentegap-history.json','rentegap-history.csv','rentegap-summary.json','rentegap-data.html','rentegap-presse.html','rentegapInsights','rentegapCitation','Høyeste gap, nye lån','Siterbart datapunkt','temporalCoverage":"2021-09/2026-07"','design-v44.css']: assert x in rg, x
           cc=Path('sjekk/kredittkort/index.html').read_text(encoding='utf-8')
-          assert 'data-credit-cost-example="v1"' in cc
-          assert 'representative kostnadseksempelet' in cc
-          assert 'background:#0b4f91!important' in cc
-          assert 'color:#fff!important' in cc
-          rp=Path('rentegap-presse.html').read_text(encoding='utf-8')
-          assert '/favicon.svg' in rp
-          assert 'data/rentegap-summary.json' in rp
-          assert 'rentegap-data.html' in rp
-          assert 'post@sparesjekk.no' in rp
-          assert 'rentegap-presse.html' in Path('sitemap.xml').read_text(encoding='utf-8')
-          rd=Path('rentegap-data.html').read_text(encoding='utf-8')
-          assert 'data/rentegap-history.csv' in rd
-          assert 'data/rentegap-history.json' in rd
-          assert 'data/rentegap-summary.json' in rd
-          assert 'Rentegap = boliglånsrente' in rd
-          assert 'rentegap-data.html' in Path('sitemap.xml').read_text(encoding='utf-8')
-          assert 'rentegapInsights' in rg
-          assert 'rentegapCitation' in rg
-          assert 'Høyeste gap, nye lån' in rg
-          assert 'Siterbart datapunkt' in rg
-          assert 'temporalCoverage":"2021-09/2026-07"' in rg
-          assert 'design-v44.css' in rg
-          print('Rentegap history UI QA PASS')
-          print('Rentegap history QA PASS', hist['observations'], hist['period_start'], hist['period_end'])
-          print('Rentegap link-asset QA PASS')
+          assert 'data-credit-card-partners="v3"' in cc
+          assert 're:member Gold' in cc and 're:member Black' in cc and 'Zensum' in cc
+          assert '2113489407' in cc and '2113489171' in cc
+          assert 'Effektiv rente 20,15 %' in cc and 'Effektiv rente 29,89 %' in cc
+          assert 'Kostnad 1 215 kr. Totalt 16 215 kr.' in cc and 'Kostnad 1 695 kr. Totalt 16 695 kr.' in cc
+          assert cc.count('rel="sponsored nofollow noopener"')>=3
+          assert 'background:#0b4f91!important' in cc and 'color:#fff!important' in cc
+          rp=Path('rentegap-presse.html').read_text(encoding='utf-8'); assert '/favicon.svg' in rp and 'data/rentegap-summary.json' in rp and 'rentegap-data.html' in rp and 'post@sparesjekk.no' in rp and 'rentegap-presse.html' in sm
+          rd=Path('rentegap-data.html').read_text(encoding='utf-8'); assert 'data/rentegap-history.csv' in rd and 'data/rentegap-history.json' in rd and 'data/rentegap-summary.json' in rd and 'Rentegap = boliglånsrente' in rd and 'rentegap-data.html' in sm
+          print('Credit card partner QA PASS')
+          print('Rentegap history QA PASS',hist['observations'],hist['period_start'],hist['period_end'])
           print('Favicon QA PASS')
           print('Gjeldssjekk release QA PASS')
       - name: Create tested release
