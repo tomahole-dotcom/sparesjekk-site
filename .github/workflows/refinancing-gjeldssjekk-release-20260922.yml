@@ -1,5 +1,5 @@
 name: Sparesjekk Gjeldssjekk Release 20260922
-# release-trigger-48
+# release-trigger-49
 on:
   push:
     branches: [seo-content-v34-master]
@@ -39,9 +39,9 @@ jobs:
           for x in ['data-rentegap-history="v1"','data-rentegap-history-ui="v1"','rentegap-history.json','rentegap-history.csv','rentegap-summary.json','rentegap-data.html','rentegap-presse.html','rentegapInsights','rentegapCitation','Høyeste gap, nye lån','Siterbart datapunkt','temporalCoverage":"2021-09/2026-07"','design-v44.css']: assert x in rg, x
           cc=Path('sjekk/kredittkort/index.html').read_text(encoding='utf-8')
           assert 'data-credit-card-partners="v3"' in cc
-          assert cc.count('data-partner="re:member Gold"')==1
-          assert cc.count('data-partner="re:member Black"')==1
-          assert cc.count('data-partner="Zensum"')==1
+          assert cc.count('<div class="partner-card primary" data-partner="re:member Gold">')==1
+          assert cc.count('<div class="partner-card" data-partner="re:member Black">')==1
+          assert cc.count('<div class="zensum-alt" data-partner="Zensum">')==1
           assert cc.count('2113489407')==1 and cc.count('2113489171')==1
           assert 'Effektiv rente 20,15 %' in cc and 'Effektiv rente 29,89 %' in cc
           assert 'Kostnad 1 215 kr. Totalt 16 215 kr.' in cc and 'Kostnad 1 695 kr. Totalt 16 695 kr.' in cc
