@@ -1,5 +1,5 @@
 name: Sparesjekk Gjeldssjekk Release 20260922
-# release-trigger-46
+# release-trigger-47
 on:
   push:
     branches: [seo-content-v34-master]
@@ -39,15 +39,21 @@ jobs:
           for x in ['data-rentegap-history="v1"','data-rentegap-history-ui="v1"','rentegap-history.json','rentegap-history.csv','rentegap-summary.json','rentegap-data.html','rentegap-presse.html','rentegapInsights','rentegapCitation','Høyeste gap, nye lån','Siterbart datapunkt','temporalCoverage":"2021-09/2026-07"','design-v44.css']: assert x in rg, x
           cc=Path('sjekk/kredittkort/index.html').read_text(encoding='utf-8')
           assert 'data-credit-card-partners="v3"' in cc
-          assert 're:member Gold' in cc and 're:member Black' in cc and 'Zensum' in cc
-          assert '2113489407' in cc and '2113489171' in cc
+          assert cc.count('data-partner="re:member Gold"')==1
+          assert cc.count('data-partner="re:member Black"')==1
+          assert cc.count('data-partner="Zensum"')==1
+          assert cc.count('2113489407')==1 and cc.count('2113489171')==1
           assert 'Effektiv rente 20,15 %' in cc and 'Effektiv rente 29,89 %' in cc
           assert 'Kostnad 1 215 kr. Totalt 16 215 kr.' in cc and 'Kostnad 1 695 kr. Totalt 16 695 kr.' in cc
           assert cc.count('rel="sponsored nofollow noopener"')>=3
+          assert cc.count('data-revenue-event="partner_click"')>=3
+          assert 'data-single-partner-origin="v1"' in cc and 'partner_origin_outclick' in cc and 'matcher_entry' in cc
+          assert 'data-card-intent-attribution="v1"' in cc and 'matcher_handoff' in cc
+          assert 'Første alternativ er ikke en garanti for at kortet er best for deg' in cc
           assert 'background:#0b4f91!important' in cc and 'color:#fff!important' in cc
           rp=Path('rentegap-presse.html').read_text(encoding='utf-8'); assert '/favicon.svg' in rp and 'data/rentegap-summary.json' in rp and 'rentegap-data.html' in rp and 'post@sparesjekk.no' in rp and 'rentegap-presse.html' in sm
           rd=Path('rentegap-data.html').read_text(encoding='utf-8'); assert 'data/rentegap-history.csv' in rd and 'data/rentegap-history.json' in rd and 'data/rentegap-summary.json' in rd and 'Rentegap = boliglånsrente' in rd and 'rentegap-data.html' in sm
-          print('Credit card partner QA PASS')
+          print('Credit card direct-partner + attribution QA PASS')
           print('Rentegap history QA PASS',hist['observations'],hist['period_start'],hist['period_end'])
           print('Favicon QA PASS')
           print('Gjeldssjekk release QA PASS')
