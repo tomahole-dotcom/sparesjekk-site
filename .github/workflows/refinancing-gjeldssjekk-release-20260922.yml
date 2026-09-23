@@ -1,5 +1,5 @@
 name: Sparesjekk Gjeldssjekk Release 20260922
-# release-trigger-47
+# release-trigger-48
 on:
   push:
     branches: [seo-content-v34-master]
@@ -51,8 +51,13 @@ jobs:
           assert 'data-card-intent-attribution="v1"' in cc and 'matcher_handoff' in cc
           assert 'Første alternativ er ikke en garanti for at kortet er best for deg' in cc
           assert 'background:#0b4f91!important' in cc and 'color:#fff!important' in cc
+          assert 'data-credit-needs-matcher="v1"' in cc and 'data-credit-needs-matcher-script="v1"' in cc
+          assert cc.count('data-need="balance"')==1 and cc.count('data-need="travel"')==1 and cc.count('data-need="unsure"')==1
+          assert 'credit_card_need_select' in cc and 'ikke et «beste kort»' in cc
+          assert cc.count('rel="icon"')==1 and '/favicon.svg' in cc
           rp=Path('rentegap-presse.html').read_text(encoding='utf-8'); assert '/favicon.svg' in rp and 'data/rentegap-summary.json' in rp and 'rentegap-data.html' in rp and 'post@sparesjekk.no' in rp and 'rentegap-presse.html' in sm
           rd=Path('rentegap-data.html').read_text(encoding='utf-8'); assert 'data/rentegap-history.csv' in rd and 'data/rentegap-history.json' in rd and 'data/rentegap-summary.json' in rd and 'Rentegap = boliglånsrente' in rd and 'rentegap-data.html' in sm
+          print('Credit card needs matcher QA PASS')
           print('Credit card direct-partner + attribution QA PASS')
           print('Rentegap history QA PASS',hist['observations'],hist['period_start'],hist['period_end'])
           print('Favicon QA PASS')
