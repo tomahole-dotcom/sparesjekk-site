@@ -1,5 +1,5 @@
 name: Sparesjekk Gjeldssjekk Release 20260922
-# release-trigger-66-nav-stability
+# release-trigger-67-nav-content-fix
 on:
   push:
     branches: [seo-content-v34-master]
@@ -16,18 +16,35 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with: {ref: seo-content-v34-master}
-      - name: Apply navigation stability globally
+      - name: Apply navigation stability and repair missing Problemløser links
         shell: python
         run: |
           from pathlib import Path
-          tag='<link href="/nav-stability-v1.css?v=20260924" rel="stylesheet"/>'
-          changed=0
+          import re
+          tag='<link href="/nav-stability-v1.css?v=20260924b" rel="stylesheet"/>'
+          changed=0; repaired=0
           for p in Path('.').rglob('*.html'):
               if any(x in p.parts for x in ('.git','release')): continue
               z=p.read_text(encoding='utf-8')
-              if 'class="topnav"' in z and 'nav-stability-v1.css' not in z and '</head>' in z:
-                  p.write_text(z.replace('</head>',tag+'</head>',1),encoding='utf-8'); changed+=1
-          print('nav pages updated',changed)
+              if 'class="topnav"' not in z: continue
+              if 'nav-stability-v1.css' not in z and '</head>' in z:
+                  z=z.replace('</head>',tag+'</head>',1); changed+=1
+              if 'problemloser.html' not in z:
+                  m=re.search(r'(<nav[^>]*class="[^"]*topnav[^"]*"[^>]*>)(.*?)(</nav>)',z,re.S)
+                  if m:
+                      body=m.group(2)
+                      link='<a href="/problemloser.html">Problemløser</a>'
+                      anchors=list(re.finditer(r'<a\b[^>]*>.*?</a>',body,re.S))
+                      if anchors:
+                          # Put Problemløser before the final nav item (normally Tilbudssjekken/Guider), avoiding edge clipping.
+                          pos=anchors[-1].start()
+                          body=body[:pos]+link+body[pos:]
+                      else:
+                          body+=link
+                      z=z[:m.start(2)]+body+z[m.end(2):]
+                      repaired+=1
+              p.write_text(z,encoding='utf-8')
+          print('nav css added',changed,'missing Problemløser repaired',repaired)
       - name: Verify navigation
         shell: python
         run: |
@@ -39,7 +56,8 @@ jobs:
               if any(x in p.parts for x in ('.git','release')): continue
               z=p.read_text(encoding='utf-8')
               if 'class="topnav"' in z:
-                  pages.append(str(p)); assert 'nav-stability-v1.css' in z
+                  pages.append(str(p))
+                  assert 'nav-stability-v1.css' in z, f'nav css missing in {p}'
                   assert 'problemloser.html' in z, f'Problemløser missing in {p}'
           assert pages
           print('Navigation QA PASS',len(pages),'pages')
