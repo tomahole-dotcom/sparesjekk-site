@@ -1,5 +1,5 @@
-name: Sparesjekk Gjeldssjekk Release 20260922
-# release-trigger-67-nav-content-fix
+name: Sparesjekk System Repair Release 20260924
+# release-trigger-68-system-repair
 on:
   push:
     branches: [seo-content-v34-master]
@@ -16,51 +16,42 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with: {ref: seo-content-v34-master}
-      - name: Apply navigation stability and repair missing Problemløser links
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Install parser
+        run: pip install beautifulsoup4==4.14.2
+      - name: Apply persistent system repair
+        run: python tools/system_repair.py
+      - name: Regression hard gate
         shell: python
         run: |
           from pathlib import Path
-          import re
-          tag='<link href="/nav-stability-v1.css?v=20260924b" rel="stylesheet"/>'
-          changed=0; repaired=0
+          from bs4 import BeautifulSoup
+          errors=[]; nav_pages=0
+          required={'/problemloser.html':'Problemløser','/om.html':'Om oss'}
           for p in Path('.').rglob('*.html'):
               if any(x in p.parts for x in ('.git','release')): continue
-              z=p.read_text(encoding='utf-8')
-              if 'class="topnav"' not in z: continue
-              if 'nav-stability-v1.css' not in z and '</head>' in z:
-                  z=z.replace('</head>',tag+'</head>',1); changed+=1
-              if 'problemloser.html' not in z:
-                  m=re.search(r'(<nav[^>]*class="[^"]*topnav[^"]*"[^>]*>)(.*?)(</nav>)',z,re.S)
-                  if m:
-                      body=m.group(2)
-                      link='<a href="/problemloser.html">Problemløser</a>'
-                      anchors=list(re.finditer(r'<a\b[^>]*>.*?</a>',body,re.S))
-                      if anchors:
-                          # Put Problemløser before the final nav item (normally Tilbudssjekken/Guider), avoiding edge clipping.
-                          pos=anchors[-1].start()
-                          body=body[:pos]+link+body[pos:]
-                      else:
-                          body+=link
-                      z=z[:m.start(2)]+body+z[m.end(2):]
-                      repaired+=1
-              p.write_text(z,encoding='utf-8')
-          print('nav css added',changed,'missing Problemløser repaired',repaired)
-      - name: Verify navigation
-        shell: python
-        run: |
-          from pathlib import Path
-          css=Path('nav-stability-v1.css').read_text(encoding='utf-8')
-          assert '.topnav a:nth-child(n)' in css and '.topnav.open' in css
-          pages=[]
-          for p in Path('.').rglob('*.html'):
-              if any(x in p.parts for x in ('.git','release')): continue
-              z=p.read_text(encoding='utf-8')
-              if 'class="topnav"' in z:
-                  pages.append(str(p))
-                  assert 'nav-stability-v1.css' in z, f'nav css missing in {p}'
-                  assert 'problemloser.html' in z, f'Problemløser missing in {p}'
-          assert pages
-          print('Navigation QA PASS',len(pages),'pages')
+              s=BeautifulSoup(p.read_text(encoding='utf-8'),'html.parser')
+              nav=s.select_one('header.header .topnav')
+              if nav:
+                  nav_pages+=1
+                  hrefs={a.get('href') for a in nav.find_all('a',href=True)}
+                  for href,label in required.items():
+                      if href not in hrefs: errors.append(f'{label} missing from nav: {p}')
+                  if not s.find('link',href=lambda x:isinstance(x,str) and 'design-v45.css' in x): errors.append(f'V45 missing: {p}')
+          home=BeautifulSoup(Path('index.html').read_text(encoding='utf-8'),'html.parser')
+          if not home.select_one('[data-current-rate-event="2026-09-24"]'): errors.append('Homepage rate decision missing')
+          mortgage=BeautifulSoup(Path('boliglan.html').read_text(encoding='utf-8'),'html.parser')
+          first=mortgage.select_one('.decision-grid > article:first-child')
+          if first and first.find('section',recursive=False): errors.append('Boliglan nested content regression')
+          if not mortgage.select_one('.hub-followups[data-layout-repair="20260924"]'): errors.append('Boliglan followups repair missing')
+          offer=BeautifulSoup(Path('tilbudssjekk-refinansiering.html').read_text(encoding='utf-8'),'html.parser')
+          if not offer.select_one('.offer-check[data-layout-repair="20260924"]'): errors.append('Refinancing offer layout repair missing')
+          css=Path('design-v45.css').read_text(encoding='utf-8')
+          for token in ('.current-rate-event','.hub-followups','data-layout-repair'):
+              if token not in css: errors.append(f'CSS regression token missing: {token}')
+          if errors: raise SystemExit('\n'.join(errors))
+          print('SYSTEM REGRESSION QA PASS',nav_pages,'navigation pages')
       - name: Create tested release
         run: |
           mkdir -p release/site
