@@ -1,5 +1,5 @@
 name: Sparesjekk System Repair Release 20260924
-# release-trigger-75-direct-partner-routes
+# release-trigger-76-credit-partner-clarity
 on:
   push:
     branches: [seo-content-v34-master]
@@ -56,17 +56,28 @@ jobs:
           if not debt_route: errors.append('Gjeldssjekk offer route missing')
           elif not debt_route.find('a',href='/tilbudssjekk-refinansiering.html?src=gjeldssjekk'): errors.append('Gjeldssjekk Tilbudssjekk route missing')
           for filename in ('sjekk/forbrukslan/index.html','sjekk/omstartslan/index.html'):
-              doc=BeautifulSoup(Path(filename).read_text(encoding='utf-8'),'html.parser'); strip=doc.select_one('#samarbeidspartnere[data-partner-visibility="v1"]'); matcher=doc.select_one('.revenue-matcher')
+              doc=BeautifulSoup(Path(filename).read_text(encoding='utf-8'),'html.parser'); strip=doc.select_one('#samarbeidspartnere[data-partner-visibility="v1"]')
               if not strip: errors.append(f'Partner visibility/anchor missing: {filename}')
               names=[x.get_text(' ',strip=True) for x in strip.select('.partner-brand-list span')] if strip else []
               if len(names)<2: errors.append(f'Partner names not exposed: {filename}')
               hero=doc.select_one('.campaign-hero .hero-actions')
               if not hero or not hero.find('a',href='#samarbeidspartnere'): errors.append(f'Direct hero partner route missing: {filename}')
+          credit=BeautifulSoup(Path('sjekk/kredittkort/index.html').read_text(encoding='utf-8'),'html.parser')
+          zone=credit.select_one('#samarbeidspartnere[data-credit-card-partners]')
+          if not zone: errors.append('Credit-card partner zone/anchor missing')
+          else:
+              names={x.get('data-partner') for x in zone.select('[data-partner]')}
+              for expected in ('re:member Gold','re:member Black','Sambla','Zensum'):
+                  if expected not in names: errors.append(f'Credit-card partner missing: {expected}')
+              if not zone.find('h2',id='direkte',string=lambda x:x and 're:member' in x): errors.append('Credit-card direct product heading unclear')
+              if not zone.select_one('#flere h2') or 'Sammenligningstjenester' not in zone.select_one('#flere h2').get_text(): errors.append('Credit-card intermediary heading unclear')
+          hero=credit.select_one('.campaign-hero .hero-actions')
+          if not hero or not hero.find('a',href='#samarbeidspartnere'): errors.append('Credit-card direct hero partner route missing')
           css=Path('design-v45.css').read_text(encoding='utf-8')
           for token in ('.current-rate-event','.hub-followups','data-layout-repair','.conversion-bridge','.gs-offer-route','.partner-visibility-strip','.debt-row'):
               if token not in css: errors.append(f'CSS regression token missing: {token}')
           if errors: raise SystemExit('\n'.join(errors))
-          print('SYSTEM REGRESSION QA PASS',nav_pages,'navigation pages; direct partner routes protected')
+          print('SYSTEM REGRESSION QA PASS',nav_pages,'navigation pages; credit-card partner clarity protected')
       - name: Create tested release
         run: |
           mkdir -p release/site
