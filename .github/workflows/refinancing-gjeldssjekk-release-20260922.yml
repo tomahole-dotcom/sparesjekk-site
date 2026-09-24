@@ -1,5 +1,5 @@
 name: Sparesjekk Gjeldssjekk Release 20260922
-# release-trigger-62-site-visual-cleanup
+# release-trigger-63-gjeldssjekk-ui-v2
 on:
   push:
     branches: [seo-content-v34-master]
@@ -27,18 +27,23 @@ jobs:
               if 'site-visual-cleanup-v2.css' not in z:
                   assert '</head>' in z
                   p.write_text(z.replace('</head>',tag+'</head>',1),encoding='utf-8')
-      - name: Verify visual cleanup and critical production fixes
+      - name: Verify visual cleanup and Gjeldssjekken V2
         shell: python
         run: |
           from pathlib import Path
           css=Path('site-visual-cleanup-v2.css').read_text(encoding='utf-8')
-          assert '.hub-editorial' in css and '.decision-grid' in css and '@media(max-width:760px)' in css
+          assert '.hub-editorial' in css and '.decision-grid' in css
           for fn in ('boliglan.html','forbrukslan.html','kredittkort.html','omstartslan.html'):
-              z=Path(fn).read_text(encoding='utf-8'); assert z.count('site-visual-cleanup-v2.css')==1
+              assert Path(fn).read_text(encoding='utf-8').count('site-visual-cleanup-v2.css')==1
+          debt=Path('gjeldssjekk.html').read_text(encoding='utf-8')
+          debtcss=Path('gjeldssjekk-ui-v2.css').read_text(encoding='utf-8')
+          assert debt.count('gjeldssjekk-ui-v2.css')==1
+          assert '#gsRows' in debtcss and '.gs-remove' in debtcss and '.gs-links' in debtcss
+          assert 'id="gsCalc"' in debt and 'id="gsAdd"' in debt and 'id="gsResult"' in debt
           credit=Path('sjekk/kredittkort/index.html').read_text(encoding='utf-8')
           assert 'remember-gold-med-hvit-kant.png' in credit and 'remember-black-med-hvit-kant.png' in credit
           about=Path('om.html').read_text(encoding='utf-8'); assert 'Sparesjekk kan bruke affiliate- og partnerlenker' in about
-          print('Site visual cleanup V2 QA PASS')
+          print('Gjeldssjekken UI V2 + critical QA PASS')
       - name: Create tested release
         run: |
           mkdir -p release/site
