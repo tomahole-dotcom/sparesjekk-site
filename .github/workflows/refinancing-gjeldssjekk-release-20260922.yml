@@ -1,5 +1,5 @@
 name: Sparesjekk System Repair Release 20260924
-# release-trigger-73-tilbudssjekk-debt-route-fix
+# release-trigger-74-phase-b-partner-visibility
 on:
   push:
     branches: [seo-content-v34-master]
@@ -31,8 +31,7 @@ jobs:
           required={'/problemloser.html':'Problemløser','/om.html':'Om oss'}
           for p in Path('.').rglob('*.html'):
               if any(x in p.parts for x in ('.git','release')): continue
-              s=BeautifulSoup(p.read_text(encoding='utf-8'),'html.parser')
-              nav=s.select_one('header.header .topnav')
+              s=BeautifulSoup(p.read_text(encoding='utf-8'),'html.parser'); nav=s.select_one('header.header .topnav')
               if nav:
                   nav_pages+=1; hrefs={a.get('href') for a in nav.find_all('a',href=True)}
                   for href,label in required.items():
@@ -40,8 +39,7 @@ jobs:
                   if not s.find('link',href=lambda x:isinstance(x,str) and 'design-v45.css' in x): errors.append(f'V45 missing: {p}')
           home=BeautifulSoup(Path('index.html').read_text(encoding='utf-8'),'html.parser')
           if not home.select_one('[data-current-rate-event="2026-09-24"]'): errors.append('Homepage rate decision missing')
-          mortgage=BeautifulSoup(Path('boliglan.html').read_text(encoding='utf-8'),'html.parser')
-          first=mortgage.select_one('.decision-grid > article:first-child')
+          mortgage=BeautifulSoup(Path('boliglan.html').read_text(encoding='utf-8'),'html.parser'); first=mortgage.select_one('.decision-grid > article:first-child')
           if first and first.find('section',recursive=False): errors.append('Boliglan nested content regression')
           if not mortgage.select_one('.hub-followups[data-layout-repair="20260924"]'): errors.append('Boliglan followups repair missing')
           offer=BeautifulSoup(Path('tilbudssjekk-refinansiering.html').read_text(encoding='utf-8'),'html.parser')
@@ -54,15 +52,20 @@ jobs:
               hrefs={a.get('href') for a in bridge.find_all('a',href=True)}
               for href in routes:
                   if href not in hrefs: errors.append(f'{filename} bridge route missing: {href}')
-          debt=BeautifulSoup(Path('gjeldssjekk.html').read_text(encoding='utf-8'),'html.parser')
-          debt_route=debt.select_one('[data-offer-route="gjeldssjekk-v1"]')
+          debt=BeautifulSoup(Path('gjeldssjekk.html').read_text(encoding='utf-8'),'html.parser'); debt_route=debt.select_one('[data-offer-route="gjeldssjekk-v1"]')
           if not debt_route: errors.append('Gjeldssjekk offer route missing')
           elif not debt_route.find('a',href='/tilbudssjekk-refinansiering.html?src=gjeldssjekk'): errors.append('Gjeldssjekk Tilbudssjekk route missing')
+          for filename in ('sjekk/forbrukslan/index.html','sjekk/omstartslan/index.html'):
+              doc=BeautifulSoup(Path(filename).read_text(encoding='utf-8'),'html.parser'); strip=doc.select_one('[data-partner-visibility="v1"]'); matcher=doc.select_one('.revenue-matcher')
+              if not strip: errors.append(f'Partner visibility strip missing: {filename}')
+              elif matcher and strip.sourceline and matcher.sourceline and strip.sourceline > matcher.sourceline: errors.append(f'Partner strip must precede matcher: {filename}')
+              names=[x.get_text(' ',strip=True) for x in strip.select('.partner-brand-list span')] if strip else []
+              if len(names)<2: errors.append(f'Partner names not exposed: {filename}')
           css=Path('design-v45.css').read_text(encoding='utf-8')
-          for token in ('.current-rate-event','.hub-followups','data-layout-repair','.conversion-bridge','.gs-offer-route'):
+          for token in ('.current-rate-event','.hub-followups','data-layout-repair','.conversion-bridge','.gs-offer-route','.partner-visibility-strip','.debt-row'):
               if token not in css: errors.append(f'CSS regression token missing: {token}')
           if errors: raise SystemExit('\n'.join(errors))
-          print('SYSTEM REGRESSION QA PASS',nav_pages,'navigation pages; conversion routes protected')
+          print('SYSTEM REGRESSION QA PASS',nav_pages,'navigation pages; Phase B partner visibility protected')
       - name: Create tested release
         run: |
           mkdir -p release/site
