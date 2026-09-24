@@ -1,0 +1,86 @@
+name: Sparesjekk Phase B Consumer Release 78
+on:
+  push:
+    branches: [seo-content-v34-master]
+    paths: ['.github/workflows/phase-b-consumer-release-78.yml']
+permissions:
+  contents: read
+concurrency:
+  group: sparesjekk-production-deploy
+  cancel-in-progress: false
+jobs:
+  qa-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: seo-content-v34-master}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Install parser
+        run: pip install beautifulsoup4==4.14.2
+      - name: Apply persistent system repair
+        run: python tools/system_repair.py
+      - name: Consolidate Forbrukslan end flow
+        run: python tools/phase_b_consumer_cleanup.py
+      - name: Regression hard gate
+        shell: python
+        run: |
+          from pathlib import Path
+          from bs4 import BeautifulSoup
+          errors=[]
+          doc=BeautifulSoup(Path('forbrukslan.html').read_text(encoding='utf-8'),'html.parser')
+          article=doc.select_one('article#forbrukslan-hub-guide')
+          flow=article.select_one('[data-consumer-end-flow="v1"]') if article else None
+          if not flow: errors.append('Forbrukslan consolidated end flow missing')
+          else:
+              hrefs={a.get('href') for a in flow.find_all('a',href=True)}
+              required=('sjekk/forbrukslan/?intent=nytt-lan&origin=forbrukslan-end','gjeldssjekk.html?src=forbrukslan-end','sammenligne-forbrukslan.html')
+              for href in required:
+                  if href not in hrefs: errors.append(f'Forbrukslan end route missing: {href}')
+          if article and article.select('[data-commercial-ranking-links="v1"]'): errors.append('Forbrukslan duplicate related-next-steps block remains')
+          if article and len(article.select('[data-consumer-end-flow="v1"]')) != 1: errors.append('Forbrukslan must have exactly one consolidated end flow')
+          # Recheck locked system repairs too.
+          home=BeautifulSoup(Path('index.html').read_text(encoding='utf-8'),'html.parser')
+          if not home.select_one('[data-current-rate-event="2026-09-24"]'): errors.append('Homepage rate event regression')
+          mortgage=BeautifulSoup(Path('boliglan.html').read_text(encoding='utf-8'),'html.parser')
+          if not mortgage.select_one('.hub-followups[data-layout-repair="20260924"]'): errors.append('Boliglan repair regression')
+          offer=BeautifulSoup(Path('tilbudssjekk-refinansiering.html').read_text(encoding='utf-8'),'html.parser')
+          if not offer.select_one('.offer-check[data-layout-repair="20260924"]'): errors.append('Tilbudssjekk repair regression')
+          restart=BeautifulSoup(Path('omstartslan.html').read_text(encoding='utf-8'),'html.parser')
+          if not restart.select_one('[data-restart-end-flow="v1"]'): errors.append('Omstartslan end-flow regression')
+          for p in Path('.').rglob('*.html'):
+              if any(x in p.parts for x in ('.git','release')): continue
+              s=BeautifulSoup(p.read_text(encoding='utf-8'),'html.parser'); nav=s.select_one('header.header .topnav')
+              if nav:
+                  hrefs={a.get('href') for a in nav.find_all('a',href=True)}
+                  if '/problemloser.html' not in hrefs: errors.append(f'Problemløser nav regression: {p}')
+                  if '/om.html' not in hrefs: errors.append(f'Om oss nav regression: {p}')
+          if errors: raise SystemExit('\n'.join(errors))
+          print('RELEASE 78 REGRESSION QA PASS: Forbrukslan end flow consolidated and locked repairs intact')
+      - name: Create tested release
+        run: |
+          mkdir -p release/site
+          rsync -a ./ release/site/ --exclude '.git/' --exclude '.github/' --exclude 'release/' --exclude 'tools/' --exclude 'seo-baseline.json' --exclude 'requirements-site-builder.txt' --exclude 'site-config.json'
+      - name: Validate FTP secrets
+        env:
+          FTP_HOST: ${{ secrets.SPARESJEKK_FTP_HOST }}
+          FTP_USER: ${{ secrets.SPARESJEKK_FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.SPARESJEKK_FTP_PASSWORD }}
+        run: 'set -euo pipefail; for v in FTP_HOST FTP_USER FTP_PASSWORD; do [ -n "${!v:-}" ] || exit 1; done'
+      - name: Deploy tested site to production
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+        with:
+          server: ${{ secrets.SPARESJEKK_FTP_HOST }}
+          username: ${{ secrets.SPARESJEKK_FTP_USER }}
+          password: ${{ secrets.SPARESJEKK_FTP_PASSWORD }}
+          protocol: ftp
+          port: 21
+          local-dir: ./release/site/
+          server-dir: ./
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            .well-known/**
