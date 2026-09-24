@@ -1,26 +1,29 @@
 {
-  "version": "2026-09-20-v1",
+  "version": "2026-09-24-post-decision-v1",
   "event": "Norges Bank rentebeslutning 24. september 2026 kl. 10:00",
-  "status": "pre_decision",
+  "status": "post_decision",
   "facts": {
     "policy_rate_before": 4.25,
+    "policy_rate_after": 4.50,
+    "change_pp": 0.25,
+    "annual_cost_per_million_if_fully_passed_through_nok": 2500,
     "new_mortgage_rate_july": 5.29,
     "outstanding_mortgage_rate_july": 5.31,
     "ssb_next_update": "2026-09-25"
   },
   "hooks": [
-    "Rentemøte 24. september: dette bør boliglånskunder faktisk følge med på",
-    "0,25 prosentpoeng er 2 500 kr per million i lån per år – før avdrag og skatt",
-    "Styringsrenten er ikke boliglånsrenten: sjekk forskjellen før du reagerer på overskriftene"
+    "Norges Bank hever styringsrenten til 4,50 prosent – hva betyr det for boliglånet?",
+    "0,25 prosentpoeng tilsvarer omtrent 2 500 kr per million i restgjeld per år dersom hele økningen slår gjennom",
+    "Styringsrenten er ikke boliglånsrenten: bruk rentehevingen som signal til å kontrollere din egen rente"
   ],
   "destinations": {
-    "primary": "https://sparesjekk.no/rentemote-hva-betyr-det.html?utm_source=social&utm_medium=organic&utm_campaign=rentemote_20260924",
-    "calculator": "https://sparesjekk.no/boliglanskalkulator-renteforskjell.html?utm_source=social&utm_medium=organic&utm_campaign=rentemote_20260924",
-    "savings_check": "https://sparesjekk.no/ta-sparesjekken.html?src=rentemote_social&utm_source=social&utm_medium=organic&utm_campaign=rentemote_20260924"
+    "primary": "https://sparesjekk.no/rentemote-hva-betyr-det.html?utm_source=social&utm_medium=organic&utm_campaign=rentemote_20260924&utm_content=post_decision",
+    "calculator": "https://sparesjekk.no/boliglanskalkulator-renteforskjell.html?utm_source=social&utm_medium=organic&utm_campaign=rentemote_20260924&utm_content=post_decision",
+    "savings_check": "https://sparesjekk.no/ta-sparesjekken.html?src=rentemote_social&utm_source=social&utm_medium=organic&utm_campaign=rentemote_20260924&utm_content=post_decision"
   },
   "guardrails": [
-    "Do not predict the rate decision.",
-    "Use official Norges Bank/SSB figures only.",
-    "Do not promise savings or approval."
+    "Do not claim that policy-rate changes automatically equal mortgage-rate changes.",
+    "Do not promise savings or approval.",
+    "Do not invent detailed PPR guidance before the primary source is available."
   ]
 }
