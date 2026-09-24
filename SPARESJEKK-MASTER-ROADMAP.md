@@ -7,21 +7,19 @@ Source of truth: GitHub branch `seo-content-v34-master` + verified production at
 - Release 69 (`Trigger system repair release 69`, run 36007361520) completed successfully on 2026-09-24.
 - Regression hard gate passed across 119 navigation pages.
 - FTP deployment completed; deploy reported server files identical to tested release.
-- System repair currently enforces canonical navigation, current rate event, boliglan nesting repair marker, Tilbudssjekk layout repair marker, and `design-v45.css`.
-- Production still requires browser/visual verification before the stabilization gate is considered fully locked.
+- Independent production fetch + browser QA completed 2026-09-24.
+- Homepage rate event is live with both CTAs.
+- Canonical navigation is live with `Problemløser` and `Om oss`.
+- `boliglan.html` visually verified: first decision card is standalone; follow-up sections are outside it; no giant nested text wall.
+- `tilbudssjekk-refinansiering.html` visually verified: balanced two-panel desktop layout, readable labels, consistent inputs, no clipping/wrapping defect found.
+- `gjeldssjekk.html` production was checked and no concrete regression requiring redesign was identified.
+- Stabilization gate for Release 69 is PASSED and LOCKED.
 
 ## LOCKED / DONE
+- Release 69 stabilization: canonical navigation, 24.09.2026 rate event, boliglan nesting repair and Tilbudssjekk/refinancing layout. Do not alter without a verified defect; regression protection must remain.
 - re:member Gold/Black presentation uses real product imagery. Do not replace with CSS-generated cards or redesign without a concrete defect.
 - Existing working affiliate integrations must not be removed without a concrete reason.
 - Gjeldssjekk has already received UI work; verify before changing and do not redesign by default.
-
-## CURRENT BUGS / STABILIZATION GATE
-Must be verified in actual production before new product development:
-1. Main navigation consistently contains `Problemløser` and `Om oss`.
-2. Homepage displays the 24.09.2026 rate-decision component with CTAs to rate check and rate-difference calculator.
-3. `boliglan.html` no longer nests follow-up sections inside the first decision card; visual hierarchy must be restored without hiding the problem with CSS.
-4. `tilbudssjekk-refinansiering.html` must have a balanced, scannable desktop form and natural one-column mobile layout without breaking calculations.
-5. Verify Gjeldssjekk production before any further change.
 
 Fixed failure process: root cause → repair source of truth → regression test → deploy → verify production → lock → continue.
 
@@ -32,11 +30,12 @@ Current/previous commercial tracks include boliglan, forbrukslan, refinansiering
 Sparesjekk should help Norwegian consumers discover unnecessary costs, understand financial choices, use simple calculators/problem-solvers, compare relevant alternatives and reach an appropriate provider/partner. Long-term umbrella product: **Ta Sparesjekken**. Avoid becoming a generic AI-content portal.
 
 ## DESIGN / CONVERSION BACKLOG
-After stabilization:
+Current active phase after stabilization:
 - Reduce visual text walls without deleting useful SEO content.
 - Improve whitespace, hierarchy, sectioning, cards/components, relevant visuals, mobile rendering and next-step CTAs.
 - Make partner routes easier to discover while preserving trust.
 - Keep finished/approved design areas locked unless a verified defect exists.
+- Work page/component batches from actual production evidence; avoid broad redesigns and patch stacking.
 
 ## TRAFFIC ENGINE / SAVED RESEARCH
 - Focus on problem- and intent-led search demand, not generic article volume.
@@ -104,12 +103,13 @@ After stabilization, validate interest before heavy build. Map local/regional ba
 - Do not repeatedly layer CSS patches over broken component structure.
 - Do not redesign re:member cards.
 - Do not redesign Gjeldssjekk without first verifying a concrete production defect.
+- Do not reopen Release 69 stabilization items without a verified production defect.
 - Do not mass-produce thin AI SEO pages.
 - Do not build heavy lead-routing infrastructure before compliance + partner validation.
 
 ## PRIORITY SEQUENCE
-A. Stabilize actual production: menu → rate event → boliglan structure → Tilbudssjekk/refinancing layout.
-B. Design/conversion cleanup: text walls, visuals, hierarchy, partner discoverability, mobile, CTA.
+A. Stabilize actual production: COMPLETE + LOCKED 2026-09-24.
+B. Design/conversion cleanup: ACTIVE — text walls, visuals, hierarchy, partner discoverability, mobile, CTA.
 C. Optimize finance traffic engine: SEO, problem solver, calculators, internal linking, conversion, partner routing.
 D. Review saved research together and prioritize business opportunities by revenue potential, probability, cost, technical complexity, passivity, time-to-market and regulatory risk.
 E. Lean-validate direct lead model with real banks/insurers.
@@ -117,4 +117,4 @@ F. Build MVP only after compliance is clarified, at least one relevant partner s
 G. Add new silos only when monetisation is real.
 
 ## NEXT ACTION
-Complete independent browser/production verification of Release 69. If the four stabilization targets are visually/functionally correct, lock them and move immediately into the next design/conversion cleanup batch. If any target fails, repair the source-of-truth component/system, add/strengthen regression coverage, deploy and re-verify production before proceeding.
+Release 69 stabilization is locked. Continue with Phase B design/conversion cleanup using actual production as evidence. First target: identify the highest-impact remaining finance page/component with text-wall, hierarchy, partner-discoverability, mobile or CTA friction; repair source structure rather than stacking overrides; preserve SEO content and all locked areas; regression-test, deploy and verify production before locking the batch.
