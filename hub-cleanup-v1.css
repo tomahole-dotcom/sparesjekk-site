@@ -1,0 +1,8 @@
+/* Sparesjekk hub cleanup v1 – keep decision cards focused and readable */
+.main-category-page .hub-editorial .decision-grid > article{min-width:0;overflow:hidden}
+.main-category-page .hub-editorial .decision-grid > article > .seo-priority-link{display:none!important}
+.main-category-page .hub-editorial .decision-grid > article > section{display:none!important}
+.main-category-page .hub-editorial .decision-grid > article > h3{margin-bottom:10px}
+.main-category-page .hub-editorial .decision-grid > article > p:not(.seo-priority-link){margin-bottom:14px}
+.main-category-page .hub-editorial .decision-grid > article > a{display:inline-flex;align-items:center;min-height:44px;font-weight:800;line-height:1.35}
+@media(max-width:900px){.main-category-page .hub-editorial .decision-grid{grid-template-columns:1fr!important}}
