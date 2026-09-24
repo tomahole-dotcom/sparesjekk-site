@@ -1,8 +1,14 @@
-/* Sparesjekk site visual cleanup v2 — reduce text-wall feeling without deleting SEO content */
+/* Sparesjekk site visual cleanup v3 — preserve content, remove text-wall feeling */
 .main-category-page .article.cornerstone,.main-category-page .guides{max-width:1120px;margin-inline:auto}
-.main-category-page .article.cornerstone>section:not(.hub-editorial):not(.hub-all-guides):not(.seo-related),.main-category-page .guides>section:not(.hub-editorial):not(.hub-all-guides):not(.seo-related){max-width:820px;margin:0 auto;padding:30px 0;border-bottom:1px solid rgba(16,47,82,.08)}
-.main-category-page .article.cornerstone>section h2,.main-category-page .guides>section h2{line-height:1.18;margin-bottom:12px}
-.main-category-page .article.cornerstone>section p,.main-category-page .guides>section p{max-width:70ch;line-height:1.72}
+.main-category-page .article.cornerstone>section:not(.hub-editorial):not(.hub-all-guides):not(.seo-related),.main-category-page .guides>section:not(.hub-editorial):not(.hub-all-guides):not(.seo-related){max-width:900px;margin:18px auto;padding:30px 34px;border:1px solid rgba(16,47,82,.08);border-radius:20px;background:#fff;box-shadow:0 8px 28px rgba(14,43,85,.035)}
+.main-category-page .article.cornerstone>section:nth-of-type(even):not(.hub-editorial):not(.hub-all-guides):not(.seo-related),.main-category-page .guides>section:nth-of-type(even):not(.hub-editorial):not(.hub-all-guides):not(.seo-related){background:linear-gradient(145deg,#f8fbff,#fff);border-color:rgba(10,102,232,.11)}
+.main-category-page .article.cornerstone>section h2,.main-category-page .guides>section h2{max-width:760px;line-height:1.16;margin:0 0 14px;color:#102f52;font-size:clamp(1.45rem,2.3vw,2rem)}
+.main-category-page .article.cornerstone>section h3,.main-category-page .guides>section h3{margin:22px 0 7px;color:#294866;font-size:1.05rem}
+.main-category-page .article.cornerstone>section p,.main-category-page .guides>section p{max-width:68ch;line-height:1.68;color:#42566b;margin:0 0 14px}
+.main-category-page .article.cornerstone>section p:last-child,.main-category-page .guides>section p:last-child{margin-bottom:0}
+.main-category-page .article.cornerstone a,.main-category-page .guides a{text-underline-offset:3px;text-decoration-thickness:1px}
+.main-category-page .content-extension{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:18px}
+.main-category-page .content-extension>p{max-width:none!important;margin:0!important;padding:16px 18px;border:1px solid #dce8f3;border-radius:14px;background:#f9fcff}
 .main-category-page .hub-editorial{margin:34px auto;padding:30px;border:1px solid rgba(10,102,232,.14);border-radius:22px;background:linear-gradient(145deg,#f7fbff,#fff);box-shadow:0 12px 34px rgba(14,43,85,.06)}
 .main-category-page .hub-editorial>p{max-width:720px;color:#425a73}
 .main-category-page .decision-grid{gap:16px}
@@ -10,6 +16,7 @@
 .main-category-page .decision-grid>article h3{color:var(--brand-dark)}
 .main-category-page .hub-all-guides{max-width:900px;margin:38px auto;padding:28px;border-radius:20px;background:var(--brand-soft);border:1px solid rgba(10,102,232,.14)}
 .main-category-page .seo-related{max-width:900px;margin:28px auto 42px;padding:22px 24px;border-radius:17px;background:#f8fafc;border:1px solid rgba(16,47,82,.09);line-height:1.8}
-.main-category-page .seo-priority-link{font-size:.94rem}
-.main-category-page .article-note{max-width:820px;margin:28px auto;color:#64748b;font-size:.9rem}
-@media(max-width:760px){.main-category-page .article.cornerstone,.main-category-page .guides{padding-inline:16px}.main-category-page .hub-editorial{margin:24px 0;padding:20px 16px;border-radius:18px}.main-category-page .decision-grid>article{padding:18px}.main-category-page .article.cornerstone>section:not(.hub-editorial):not(.hub-all-guides):not(.seo-related),.main-category-page .guides>section:not(.hub-editorial):not(.hub-all-guides):not(.seo-related){padding:24px 0}.main-category-page .hub-all-guides,.main-category-page .seo-related{margin:24px 0;padding:20px 17px}}
+.main-category-page .seo-priority-link{font-size:.94rem}.main-category-page .article-note{max-width:820px;margin:28px auto;color:#64748b;font-size:.9rem}
+/* Commercial blocks should read as clear destinations, not more editorial copy. */
+.main-category-page [class*="partner"],.main-category-page [class*="commercial"]{scroll-margin-top:90px}
+@media(max-width:760px){.main-category-page .article.cornerstone,.main-category-page .guides{padding-inline:14px}.main-category-page .hub-editorial{margin:22px 0;padding:20px 16px;border-radius:18px}.main-category-page .decision-grid>article{padding:18px}.main-category-page .article.cornerstone>section:not(.hub-editorial):not(.hub-all-guides):not(.seo-related),.main-category-page .guides>section:not(.hub-editorial):not(.hub-all-guides):not(.seo-related){margin:12px 0;padding:22px 18px;border-radius:17px}.main-category-page .content-extension{grid-template-columns:1fr}.main-category-page .hub-all-guides,.main-category-page .seo-related{margin:24px 0;padding:20px 17px}}
