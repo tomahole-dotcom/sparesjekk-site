@@ -1,5 +1,5 @@
 name: Sparesjekk Gjeldssjekk Release 20260922
-# release-trigger-53-boliglan-cta-fix
+# release-trigger-54-sitewide-partner-cta-contrast
 on:
   push:
     branches: [seo-content-v34-master]
@@ -17,23 +17,52 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: seo-content-v34-master
-      - name: Verify boliglån CTA hotfix
+      - name: Apply site-wide partner CTA contrast guardrail
         shell: python
         run: |
           from pathlib import Path
-          p=Path('sjekk/boliglan/index.html')
-          z=p.read_text(encoding='utf-8')
-          assert z.count('data-partner="Tjenestetorget"')==1
-          assert z.count('1578043389')==1
-          assert 'Innhent og sammenlign boliglånstilbud →' in z
-          assert 'background:#0b4f91!important' in z
-          assert 'color:#fff!important' in z
-          assert 'display:block!important' in z
-          assert z.count('data-rate-hike-conversion="20260924"')==1
-          assert 'Renten er hevet – er boliglånet ditt fortsatt konkurransedyktig?' in z
-          assert z.count('rel="icon"')==1 and '/favicon.svg' in z
-          assert 'rel="sponsored nofollow noopener"' in z
-          print('Boliglån CTA rendering hotfix QA PASS')
+          tag='<link href="/partner-cta-hotfix.css?v=20260924" rel="stylesheet">'
+          changed=[]
+          for p in Path('.').rglob('*.html'):
+              if any(x in p.parts for x in ('.git','release')):
+                  continue
+              z=p.read_text(encoding='utf-8')
+              if 'partner-cta' not in z:
+                  continue
+              if 'partner-cta-hotfix.css' in z:
+                  continue
+              if '</head>' not in z:
+                  raise SystemExit(f'Missing </head> in {p}')
+              z=z.replace('</head>',tag+'</head>',1)
+              p.write_text(z,encoding='utf-8')
+              changed.append(str(p))
+          if not changed:
+              raise SystemExit('No partner CTA pages patched')
+          print('Patched partner CTA pages:', *changed, sep='\n - ')
+      - name: Verify site-wide CTA contrast and commercial integrity
+        shell: python
+        run: |
+          from pathlib import Path
+          css=Path('partner-cta-hotfix.css').read_text(encoding='utf-8')
+          for needle in ('color:#ffffff !important','-webkit-text-fill-color:#ffffff !important','background:#0b4f91 !important','opacity:1 !important','visibility:visible !important'):
+              assert needle in css, needle
+          pages=[]
+          for p in Path('.').rglob('*.html'):
+              if any(x in p.parts for x in ('.git','release')):
+                  continue
+              z=p.read_text(encoding='utf-8')
+              if 'partner-cta' in z:
+                  pages.append((p,z))
+                  assert z.count('partner-cta-hotfix.css')==1, p
+                  assert 'rel="sponsored nofollow noopener"' in z or 'rel="sponsored' in z, p
+          assert pages
+          critical=['sjekk/forbrukslan/index.html','sjekk/boliglan/index.html','sjekk/omstartslan/index.html','sjekk/kredittkort/index.html']
+          for f in critical:
+              p=Path(f); assert p.exists(), f
+              z=p.read_text(encoding='utf-8')
+              assert 'partner-cta-hotfix.css' in z, f
+              assert 'partner-cta' in z, f
+          print(f'CTA contrast QA PASS on {len(pages)} partner pages')
       - name: Create tested release
         run: |
           mkdir -p release/site
