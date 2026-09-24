@@ -1,5 +1,5 @@
 name: Sparesjekk Gjeldssjekk Release 20260922
-# release-trigger-59-hub-contrast-about
+# release-trigger-60-remember-visuals
 on:
   push:
     branches: [seo-content-v34-master]
@@ -37,6 +37,18 @@ jobs:
               if href not in z:
                   assert '</head>' in z
                   p.write_text(z.replace('</head>',tag+'</head>',1),encoding='utf-8')
+      - name: Upgrade re-member product presentation
+        shell: python
+        run: |
+          from pathlib import Path
+          p=Path('sjekk/kredittkort/index.html'); z=p.read_text(encoding='utf-8')
+          gold='https://www.remember.no/_next/image/?url=%2Fcontentassets%2Fdc674da62ffd42c98aa22c1e73efb0f3%2Fremember-gold-med-hvit-kant.png&w=1080&q=75'
+          black='https://www.remember.no/_next/image/?url=%2Fcontentassets%2F3599b531080e43d0af08fc28b8943c38%2Fremember-black-med-hvit-kant.png&w=1080&q=75'
+          z=z.replace('<div class="product-visual" aria-hidden="true"><div class="card-silhouette gold">re:member gold</div></div>',f'<div class="product-visual remember-visual"><img src="{gold}" alt="re:member Gold kredittkort" loading="eager" width="540" height="340"></div>')
+          z=z.replace('<div class="product-visual" aria-hidden="true"><div class="card-silhouette black">re:member black</div></div>',f'<div class="product-visual remember-visual"><img src="{black}" alt="re:member Black kredittkort" loading="lazy" width="540" height="340"></div>')
+          cleanup='''<style data-credit-visual-cleanup="v1">.campaign-shell{max-width:1120px}.campaign-content{max-width:1000px;margin-inline:auto}.quick-choices{margin:30px 0 18px}.comparison-strip{margin:12px 0 30px}.partner-zone{padding:30px}.partner-zone>p{max-width:720px}.card-grid{gap:22px}.partner-card{padding:0 22px 22px;overflow:hidden}.partner-card.primary{border-width:1px}.remember-visual{height:230px;margin:0 -22px 20px;border-radius:17px 17px 0 0;background:#f4f7fa}.remember-visual img{display:block;width:100%;height:100%;object-fit:cover}.partner-card>p:not(.revenue-card-kicker):not(.revenue-card-action-note){max-width:46ch}.partner-badges{margin:12px 0 4px}.credit-cost-example{margin:14px 0 18px}.revenue-card-action-note{margin:10px 0 0}.multi-partner{margin-top:34px;padding-top:28px}.multi-partner>p{max-width:720px}.multi-card{padding:20px}.legal-note{margin-top:26px}.campaign-alt{margin-top:28px}@media(max-width:760px){.partner-zone{padding:18px}.partner-card{padding:0 17px 18px}.remember-visual{height:190px;margin:0 -17px 18px}.comparison-strip{display:none}.quick-choices{margin-top:20px}}</style>'''
+          if 'data-credit-visual-cleanup="v1"' not in z: z=z.replace('</head>',cleanup+'</head>',1)
+          p.write_text(z,encoding='utf-8')
       - name: Apply site-wide partner CTA contrast guardrail
         shell: python
         run: |
@@ -57,10 +69,11 @@ jobs:
           hc=Path('hub-contrast-fix.css').read_text(encoding='utf-8'); assert '.card-hub-intent' in hc and '.restart-hub-intent' in hc and '-webkit-text-fill-color:#fff!important' in hc
           assert Path('forbrukslan.html').read_text(encoding='utf-8').count('consumer-hub-contrast-fix.css')==1
           about=Path('om.html').read_text(encoding='utf-8'); assert 'Sparesjekk kan bruke affiliate- og partnerlenker' in about; assert 'ingen aktive affiliate-lenker' not in about; assert 'Dersom vi senere' not in about
+          credit=Path('sjekk/kredittkort/index.html').read_text(encoding='utf-8'); assert 'remember-gold-med-hvit-kant.png' in credit and 'remember-black-med-hvit-kant.png' in credit; assert 'card-silhouette gold' not in credit and 'card-silhouette black' not in credit; assert 'data-credit-visual-cleanup="v1"' in credit
           css=Path('partner-cta-hotfix.css').read_text(encoding='utf-8'); assert 'color:#ffffff !important' in css
           for f in ['sjekk/forbrukslan/index.html','sjekk/boliglan/index.html','sjekk/omstartslan/index.html','sjekk/kredittkort/index.html']:
               z=Path(f).read_text(encoding='utf-8'); assert 'partner-cta' in z; assert z.count('partner-cta-hotfix.css')==1
-          print('Hub contrast + About V2 + commercial QA PASS')
+          print('Remember visuals + UX cleanup + hub contrast + About V2 QA PASS')
       - name: Create tested release
         run: |
           mkdir -p release/site
