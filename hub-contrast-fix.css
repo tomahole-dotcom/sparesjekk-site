@@ -1,0 +1,7 @@
+/* Hub contrast hotfix — 2026-09-24 */
+.card-hub-intent .decision-actions>a:first-child,.restart-hub-intent .decision-actions>a:first-child{background:linear-gradient(135deg,#0a66e8,#0876f9)!important;border-color:transparent!important;color:#fff!important}
+.card-hub-intent .decision-actions>a:first-child strong,.card-hub-intent .decision-actions>a:first-child span,.restart-hub-intent .decision-actions>a:first-child strong,.restart-hub-intent .decision-actions>a:first-child span{color:#fff!important;-webkit-text-fill-color:#fff!important;opacity:1!important}
+.card-hub-intent .decision-actions>a:not(:first-child),.restart-hub-intent .decision-actions>a:not(:first-child){background:#fff!important;color:#102f52!important}
+.card-hub-intent .decision-actions>a:not(:first-child) strong,.restart-hub-intent .decision-actions>a:not(:first-child) strong{color:#102f52!important;-webkit-text-fill-color:#102f52!important}
+.card-hub-intent .decision-actions>a:not(:first-child) span,.restart-hub-intent .decision-actions>a:not(:first-child) span{color:#0d5eae!important;-webkit-text-fill-color:#0d5eae!important}
+.card-hub-intent .decision-actions>a:focus-visible,.restart-hub-intent .decision-actions>a:focus-visible{outline:3px solid #102f52!important;outline-offset:3px}
