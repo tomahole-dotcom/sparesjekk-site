@@ -1,5 +1,5 @@
 name: Sparesjekk Gjeldssjekk Release 20260922
-# release-trigger-65-tilbudssjekk-ui-v2
+# release-trigger-66-nav-stability
 on:
   push:
     branches: [seo-content-v34-master]
@@ -16,26 +16,33 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with: {ref: seo-content-v34-master}
-      - name: Apply targeted UI assets
+      - name: Apply navigation stability globally
         shell: python
         run: |
           from pathlib import Path
-          additions={
-            'refinansiering-kalkulator.html':'<link href="/refinansiering-kalkulator-ui-v2.css?v=20260924" rel="stylesheet"/>',
-            'tilbudssjekk-refinansiering.html':'<link href="/tilbudssjekk-ui-v2.css?v=20260924b" rel="stylesheet"/>'}
-          for fn,tag in additions.items():
-              p=Path(fn); z=p.read_text(encoding='utf-8'); name=tag.split('href="/')[1].split('?')[0]
-              if name not in z:
-                  assert '</head>' in z; p.write_text(z.replace('</head>',tag+'</head>',1),encoding='utf-8')
-      - name: Verify targeted form fixes
+          tag='<link href="/nav-stability-v1.css?v=20260924" rel="stylesheet"/>'
+          changed=0
+          for p in Path('.').rglob('*.html'):
+              if any(x in p.parts for x in ('.git','release')): continue
+              z=p.read_text(encoding='utf-8')
+              if 'class="topnav"' in z and 'nav-stability-v1.css' not in z and '</head>' in z:
+                  p.write_text(z.replace('</head>',tag+'</head>',1),encoding='utf-8'); changed+=1
+          print('nav pages updated',changed)
+      - name: Verify navigation
         shell: python
         run: |
           from pathlib import Path
-          z=Path('tilbudssjekk-refinansiering.html').read_text(encoding='utf-8'); c=Path('tilbudssjekk-ui-v2.css').read_text(encoding='utf-8')
-          assert z.count('tilbudssjekk-ui-v2.css')==1
-          assert 'flex-direction:column!important' in c and '.offer-panel .field label' in c
-          for x in ('debt','currentRate','currentMonths','currentPayment','offerRate','offerMonths','setupFee','monthlyFee','checkOffer'): assert ('id="'+x+'"') in z
-          print('Tilbudssjekken UI V2 QA PASS')
+          css=Path('nav-stability-v1.css').read_text(encoding='utf-8')
+          assert '.topnav a:nth-child(n)' in css and '.topnav.open' in css
+          pages=[]
+          for p in Path('.').rglob('*.html'):
+              if any(x in p.parts for x in ('.git','release')): continue
+              z=p.read_text(encoding='utf-8')
+              if 'class="topnav"' in z:
+                  pages.append(str(p)); assert 'nav-stability-v1.css' in z
+                  assert 'problemloser.html' in z, f'Problemløser missing in {p}'
+          assert pages
+          print('Navigation QA PASS',len(pages),'pages')
       - name: Create tested release
         run: |
           mkdir -p release/site
