@@ -1,5 +1,5 @@
 name: Sparesjekk Gjeldssjekk Release 20260922
-# release-trigger-60-remember-visuals
+# release-trigger-62-site-visual-cleanup
 on:
   push:
     branches: [seo-content-v34-master]
@@ -17,63 +17,28 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: seo-content-v34-master
-      - name: Restore today's rate decision on homepage
+      - name: Apply main hub visual cleanup
         shell: python
         run: |
           from pathlib import Path
-          p=Path('index.html'); z=p.read_text(encoding='utf-8')
-          marker='data-rate-decision="20260924"'
-          if marker not in z:
-              css='''<style data-rate-decision-style="20260924">.rate-decision{max-width:1180px;margin:18px auto 22px;padding:0 24px}.rate-decision-inner{display:grid;grid-template-columns:1fr auto;gap:22px;align-items:center;padding:18px 22px;border:1px solid #b8d6f2;border-radius:18px;background:linear-gradient(135deg,#eaf4ff,#f8fbff);box-shadow:0 8px 24px rgba(16,70,125,.08)}.rate-decision-kicker{display:block;margin-bottom:4px;color:#0d5eae;font-size:.74rem;font-weight:900;letter-spacing:.05em}.rate-decision strong{display:block;color:#10233d;font-size:1.18rem}.rate-decision p{margin:5px 0 0;color:#41566b;line-height:1.45}.rate-decision-actions{display:flex;gap:9px;flex-wrap:wrap}.rate-decision-actions a{display:inline-flex;align-items:center;justify-content:center;padding:12px 15px;border-radius:11px;text-decoration:none;font-weight:850;white-space:nowrap}.rate-decision-primary{background:#0b4f91;color:#fff!important}.rate-decision-secondary{border:1px solid #8fb8df;background:#fff;color:#0b4f91!important}@media(max-width:760px){.rate-decision{padding:0 16px;margin-top:12px}.rate-decision-inner{grid-template-columns:1fr;padding:16px}.rate-decision-actions{display:grid;grid-template-columns:1fr}.rate-decision-actions a{width:100%;box-sizing:border-box}}</style>'''
-              banner='''<section class="rate-decision" data-rate-decision="20260924"><div class="rate-decision-inner"><div><span class="rate-decision-kicker">RENTEAVGJØRELSEN 24. SEPTEMBER</span><strong>Styringsrenten er hevet til 4,50 % – er boliglånet ditt fortsatt konkurransedyktig?</strong><p>Norges Bank har hevet styringsrenten med 0,25 prosentpoeng. Det betyr ikke at boliglånsrenten automatisk øker like mye, men nå er det ekstra relevant å kontrollere hva du betaler og sammenligne alternativer.</p></div><div class="rate-decision-actions"><a class="rate-decision-primary" data-revenue-event="rate_hike_home" data-revenue-context="rate_hike_20260924" href="sjekk/boliglan/?intent=sammenligne&origin=rate-hike-home">Sjekk og sammenlign boliglån →</a><a class="rate-decision-secondary" href="rentemote-hva-betyr-det.html">Se hva rentehevingen betyr →</a></div></div></section>'''
-              z=z.replace('</head>',css+'</head>',1).replace('<main>','<main>'+banner,1); p.write_text(z,encoding='utf-8')
-      - name: Apply hub presentation fixes
-        shell: python
-        run: |
-          from pathlib import Path
-          injections={'boliglan.html':'<link href="/hub-cleanup-v1.css?v=20260924" rel="stylesheet"/>','forbrukslan.html':'<link href="/consumer-hub-contrast-fix.css?v=20260924b" rel="stylesheet"/>','kredittkort.html':'<link href="/hub-contrast-fix.css?v=20260924" rel="stylesheet"/>','omstartslan.html':'<link href="/hub-contrast-fix.css?v=20260924" rel="stylesheet"/>'}
-          for fn,tag in injections.items():
-              p=Path(fn); z=p.read_text(encoding='utf-8'); href=tag.split('href="')[1].split('?')[0]
-              if href not in z:
+          tag='<link href="/site-visual-cleanup-v2.css?v=20260924" rel="stylesheet"/>'
+          for fn in ('boliglan.html','forbrukslan.html','kredittkort.html','omstartslan.html'):
+              p=Path(fn); z=p.read_text(encoding='utf-8')
+              if 'site-visual-cleanup-v2.css' not in z:
                   assert '</head>' in z
                   p.write_text(z.replace('</head>',tag+'</head>',1),encoding='utf-8')
-      - name: Upgrade re-member product presentation
+      - name: Verify visual cleanup and critical production fixes
         shell: python
         run: |
           from pathlib import Path
-          p=Path('sjekk/kredittkort/index.html'); z=p.read_text(encoding='utf-8')
-          gold='https://www.remember.no/_next/image/?url=%2Fcontentassets%2Fdc674da62ffd42c98aa22c1e73efb0f3%2Fremember-gold-med-hvit-kant.png&w=1080&q=75'
-          black='https://www.remember.no/_next/image/?url=%2Fcontentassets%2F3599b531080e43d0af08fc28b8943c38%2Fremember-black-med-hvit-kant.png&w=1080&q=75'
-          z=z.replace('<div class="product-visual" aria-hidden="true"><div class="card-silhouette gold">re:member gold</div></div>',f'<div class="product-visual remember-visual"><img src="{gold}" alt="re:member Gold kredittkort" loading="eager" width="540" height="340"></div>')
-          z=z.replace('<div class="product-visual" aria-hidden="true"><div class="card-silhouette black">re:member black</div></div>',f'<div class="product-visual remember-visual"><img src="{black}" alt="re:member Black kredittkort" loading="lazy" width="540" height="340"></div>')
-          cleanup='''<style data-credit-visual-cleanup="v1">.campaign-shell{max-width:1120px}.campaign-content{max-width:1000px;margin-inline:auto}.quick-choices{margin:30px 0 18px}.comparison-strip{margin:12px 0 30px}.partner-zone{padding:30px}.partner-zone>p{max-width:720px}.card-grid{gap:22px}.partner-card{padding:0 22px 22px;overflow:hidden}.partner-card.primary{border-width:1px}.remember-visual{height:230px;margin:0 -22px 20px;border-radius:17px 17px 0 0;background:#f4f7fa}.remember-visual img{display:block;width:100%;height:100%;object-fit:cover}.partner-card>p:not(.revenue-card-kicker):not(.revenue-card-action-note){max-width:46ch}.partner-badges{margin:12px 0 4px}.credit-cost-example{margin:14px 0 18px}.revenue-card-action-note{margin:10px 0 0}.multi-partner{margin-top:34px;padding-top:28px}.multi-partner>p{max-width:720px}.multi-card{padding:20px}.legal-note{margin-top:26px}.campaign-alt{margin-top:28px}@media(max-width:760px){.partner-zone{padding:18px}.partner-card{padding:0 17px 18px}.remember-visual{height:190px;margin:0 -17px 18px}.comparison-strip{display:none}.quick-choices{margin-top:20px}}</style>'''
-          if 'data-credit-visual-cleanup="v1"' not in z: z=z.replace('</head>',cleanup+'</head>',1)
-          p.write_text(z,encoding='utf-8')
-      - name: Apply site-wide partner CTA contrast guardrail
-        shell: python
-        run: |
-          from pathlib import Path
-          tag='<link href="/partner-cta-hotfix.css?v=20260924" rel="stylesheet">'
-          for p in Path('.').rglob('*.html'):
-              if any(x in p.parts for x in ('.git','release')): continue
-              z=p.read_text(encoding='utf-8')
-              if 'partner-cta' not in z or 'partner-cta-hotfix.css' in z: continue
-              assert '</head>' in z, p
-              p.write_text(z.replace('</head>',tag+'</head>',1),encoding='utf-8')
-      - name: Verify release integrity
-        shell: python
-        run: |
-          from pathlib import Path
-          home=Path('index.html').read_text(encoding='utf-8'); assert home.count('data-rate-decision="20260924"')==1
-          for f in ('kredittkort.html','omstartslan.html'): assert Path(f).read_text(encoding='utf-8').count('hub-contrast-fix.css')==1
-          hc=Path('hub-contrast-fix.css').read_text(encoding='utf-8'); assert '.card-hub-intent' in hc and '.restart-hub-intent' in hc and '-webkit-text-fill-color:#fff!important' in hc
-          assert Path('forbrukslan.html').read_text(encoding='utf-8').count('consumer-hub-contrast-fix.css')==1
-          about=Path('om.html').read_text(encoding='utf-8'); assert 'Sparesjekk kan bruke affiliate- og partnerlenker' in about; assert 'ingen aktive affiliate-lenker' not in about; assert 'Dersom vi senere' not in about
-          credit=Path('sjekk/kredittkort/index.html').read_text(encoding='utf-8'); assert 'remember-gold-med-hvit-kant.png' in credit and 'remember-black-med-hvit-kant.png' in credit; assert 'card-silhouette gold' not in credit and 'card-silhouette black' not in credit; assert 'data-credit-visual-cleanup="v1"' in credit
-          css=Path('partner-cta-hotfix.css').read_text(encoding='utf-8'); assert 'color:#ffffff !important' in css
-          for f in ['sjekk/forbrukslan/index.html','sjekk/boliglan/index.html','sjekk/omstartslan/index.html','sjekk/kredittkort/index.html']:
-              z=Path(f).read_text(encoding='utf-8'); assert 'partner-cta' in z; assert z.count('partner-cta-hotfix.css')==1
-          print('Remember visuals + UX cleanup + hub contrast + About V2 QA PASS')
+          css=Path('site-visual-cleanup-v2.css').read_text(encoding='utf-8')
+          assert '.hub-editorial' in css and '.decision-grid' in css and '@media(max-width:760px)' in css
+          for fn in ('boliglan.html','forbrukslan.html','kredittkort.html','omstartslan.html'):
+              z=Path(fn).read_text(encoding='utf-8'); assert z.count('site-visual-cleanup-v2.css')==1
+          credit=Path('sjekk/kredittkort/index.html').read_text(encoding='utf-8')
+          assert 'remember-gold-med-hvit-kant.png' in credit and 'remember-black-med-hvit-kant.png' in credit
+          about=Path('om.html').read_text(encoding='utf-8'); assert 'Sparesjekk kan bruke affiliate- og partnerlenker' in about
+          print('Site visual cleanup V2 QA PASS')
       - name: Create tested release
         run: |
           mkdir -p release/site
