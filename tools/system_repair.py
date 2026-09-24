@@ -50,6 +50,15 @@ def repair_offer(path,soup):
     if path.name!='tilbudssjekk-refinansiering.html' or path.parent != ROOT: return
     main=soup.select_one('.offer-check')
     if main: main['data-layout-repair']='20260924'
+    info=next((sec for sec in soup.select('.offer-check > section.info') if 'Har du ikke fått et konkret tilbud ennå?' in sec.get_text(' ',strip=True)),None)
+    if info:
+        p=info.find('p')
+        if p:
+            p.clear(); p.append('Start med ')
+            a=soup.new_tag('a',href='/gjeldssjekk.html?src=tilbudssjekk-no-offer'); a.string='Gjeldssjekken'; p.append(a)
+            p.append(' for å få oversikt over gjeld og rente, eller bruk ')
+            b=soup.new_tag('a',href='/refinansiering-kalkulator.html'); b.string='før/etter-kalkulatoren'; p.append(b)
+            p.append(' dersom du vil sammenligne flere gjeldsposter mot et mulig nytt lån.')
 
 def ensure_conversion_bridge(path,soup):
     bridges={'kredittkort.html':('kredittkort-v1',CARD_BRIDGE_HTML),'forbrukslan.html':('forbrukslan-v1',CONSUMER_BRIDGE_HTML)}
@@ -65,8 +74,7 @@ def ensure_debt_offer_route(path,soup):
     for old in soup.select('[data-offer-route="gjeldssjekk-v1"]'): old.decompose()
     ad=soup.select_one('#gsAd')
     if not ad: return
-    frag=BeautifulSoup(OFFER_ROUTE_HTML,'html.parser').div
-    ad.insert_after(frag)
+    ad.insert_after(BeautifulSoup(OFFER_ROUTE_HTML,'html.parser').div)
 
 changed=0
 for path in ROOT.rglob('*.html'):
