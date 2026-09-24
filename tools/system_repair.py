@@ -85,13 +85,27 @@ def make_partner_route_obvious(path,soup):
         links[1]['href']='#samarbeidspartnere';links[1].string='Se samarbeidspartnere'
     if rel=='sjekk/omstartslan/index.html' and links:
         links[0]['href']='#samarbeidspartnere';links[0].string='Se samarbeidspartnere'
-        if len(links)>=2: links[1]['href']='../../omstartslan.html';links[1].string='Forstå omstartslån først'
+        if len(links)>=2:links[1]['href']='../../omstartslan.html';links[1].string='Forstå omstartslån først'
+
+def protect_credit_partner_clarity(path,soup):
+    if path.relative_to(ROOT).as_posix()!='sjekk/kredittkort/index.html':return
+    zone=soup.select_one('[data-credit-card-partners]')
+    if not zone:return
+    zone['id']='samarbeidspartnere'
+    hero=soup.select_one('.campaign-hero .hero-actions a.cta')
+    if hero:hero['href']='#samarbeidspartnere';hero.string='Se kort og samarbeidspartnere'
+    disclosure=zone.select_one('.partner-disclosure')
+    if disclosure:disclosure.string='ANNONSE / REKLAME – Sparesjekk kan motta provisjon dersom du går videre'
+    direct=zone.find('h2',id='direkte')
+    if direct:direct.string='Konkrete kredittkort fra re:member'
+    multi=zone.select_one('#flere h2')
+    if multi:multi.string='Sammenligningstjenester for flere kredittkortalternativer'
 
 changed=0
 for path in ROOT.rglob('*.html'):
     if any(x in path.parts for x in ('.git','release')):continue
     original=path.read_text(encoding='utf-8');soup=BeautifulSoup(original,'html.parser')
-    ensure_css(soup);canonical_nav(soup);add_rate_notice(path,soup);repair_boliglan(path,soup);repair_offer(path,soup);ensure_conversion_bridge(path,soup);ensure_debt_offer_route(path,soup);expose_partner_brands(path,soup);make_partner_route_obvious(path,soup)
+    ensure_css(soup);canonical_nav(soup);add_rate_notice(path,soup);repair_boliglan(path,soup);repair_offer(path,soup);ensure_conversion_bridge(path,soup);ensure_debt_offer_route(path,soup);expose_partner_brands(path,soup);make_partner_route_obvious(path,soup);protect_credit_partner_clarity(path,soup)
     new=str(soup)
     if new!=original:path.write_text(new,encoding='utf-8');changed+=1
-print(f'SYSTEM REPAIR PASS: {changed} HTML files normalized; rate event {RATE_ID}; partner visibility and direct routes protected')
+print(f'SYSTEM REPAIR PASS: {changed} HTML files normalized; rate event {RATE_ID}; partner clarity protected')
