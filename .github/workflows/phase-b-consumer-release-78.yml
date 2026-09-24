@@ -1,4 +1,5 @@
 name: Sparesjekk Phase B Consumer Release 78
+# release-trigger-78-forbrukslan-end-flow
 on:
   push:
     branches: [seo-content-v34-master]
@@ -40,7 +41,6 @@ jobs:
                   if href not in hrefs: errors.append(f'Forbrukslan end route missing: {href}')
           if article and article.select('[data-commercial-ranking-links="v1"]'): errors.append('Forbrukslan duplicate related-next-steps block remains')
           if article and len(article.select('[data-consumer-end-flow="v1"]')) != 1: errors.append('Forbrukslan must have exactly one consolidated end flow')
-          # Recheck locked system repairs too.
           home=BeautifulSoup(Path('index.html').read_text(encoding='utf-8'),'html.parser')
           if not home.select_one('[data-current-rate-event="2026-09-24"]'): errors.append('Homepage rate event regression')
           mortgage=BeautifulSoup(Path('boliglan.html').read_text(encoding='utf-8'),'html.parser')
