@@ -1,19 +1,20 @@
 {
-  "version": "2026-09-21-v1",
-  "purpose": "Post-event traffic templates for 24-25 September 2026. Fill only from official Norges Bank/SSB releases before publishing.",
+  "version": "2026-09-24-post-decision-v1",
+  "purpose": "Post-event traffic pack for the 24 September 2026 policy-rate decision.",
   "norges_bank": {
     "release": "2026-09-24T10:00:00+02:00",
     "source": "https://www.norges-bank.no/aktuelt/kalender/rentemoter/26-09-24/",
-    "status": "awaiting_release",
+    "status": "decision_published",
     "fields": {
-      "policy_rate_after": null,
-      "change_pp": null,
-      "guidance_summary": null
+      "policy_rate_before": 4.25,
+      "policy_rate_after": 4.50,
+      "change_pp": 0.25,
+      "guidance_summary": "Pengepolitisk rapport 3/26 og detaljert rentebane oppdateres separat når den fullstendige primærkilden er maskinelt tilgjengelig."
     },
     "hooks": [
-      "Rentebeslutningen er ute: dette betyr den for boliglånet ditt",
-      "Styringsrenten er {policy_rate_after} %. Men det viktigste er hva banken faktisk tar fra deg.",
-      "Hva betyr dagens rentebeslutning i kroner? Regn på ditt eget lån."
+      "Norges Bank hever styringsrenten til 4,50 prosent: dette betyr 0,25 prosentpoeng i kroner",
+      "Styringsrenten heves til 4,50 %. Men det viktigste for deg er hva banken faktisk gjør med boliglånsrenten.",
+      "0,25 prosentpoeng tilsvarer omtrent 2 500 kroner per million i restgjeld per år dersom hele endringen slår gjennom."
     ],
     "primary_destination": "https://sparesjekk.no/rentemote-hva-betyr-det.html?utm_source=social&utm_medium=organic&utm_campaign=rentemote_20260924&utm_content=post_decision"
   },
@@ -40,9 +41,9 @@
     "https://sparesjekk.no/sjekk/boliglan/?intent=sammenligne"
   ],
   "guardrails": [
-    "Never populate release fields before the official source is published.",
-    "Do not predict the Norges Bank decision.",
-    "Do not claim that policy-rate changes automatically equal mortgage-rate changes.",
-    "Do not promise savings, approval or a specific bank offer."
+    "Do not claim that the policy-rate increase automatically produces an identical mortgage-rate increase.",
+    "Keep mortgage-rate examples conditional and label them as simple annual estimates.",
+    "Do not promise savings, approval or a specific bank offer.",
+    "Do not invent detailed PPR 3/26 guidance before the primary source is available."
   ]
 }
