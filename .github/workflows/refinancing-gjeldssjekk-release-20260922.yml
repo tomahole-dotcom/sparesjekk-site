@@ -1,5 +1,5 @@
 name: Sparesjekk System Repair Release 20260924
-# release-trigger-72-gjeldssjekk-offer-route
+# release-trigger-73-tilbudssjekk-debt-route-fix
 on:
   push:
     branches: [seo-content-v34-master]
@@ -46,6 +46,7 @@ jobs:
           if not mortgage.select_one('.hub-followups[data-layout-repair="20260924"]'): errors.append('Boliglan followups repair missing')
           offer=BeautifulSoup(Path('tilbudssjekk-refinansiering.html').read_text(encoding='utf-8'),'html.parser')
           if not offer.select_one('.offer-check[data-layout-repair="20260924"]'): errors.append('Refinancing offer layout repair missing')
+          if not offer.find('a',href='/gjeldssjekk.html?src=tilbudssjekk-no-offer'): errors.append('Tilbudssjekk no-offer Gjeldssjekk route missing')
           checks={'kredittkort.html':('kredittkort-v1',('/kredittkort-match.html','/sjekk/kredittkort/','/gjeldssjekk.html?src=kredittkort-bridge')),'forbrukslan.html':('forbrukslan-v1',('/sjekk/forbrukslan/?intent=nytt-lan&origin=forbrukslan-bridge','/gjeldssjekk.html?src=forbrukslan-bridge'))}
           for filename,(bridge_id,routes) in checks.items():
               doc=BeautifulSoup(Path(filename).read_text(encoding='utf-8'),'html.parser'); bridge=doc.select_one(f'[data-conversion-bridge="{bridge_id}"]')
