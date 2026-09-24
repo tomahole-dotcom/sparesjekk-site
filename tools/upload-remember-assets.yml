@@ -1,0 +1,24 @@
+name: Install re-member product assets
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: seo-content-v34-master}
+      - name: Decode staged assets
+        run: |
+          mkdir -p assets
+          base64 -d assets/remember-gold-card.jpg.b64 > assets/remember-gold-card.jpg
+          base64 -d assets/remember-black-card.jpg.b64 > assets/remember-black-card.jpg
+          rm assets/remember-gold-card.jpg.b64 assets/remember-black-card.jpg.b64
+      - name: Commit assets
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add assets
+          git commit -m 'Install re:member product images'
+          git push
