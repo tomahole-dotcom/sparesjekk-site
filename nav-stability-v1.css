@@ -1,0 +1,15 @@
+/* Navigation stability v1 — keep all primary items predictable across widths */
+@media (min-width: 761px){
+  .header{max-width:1240px}
+  .topnav{display:flex!important;align-items:center;gap:clamp(12px,1.55vw,22px);flex-wrap:nowrap;white-space:nowrap}
+  .topnav a,.topnav a:nth-child(n){display:inline-block!important;font-size:clamp(12px,1.05vw,14px)}
+  .menu-btn{display:none!important}
+}
+@media (max-width:760px){
+  .header{position:relative}
+  .menu-btn{display:block!important}
+  .topnav{display:none!important;position:absolute;z-index:1000;top:62px;left:14px;right:14px;flex-direction:column;align-items:stretch;gap:0;padding:10px;background:#fff;border:1px solid #dce8f4;border-radius:14px;box-shadow:0 16px 38px rgba(14,43,85,.14)}
+  .topnav.open{display:flex!important}
+  .topnav a,.topnav a:nth-child(n){display:block!important;padding:12px 13px;font-size:15px;border-radius:9px}
+  .topnav a:hover,.topnav a:focus{background:#f2f7fd}
+}
