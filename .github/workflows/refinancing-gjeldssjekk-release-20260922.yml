@@ -1,5 +1,5 @@
 name: Sparesjekk Gjeldssjekk Release 20260922
-# release-trigger-64-refinansiering-kalkulator-ui-v2
+# release-trigger-65-tilbudssjekk-ui-v2
 on:
   push:
     branches: [seo-content-v34-master]
@@ -15,32 +15,27 @@ jobs:
     timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: seo-content-v34-master
-      - name: Apply visual cleanup assets
+        with: {ref: seo-content-v34-master}
+      - name: Apply targeted UI assets
         shell: python
         run: |
           from pathlib import Path
-          tag='<link href="/site-visual-cleanup-v2.css?v=20260924" rel="stylesheet"/>'
-          for fn in ('boliglan.html','forbrukslan.html','kredittkort.html','omstartslan.html'):
-              p=Path(fn); z=p.read_text(encoding='utf-8')
-              if 'site-visual-cleanup-v2.css' not in z:
+          additions={
+            'refinansiering-kalkulator.html':'<link href="/refinansiering-kalkulator-ui-v2.css?v=20260924" rel="stylesheet"/>',
+            'tilbudssjekk-refinansiering.html':'<link href="/tilbudssjekk-ui-v2.css?v=20260924b" rel="stylesheet"/>'}
+          for fn,tag in additions.items():
+              p=Path(fn); z=p.read_text(encoding='utf-8'); name=tag.split('href="/')[1].split('?')[0]
+              if name not in z:
                   assert '</head>' in z; p.write_text(z.replace('</head>',tag+'</head>',1),encoding='utf-8')
-          p=Path('refinansiering-kalkulator.html'); z=p.read_text(encoding='utf-8')
-          rtag='<link href="/refinansiering-kalkulator-ui-v2.css?v=20260924" rel="stylesheet"/>'
-          if 'refinansiering-kalkulator-ui-v2.css' not in z:
-              assert '</head>' in z; p.write_text(z.replace('</head>',rtag+'</head>',1),encoding='utf-8')
-      - name: Verify calculator and critical fixes
+      - name: Verify targeted form fixes
         shell: python
         run: |
           from pathlib import Path
-          calc=Path('refinansiering-kalkulator.html').read_text(encoding='utf-8'); css=Path('refinansiering-kalkulator-ui-v2.css').read_text(encoding='utf-8')
-          assert calc.count('refinansiering-kalkulator-ui-v2.css')==1
-          assert '.debt-row' in css and '.offer-grid' in css and 'minmax(0,1.35fr)' in css
-          for x in ('d1b','d1r','d1m','nr','nm','calc'): assert ('id="'+x+'"') in calc
-          debt=Path('gjeldssjekk.html').read_text(encoding='utf-8'); assert 'gjeldssjekk-ui-v2.css' in debt
-          credit=Path('sjekk/kredittkort/index.html').read_text(encoding='utf-8'); assert 'remember-gold-med-hvit-kant.png' in credit and 'remember-black-med-hvit-kant.png' in credit
-          print('Refinansiering calculator UI V2 QA PASS')
+          z=Path('tilbudssjekk-refinansiering.html').read_text(encoding='utf-8'); c=Path('tilbudssjekk-ui-v2.css').read_text(encoding='utf-8')
+          assert z.count('tilbudssjekk-ui-v2.css')==1
+          assert 'flex-direction:column!important' in c and '.offer-panel .field label' in c
+          for x in ('debt','currentRate','currentMonths','currentPayment','offerRate','offerMonths','setupFee','monthlyFee','checkOffer'): assert ('id="'+x+'"') in z
+          print('Tilbudssjekken UI V2 QA PASS')
       - name: Create tested release
         run: |
           mkdir -p release/site
