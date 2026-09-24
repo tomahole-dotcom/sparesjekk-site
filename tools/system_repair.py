@@ -66,7 +66,7 @@ def expose_partner_brands(path,soup):
         name=card.get('data-partner')
         if name and name not in names:names.append(name)
     if not names:return
-    box=soup.new_tag('div');box['class']=['partner-visibility-strip'];box['data-partner-visibility']='v1'
+    box=soup.new_tag('div');box['class']=['partner-visibility-strip'];box['data-partner-visibility']='v1';box['id']='samarbeidspartnere'
     eye=soup.new_tag('p');eye['class']=['eyebrow'];eye.string='SAMARBEIDSPARTNERE PÅ DENNE SIDEN';box.append(eye)
     strong=soup.new_tag('strong');strong.string='Du ser hvem du kan gå videre til før du velger spor.';box.append(strong)
     p=soup.new_tag('p');p.string='Valget under sorterer bare rekkefølgen. Du sendes ikke videre før du selv trykker på en partner.';box.append(p)
@@ -75,11 +75,23 @@ def expose_partner_brands(path,soup):
         span=soup.new_tag('span');span.string=name;brands.append(span)
     box.append(brands);matcher.insert_before(box)
 
+def make_partner_route_obvious(path,soup):
+    rel=path.relative_to(ROOT).as_posix()
+    if rel not in ('sjekk/forbrukslan/index.html','sjekk/omstartslan/index.html'):return
+    actions=soup.select_one('.campaign-hero .hero-actions')
+    if not actions:return
+    links=actions.find_all('a',recursive=False)
+    if rel=='sjekk/forbrukslan/index.html' and len(links)>=2:
+        links[1]['href']='#samarbeidspartnere';links[1].string='Se samarbeidspartnere'
+    if rel=='sjekk/omstartslan/index.html' and links:
+        links[0]['href']='#samarbeidspartnere';links[0].string='Se samarbeidspartnere'
+        if len(links)>=2: links[1]['href']='../../omstartslan.html';links[1].string='Forstå omstartslån først'
+
 changed=0
 for path in ROOT.rglob('*.html'):
     if any(x in path.parts for x in ('.git','release')):continue
     original=path.read_text(encoding='utf-8');soup=BeautifulSoup(original,'html.parser')
-    ensure_css(soup);canonical_nav(soup);add_rate_notice(path,soup);repair_boliglan(path,soup);repair_offer(path,soup);ensure_conversion_bridge(path,soup);ensure_debt_offer_route(path,soup);expose_partner_brands(path,soup)
+    ensure_css(soup);canonical_nav(soup);add_rate_notice(path,soup);repair_boliglan(path,soup);repair_offer(path,soup);ensure_conversion_bridge(path,soup);ensure_debt_offer_route(path,soup);expose_partner_brands(path,soup);make_partner_route_obvious(path,soup)
     new=str(soup)
     if new!=original:path.write_text(new,encoding='utf-8');changed+=1
-print(f'SYSTEM REPAIR PASS: {changed} HTML files normalized; rate event {RATE_ID}; partner visibility protected')
+print(f'SYSTEM REPAIR PASS: {changed} HTML files normalized; rate event {RATE_ID}; partner visibility and direct routes protected')
