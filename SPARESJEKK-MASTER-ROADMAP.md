@@ -1,41 +1,77 @@
 # SPARESJEKK.NO — MASTER ROADMAP
 
-Last updated: 2026-09-24
-Source of truth: GitHub branch `seo-content-v34-master` + verified production at Sparesjekk.no.
+Last updated: 2026-09-25
+Source of truth: GitHub branch `seo-content-v34-master` + verified production where verification is actually available.
 
 ## CURRENT PRODUCTION STATUS
-- Release 69 (`Trigger system repair release 69`, run 36007361520) completed successfully on 2026-09-24.
-- Regression hard gate passed across 119 navigation pages.
-- FTP deployment completed; deploy reported server files identical to tested release.
-- Independent production fetch + browser QA completed 2026-09-24.
-- Homepage rate event is live with both CTAs.
-- Canonical navigation is live with `Problemløser` and `Om oss`.
-- `boliglan.html` visually verified: first decision card is standalone; follow-up sections are outside it; no giant nested text wall.
-- `tilbudssjekk-refinansiering.html` visually verified: balanced two-panel desktop layout, readable labels, consistent inputs, no clipping/wrapping defect found.
-- `gjeldssjekk.html` production was checked and no concrete regression requiring redesign was identified.
-- Stabilization gate for Release 69 is PASSED and LOCKED.
+- Release 69 stabilization completed and locked: canonical navigation, 24.09.2026 rate event, Boliglån nesting repair and Tilbudssjekk/refinancing layout repair.
+- Releases 70–76 continued Phase B conversion cleanup.
+- Release 76 (`credit-card partner clarity`, run 36066148456) completed successfully through system repair, regression hard gate, tested release creation, FTP-secret validation and production FTP deploy.
+- Canonical navigation is protected by `tools/system_repair.py`; QA requires `Problemløser` and `Om oss`.
+- Homepage/current-rate component is regression protected.
+- Boliglån nesting repair and follow-up structure are regression protected.
+- Tilbudssjekk/refinansiering structural layout and no-offer route to Gjeldssjekken are regression protected.
+- Gjeldssjekk → Tilbudssjekk route is regression protected.
+- Forbrukslån and Omstartslån expose direct partner routes from the hero and partner names before sorting/matching.
+- Kredittkort now clearly separates concrete re:member Gold/Black products from Sambla/Zensum comparison services; hero routes directly to the partner area.
 
 ## LOCKED / DONE
-- Release 69 stabilization: canonical navigation, 24.09.2026 rate event, boliglan nesting repair and Tilbudssjekk/refinancing layout. Do not alter without a verified defect; regression protection must remain.
-- re:member Gold/Black presentation uses real product imagery. Do not replace with CSS-generated cards or redesign without a concrete defect.
+- Release 69 stabilization items. Do not reopen without a verified defect.
+- re:member Gold/Black presentation uses real product imagery. Do not replace with CSS/generated cards or redesign without a concrete defect.
 - Existing working affiliate integrations must not be removed without a concrete reason.
 - Gjeldssjekk has already received UI work; verify before changing and do not redesign by default.
+- Conversion bridges on Kredittkort and Forbrukslån.
+- Direct partner anchors/routes on Forbrukslån and Omstartslån.
+- Credit-card partner clarity: direct re:member products separated from comparison/intermediary services.
 
-Fixed failure process: root cause → repair source of truth → regression test → deploy → verify production → lock → continue.
+Fixed failure process: root cause → repair source of truth → regression test → deploy → verify production when a real verification method is available → lock → continue.
+
+## CURRENT QA LIMITATION
+- Paid TinyFish browser automation is intentionally not being used unless explicitly requested by the user.
+- Do not claim browser/visual production verification when it has not actually been performed.
+- GitHub Actions success confirms tested release/deploy mechanics, not by itself visual correctness.
+- Use available free production retrieval, user screenshots, source inspection and regression gates; visual defects found in screenshots become concrete repair inputs.
 
 ## CURRENT PARTNERS / MONETIZATION
-Current/previous commercial tracks include boliglan, forbrukslan, refinansiering and kredittkort. Partners used or evaluated include Tjenestetorget, Zensum, Sambla, DigiFinans, Axo Finans and re:member. Preserve working attribution/tracking. Partner presentation should be easy to find and commercially effective without making Sparesjekk look like an aggressive affiliate site.
+Current/previous commercial tracks include boliglån, forbrukslån, refinansiering and kredittkort. Partners used/evaluated include Tjenestetorget, Zensum, Sambla, DigiFinans, Axo Finans and re:member. Preserve working attribution/tracking.
+
+Known project links:
+- Sambla kredittkort: `https://go.adt246.net/t/t?a=2020411608&as=2102543040&t=2&tk=1`
+- Sambla refinansiering: `https://go.adt246.net/t/t?a=2021427585&as=2102543040&t=2&tk=1`
+
+Partner presentation principles:
+- partner names should be discoverable before a user is asked to choose a commercial route;
+- explain what happens when the user clicks;
+- distinguish direct products from comparison/intermediary services;
+- keep advertising/commission disclosure clear;
+- do not turn pages into aggressive affiliate walls.
 
 ## PRODUCT DIRECTION
 Sparesjekk should help Norwegian consumers discover unnecessary costs, understand financial choices, use simple calculators/problem-solvers, compare relevant alternatives and reach an appropriate provider/partner. Long-term umbrella product: **Ta Sparesjekken**. Avoid becoming a generic AI-content portal.
 
-## DESIGN / CONVERSION BACKLOG
-Current active phase after stabilization:
-- Reduce visual text walls without deleting useful SEO content.
-- Improve whitespace, hierarchy, sectioning, cards/components, relevant visuals, mobile rendering and next-step CTAs.
-- Make partner routes easier to discover while preserving trust.
-- Keep finished/approved design areas locked unless a verified defect exists.
-- Work page/component batches from actual production evidence; avoid broad redesigns and patch stacking.
+## DESIGN / CONVERSION — ACTIVE PHASE B
+Goal: reduce visible text chaos while preserving useful SEO content.
+
+Principles:
+- shorter visible text surfaces and stronger sectioning;
+- more whitespace and a clear visual hierarchy;
+- one obvious primary next action per decision point;
+- users should understand where a CTA leads before clicking;
+- partner names should not be hidden deep in the journey;
+- preserve SEO copy but improve its presentation rather than deleting valuable content;
+- mobile should collapse naturally to a clear single-column journey;
+- flow target: `see → understand → choose → click`;
+- repair component/source structure instead of accumulating CSS patches.
+
+Completed Phase B batches through Release 76:
+- Kredittkort main-page conversion bridge.
+- Forbrukslån conversion bridge.
+- Gjeldssjekk → Tilbudssjekk route.
+- Correct Tilbudssjekk no-offer route back to Gjeldssjekken.
+- Earlier partner visibility on Forbrukslån and Omstartslån.
+- Direct hero-to-partner anchors on Forbrukslån/Omstartslån.
+- Credit-card partner labeling/navigation without changing locked re:member imagery.
+- Mobile protection for squeezed Gjeldssjekk debt rows and clearer Tilbudssjekk action hierarchy in V45.
 
 ## TRAFFIC ENGINE / SAVED RESEARCH
 - Focus on problem- and intent-led search demand, not generic article volume.
@@ -106,9 +142,10 @@ After stabilization, validate interest before heavy build. Map local/regional ba
 - Do not reopen Release 69 stabilization items without a verified production defect.
 - Do not mass-produce thin AI SEO pages.
 - Do not build heavy lead-routing infrastructure before compliance + partner validation.
+- Do not use paid TinyFish automation unless explicitly requested by the user.
 
 ## PRIORITY SEQUENCE
-A. Stabilize actual production: COMPLETE + LOCKED 2026-09-24.
+A. Stabilize actual production: COMPLETE + LOCKED.
 B. Design/conversion cleanup: ACTIVE — text walls, visuals, hierarchy, partner discoverability, mobile, CTA.
 C. Optimize finance traffic engine: SEO, problem solver, calculators, internal linking, conversion, partner routing.
 D. Review saved research together and prioritize business opportunities by revenue potential, probability, cost, technical complexity, passivity, time-to-market and regulatory risk.
@@ -117,4 +154,4 @@ F. Build MVP only after compliance is clarified, at least one relevant partner s
 G. Add new silos only when monetisation is real.
 
 ## NEXT ACTION
-Release 69 stabilization is locked. Continue with Phase B design/conversion cleanup using actual production as evidence. First target: identify the highest-impact remaining finance page/component with text-wall, hierarchy, partner-discoverability, mobile or CTA friction; repair source structure rather than stacking overrides; preserve SEO content and all locked areas; regression-test, deploy and verify production before locking the batch.
+Continue Phase B from successful Release 76. Inspect source structure of the highest-value remaining finance pages/components for excessive visible text density, duplicated choices or unclear CTA/partner hierarchy. Make the smallest structural improvement that materially clarifies the journey, protect it with regression QA, deploy, and only claim production/visual verification that was actually performed.
