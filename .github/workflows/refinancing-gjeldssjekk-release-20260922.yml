@@ -1,5 +1,5 @@
 name: Sparesjekk System Repair Release 20260924
-# release-trigger-70-card-conversion-bridge
+# release-trigger-71-consumer-conversion-bridge
 on:
   push:
     branches: [seo-content-v34-master]
@@ -47,18 +47,22 @@ jobs:
           if not mortgage.select_one('.hub-followups[data-layout-repair="20260924"]'): errors.append('Boliglan followups repair missing')
           offer=BeautifulSoup(Path('tilbudssjekk-refinansiering.html').read_text(encoding='utf-8'),'html.parser')
           if not offer.select_one('.offer-check[data-layout-repair="20260924"]'): errors.append('Refinancing offer layout repair missing')
-          card=BeautifulSoup(Path('kredittkort.html').read_text(encoding='utf-8'),'html.parser')
-          bridge=card.select_one('[data-conversion-bridge="kredittkort-v1"]')
-          if not bridge: errors.append('Kredittkort conversion bridge missing')
-          else:
+          checks={
+            'kredittkort.html':('kredittkort-v1',('/kredittkort-match.html','/sjekk/kredittkort/','/gjeldssjekk.html?src=kredittkort-bridge')),
+            'forbrukslan.html':('forbrukslan-v1',('/sjekk/forbrukslan/?intent=nytt-lan&origin=forbrukslan-bridge','/gjeldssjekk.html?src=forbrukslan-bridge'))
+          }
+          for filename,(bridge_id,routes) in checks.items():
+              doc=BeautifulSoup(Path(filename).read_text(encoding='utf-8'),'html.parser')
+              bridge=doc.select_one(f'[data-conversion-bridge="{bridge_id}"]')
+              if not bridge: errors.append(f'{filename} conversion bridge missing'); continue
               hrefs={a.get('href') for a in bridge.find_all('a',href=True)}
-              for href in ('/kredittkort-match.html','/sjekk/kredittkort/','/gjeldssjekk.html?src=kredittkort-bridge'):
-                  if href not in hrefs: errors.append(f'Kredittkort bridge route missing: {href}')
+              for href in routes:
+                  if href not in hrefs: errors.append(f'{filename} bridge route missing: {href}')
           css=Path('design-v45.css').read_text(encoding='utf-8')
           for token in ('.current-rate-event','.hub-followups','data-layout-repair','.conversion-bridge'):
               if token not in css: errors.append(f'CSS regression token missing: {token}')
           if errors: raise SystemExit('\n'.join(errors))
-          print('SYSTEM REGRESSION QA PASS',nav_pages,'navigation pages; card conversion bridge protected')
+          print('SYSTEM REGRESSION QA PASS',nav_pages,'navigation pages; conversion bridges protected')
       - name: Create tested release
         run: |
           mkdir -p release/site
