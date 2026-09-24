@@ -1,5 +1,5 @@
 name: Sparesjekk Gjeldssjekk Release 20260922
-# release-trigger-52-rate-hike-conversion
+# release-trigger-53-boliglan-cta-fix
 on:
   push:
     branches: [seo-content-v34-master]
@@ -17,69 +17,23 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: seo-content-v34-master
-      - name: Apply September rate decision update
-        run: |
-          python -m pip install --quiet beautifulsoup4
-          python tools/apply_rentemote_post_decision_20260924.py
-          python tools/apply_rate_hike_conversion_push_20260924.py
-      - name: Verify release files
+      - name: Verify boliglån CTA hotfix
         shell: python
         run: |
-          import json
           from pathlib import Path
-          required=['gjeldssjekk.html','refinansiere-kredittkortgjeld.html','samle-gjeld.html','refinansiere-smalan.html','bor-jeg-refinansiere.html','sjekk/forbrukslan/index.html','sitemap.xml','index.html','ta-sparesjekken.html','forbrukslan.html','refinansiere-forbruksgjeld.html','kredittkort.html','nedbetaling-kredittkortgjeld.html','samle-smalan-kredittkortgjeld.html','refinansiering-kalkulator.html','gjeldsmiks-sjekk.html','hva-bor-jeg-gjore-med-dyr-gjeld.html']
-          for f in required:
-              p=Path(f); assert p.exists() and p.stat().st_size>100, f
-          g=Path('gjeldssjekk.html').read_text(encoding='utf-8'); assert 'G-XYRPP78DJ5' in g; assert 'origin=' in g
-          m=Path('sjekk/forbrukslan/index.html').read_text(encoding='utf-8'); assert 'url_id=896' in m and 'data-origin-attribution="v1"' in m
-          sm=Path('sitemap.xml').read_text(encoding='utf-8')
-          for f in required[:5]: assert 'https://sparesjekk.no/'+f in sm, f
-          fav=Path('favicon.svg'); ico=Path('favicon.ico'); assert fav.exists() and fav.stat().st_size>100; assert ico.exists() and ico.stat().st_size>100
-          for p in Path('.').rglob('*.html'):
-              if any(part in {'.git','release'} for part in p.parts): continue
-              z=p.read_text(encoding='utf-8',errors='ignore'); icon_count=z.count('rel="icon"')+z.count("rel='icon'"); assert icon_count<=1, f'duplicate favicon tags: {p}'
-              if icon_count: assert '/favicon.svg' in z, f'unexpected favicon href: {p}'
-          rg=Path('rentegap-indeks.html').read_text(encoding='utf-8'); assert 'Fast referanse: hva koster 0,10 prosentpoeng?' in rg; assert 'For medier og nettsteder' in rg; assert 'data/rentegap.json' in rg; assert '"@type":"Dataset"' in rg
-          hist=json.loads(Path('data/rentegap-history.json').read_text(encoding='utf-8')); assert hist['observations']>=48; assert Path('data/rentegap-history.csv').exists(); summary=json.loads(Path('data/rentegap-summary.json').read_text(encoding='utf-8')); assert summary['observations']==hist['observations']; assert summary['period']==hist['period_end']; assert hist['period_end']>='2026-07'; assert len(hist['history'])==hist['observations']
-          for x in ['data-rentegap-history="v1"','data-rentegap-history-ui="v1"','rentegap-history.json','rentegap-history.csv','rentegap-summary.json','rentegap-data.html','rentegap-presse.html','rentegapInsights','rentegapCitation','Høyeste gap, nye lån','Siterbart datapunkt','temporalCoverage":"2021-09/2026-07"','design-v44.css']: assert x in rg, x
-          current=json.loads(Path('data/rentegap.json').read_text(encoding='utf-8')); assert current['policy_rate']==4.50; assert current['checked_date']=='2026-09-24'
-          rm=Path('rentemote-hva-betyr-det.html').read_text(encoding='utf-8'); assert 'Norges Bank hever styringsrenten til 4,50 %' in rm; assert 'Rentehevingen på 60 sekunder' in rm; assert 'Sjekk og sammenlign boliglån nå' in rm; assert rm.count('data-renteblitz="v1"')==1
-          for f in ['index.html','boliglan.html','ta-sparesjekken.html','min-rente-vs-markedet.html']:
-              p=Path(f)
-              if p.exists():
-                  z=p.read_text(encoding='utf-8'); assert z.count('data-rate-decision="20260924"')==1, f; assert 'Renten er hevet – er boliglånet ditt fortsatt konkurransedyktig?' in z, f; assert 'origin=rate-hike-20260924' in z, f
-          post=json.loads(Path('data/rentemote-post-event-pack.json').read_text(encoding='utf-8')); assert post['norges_bank']['fields']['policy_rate_after']==4.50; assert post['norges_bank']['status']=='decision_published'
-          cc=Path('sjekk/kredittkort/index.html').read_text(encoding='utf-8')
-          assert 'data-credit-card-partners="v3"' in cc
-          assert cc.count('<div class="partner-card primary" data-partner="re:member Gold">')==1
-          assert cc.count('<div class="partner-card" data-partner="re:member Black">')==1
-          assert cc.count('<div class="zensum-alt" data-partner="Zensum">')==1
-          assert cc.count('2113489407')==1 and cc.count('2113489171')==1
-          assert 'Effektiv rente 20,15 %' in cc and 'Effektiv rente 29,89 %' in cc
-          assert 'Kostnad 1 215 kr. Totalt 16 215 kr.' in cc and 'Kostnad 1 695 kr. Totalt 16 695 kr.' in cc
-          assert cc.count('rel="sponsored nofollow noopener"')>=3
-          assert cc.count('data-revenue-event="partner_click"')>=3
-          assert 'data-single-partner-origin="v1"' in cc and 'partner_origin_outclick' in cc and 'matcher_entry' in cc
-          assert 'data-card-intent-attribution="v1"' in cc and 'matcher_handoff' in cc
-          assert 'Første alternativ er ikke en garanti for at kortet er best for deg' in cc
-          assert 'background:#0b4f91!important' in cc and 'color:#fff!important' in cc
-          assert 'data-credit-needs-matcher="v1"' in cc and 'data-credit-needs-matcher-script="v1"' in cc
-          assert cc.count('data-need="balance"')==1 and cc.count('data-need="travel"')==1 and cc.count('data-need="unsure"')==1
-          assert 'credit_card_need_select' in cc and 'ikke et «beste kort»' in cc
-          assert cc.count('rel="icon"')==1 and '/favicon.svg' in cc
-          ccm=Path('kredittkort-match.html').read_text(encoding='utf-8')
-          assert ccm.count('design-v44.css')==1
-          assert ccm.count('rel="icon"')==1 and '/favicon.svg' in ccm
-          assert 'type="button"' in ccm
-          assert 'sjekk/kredittkort/?intent=match&origin=kredittkort-match' in ccm
-          assert 'credit_card_match_complete' in ccm
-          rp=Path('rentegap-presse.html').read_text(encoding='utf-8'); assert '/favicon.svg' in rp and 'data/rentegap-summary.json' in rp and 'rentegap-data.html' in rp and 'post@sparesjekk.no' in rp and 'rentegap-presse.html' in sm
-          rd=Path('rentegap-data.html').read_text(encoding='utf-8'); assert 'data/rentegap-history.csv' in rd and 'data/rentegap-history.json' in rd and 'data/rentegap-summary.json' in rd and 'Rentegap = boliglånsrente' in rd and 'rentegap-data.html' in sm
-          print('Sep 24 rate hike conversion QA PASS')
-          print('Credit card direct-partner + attribution QA PASS')
-          print('Rentegap history QA PASS',hist['observations'],hist['period_start'],hist['period_end'])
-          print('Favicon QA PASS')
-          print('Gjeldssjekk release QA PASS')
+          p=Path('sjekk/boliglan/index.html')
+          z=p.read_text(encoding='utf-8')
+          assert z.count('data-partner="Tjenestetorget"')==1
+          assert z.count('1578043389')==1
+          assert 'Innhent og sammenlign boliglånstilbud →' in z
+          assert 'background:#0b4f91!important' in z
+          assert 'color:#fff!important' in z
+          assert 'display:block!important' in z
+          assert z.count('data-rate-hike-conversion="20260924"')==1
+          assert 'Renten er hevet – er boliglånet ditt fortsatt konkurransedyktig?' in z
+          assert z.count('rel="icon"')==1 and '/favicon.svg' in z
+          assert 'rel="sponsored nofollow noopener"' in z
+          print('Boliglån CTA rendering hotfix QA PASS')
       - name: Create tested release
         run: |
           mkdir -p release/site
