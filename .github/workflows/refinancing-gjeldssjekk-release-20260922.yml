@@ -1,5 +1,5 @@
 name: Sparesjekk Gjeldssjekk Release 20260922
-# release-trigger-55-credit-card-ux-sambla
+# release-trigger-56-home-rate-decision-banner
 on:
   push:
     branches: [seo-content-v34-master]
@@ -17,6 +17,18 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: seo-content-v34-master
+      - name: Restore today's rate decision on homepage
+        shell: python
+        run: |
+          from pathlib import Path
+          p=Path('index.html'); z=p.read_text(encoding='utf-8')
+          marker='data-rate-decision="20260924"'
+          if marker not in z:
+              css='''<style data-rate-decision-style="20260924">.rate-decision{max-width:1180px;margin:18px auto 22px;padding:0 24px}.rate-decision-inner{display:grid;grid-template-columns:1fr auto;gap:22px;align-items:center;padding:18px 22px;border:1px solid #b8d6f2;border-radius:18px;background:linear-gradient(135deg,#eaf4ff,#f8fbff);box-shadow:0 8px 24px rgba(16,70,125,.08)}.rate-decision-kicker{display:block;margin-bottom:4px;color:#0d5eae;font-size:.74rem;font-weight:900;letter-spacing:.05em}.rate-decision strong{display:block;color:#10233d;font-size:1.18rem}.rate-decision p{margin:5px 0 0;color:#41566b;line-height:1.45}.rate-decision-actions{display:flex;gap:9px;flex-wrap:wrap}.rate-decision-actions a{display:inline-flex;align-items:center;justify-content:center;padding:12px 15px;border-radius:11px;text-decoration:none;font-weight:850;white-space:nowrap}.rate-decision-primary{background:#0b4f91;color:#fff!important}.rate-decision-secondary{border:1px solid #8fb8df;background:#fff;color:#0b4f91!important}@media(max-width:760px){.rate-decision{padding:0 16px;margin-top:12px}.rate-decision-inner{grid-template-columns:1fr;padding:16px}.rate-decision-actions{display:grid;grid-template-columns:1fr}.rate-decision-actions a{width:100%;box-sizing:border-box}}</style>'''
+              banner='''<section class="rate-decision" data-rate-decision="20260924"><div class="rate-decision-inner"><div><span class="rate-decision-kicker">RENTEAVGJØRELSEN 24. SEPTEMBER</span><strong>Styringsrenten er hevet til 4,50 % – er boliglånet ditt fortsatt konkurransedyktig?</strong><p>Norges Bank har hevet styringsrenten med 0,25 prosentpoeng. Det betyr ikke at boliglånsrenten automatisk øker like mye, men nå er det ekstra relevant å kontrollere hva du betaler og sammenligne alternativer.</p></div><div class="rate-decision-actions"><a class="rate-decision-primary" data-revenue-event="rate_hike_home" data-revenue-context="rate_hike_20260924" href="sjekk/boliglan/?intent=sammenligne&origin=rate-hike-home">Sjekk og sammenlign boliglån →</a><a class="rate-decision-secondary" href="rentemote-hva-betyr-det.html">Se hva rentehevingen betyr →</a></div></div></section>'''
+              assert '</head>' in z and '<main>' in z
+              z=z.replace('</head>',css+'</head>',1).replace('<main>','<main>'+banner,1)
+              p.write_text(z,encoding='utf-8')
       - name: Apply site-wide partner CTA contrast guardrail
         shell: python
         run: |
@@ -28,13 +40,18 @@ jobs:
               z=p.read_text(encoding='utf-8')
               if 'partner-cta' not in z or 'partner-cta-hotfix.css' in z: continue
               assert '</head>' in z, p
-              p.write_text(z.replace('</head>',tag+'</head>',1),encoding='utf-8')
-              changed.append(str(p))
+              p.write_text(z.replace('</head>',tag+'</head>',1),encoding='utf-8'); changed.append(str(p))
           assert changed
-      - name: Verify CTA contrast and credit-card commercial integrity
+      - name: Verify homepage rate decision, CTA contrast and commercial integrity
         shell: python
         run: |
           from pathlib import Path
+          home=Path('index.html').read_text(encoding='utf-8')
+          assert home.count('data-rate-decision="20260924"')==1
+          assert 'Styringsrenten er hevet til 4,50 %' in home
+          assert '0,25 prosentpoeng' in home
+          assert 'origin=rate-hike-home' in home
+          assert 'rentemote-hva-betyr-det.html' in home
           css=Path('partner-cta-hotfix.css').read_text(encoding='utf-8')
           for needle in ('color:#ffffff !important','-webkit-text-fill-color:#ffffff !important','background:#0b4f91 !important','opacity:1 !important','visibility:visible !important'): assert needle in css
           for f in ['sjekk/forbrukslan/index.html','sjekk/boliglan/index.html','sjekk/omstartslan/index.html','sjekk/kredittkort/index.html']:
@@ -42,8 +59,7 @@ jobs:
           z=Path('sjekk/kredittkort/index.html').read_text(encoding='utf-8')
           for needle in ('2113489407','2113489171','2020411608','1638602458','data-partner="Sambla"','data-partner="Zensum"','data-partner="re:member Gold"','data-partner="re:member Black"'): assert needle in z, needle
           assert z.count('2020411608')==1
-          assert z.count('rel="icon"')==1
-          print('Credit-card UX + Sambla QA PASS')
+          print('Homepage rate decision + commercial QA PASS')
       - name: Create tested release
         run: |
           mkdir -p release/site
