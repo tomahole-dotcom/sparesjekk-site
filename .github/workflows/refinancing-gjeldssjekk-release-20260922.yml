@@ -1,5 +1,5 @@
 name: Sparesjekk Gjeldssjekk Release 20260922
-# release-trigger-57-mortgage-hub-cleanup
+# release-trigger-58-forbrukslan-contrast-fix
 on:
   push:
     branches: [seo-content-v34-master]
@@ -36,6 +36,15 @@ jobs:
           if 'hub-cleanup-v1.css' not in z:
               assert '</head>' in z
               z=z.replace('</head>',tag+'</head>',1); p.write_text(z,encoding='utf-8')
+      - name: Fix forbrukslan hub contrast
+        shell: python
+        run: |
+          from pathlib import Path
+          p=Path('forbrukslan.html'); z=p.read_text(encoding='utf-8')
+          tag='<link href="/consumer-hub-contrast-fix.css?v=20260924b" rel="stylesheet"/>'
+          if 'consumer-hub-contrast-fix.css' not in z:
+              assert '</head>' in z
+              z=z.replace('</head>',tag+'</head>',1); p.write_text(z,encoding='utf-8')
       - name: Apply site-wide partner CTA contrast guardrail
         shell: python
         run: |
@@ -49,20 +58,22 @@ jobs:
               assert '</head>' in z, p
               p.write_text(z.replace('</head>',tag+'</head>',1),encoding='utf-8'); changed.append(str(p))
           assert changed
-      - name: Verify homepage, mortgage cleanup and commercial integrity
+      - name: Verify homepage, hub contrast, mortgage cleanup and commercial integrity
         shell: python
         run: |
           from pathlib import Path
           home=Path('index.html').read_text(encoding='utf-8'); assert home.count('data-rate-decision="20260924"')==1; assert 'Styringsrenten er hevet til 4,50 %' in home
           mortgage=Path('boliglan.html').read_text(encoding='utf-8'); assert mortgage.count('hub-cleanup-v1.css')==1
           hubcss=Path('hub-cleanup-v1.css').read_text(encoding='utf-8'); assert '.seo-priority-link{display:none!important}' in hubcss; assert '> section{display:none!important}' in hubcss
+          consumer=Path('forbrukslan.html').read_text(encoding='utf-8'); assert consumer.count('consumer-hub-contrast-fix.css')==1
+          contrast=Path('consumer-hub-contrast-fix.css').read_text(encoding='utf-8'); assert 'a:first-child strong' in contrast; assert 'color:#fff!important' in contrast; assert '-webkit-text-fill-color:#fff!important' in contrast
           css=Path('partner-cta-hotfix.css').read_text(encoding='utf-8')
           for needle in ('color:#ffffff !important','background:#0b4f91 !important','opacity:1 !important'): assert needle in css
           for f in ['sjekk/forbrukslan/index.html','sjekk/boliglan/index.html','sjekk/omstartslan/index.html','sjekk/kredittkort/index.html']:
               z=Path(f).read_text(encoding='utf-8'); assert 'partner-cta' in z; assert z.count('partner-cta-hotfix.css')==1
           z=Path('sjekk/kredittkort/index.html').read_text(encoding='utf-8')
           for needle in ('2113489407','2113489171','2020411608','1638602458'): assert needle in z
-          print('Mortgage hub cleanup + homepage + commercial QA PASS')
+          print('Forbrukslan contrast + mortgage hub + homepage + commercial QA PASS')
       - name: Create tested release
         run: |
           mkdir -p release/site
