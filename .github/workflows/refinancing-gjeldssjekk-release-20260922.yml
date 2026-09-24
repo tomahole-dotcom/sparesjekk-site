@@ -1,5 +1,5 @@
 name: Sparesjekk Gjeldssjekk Release 20260922
-# release-trigger-51-rentemote-post-decision
+# release-trigger-52-rate-hike-conversion
 on:
   push:
     branches: [seo-content-v34-master]
@@ -21,6 +21,7 @@ jobs:
         run: |
           python -m pip install --quiet beautifulsoup4
           python tools/apply_rentemote_post_decision_20260924.py
+          python tools/apply_rate_hike_conversion_push_20260924.py
       - name: Verify release files
         shell: python
         run: |
@@ -42,11 +43,11 @@ jobs:
           hist=json.loads(Path('data/rentegap-history.json').read_text(encoding='utf-8')); assert hist['observations']>=48; assert Path('data/rentegap-history.csv').exists(); summary=json.loads(Path('data/rentegap-summary.json').read_text(encoding='utf-8')); assert summary['observations']==hist['observations']; assert summary['period']==hist['period_end']; assert hist['period_end']>='2026-07'; assert len(hist['history'])==hist['observations']
           for x in ['data-rentegap-history="v1"','data-rentegap-history-ui="v1"','rentegap-history.json','rentegap-history.csv','rentegap-summary.json','rentegap-data.html','rentegap-presse.html','rentegapInsights','rentegapCitation','Høyeste gap, nye lån','Siterbart datapunkt','temporalCoverage":"2021-09/2026-07"','design-v44.css']: assert x in rg, x
           current=json.loads(Path('data/rentegap.json').read_text(encoding='utf-8')); assert current['policy_rate']==4.50; assert current['checked_date']=='2026-09-24'
-          rm=Path('rentemote-hva-betyr-det.html').read_text(encoding='utf-8'); assert 'Norges Bank hever styringsrenten til 4,50 %' in rm; assert 'Rentehevingen på 60 sekunder' in rm; assert rm.count('data-renteblitz="v1"')==1
+          rm=Path('rentemote-hva-betyr-det.html').read_text(encoding='utf-8'); assert 'Norges Bank hever styringsrenten til 4,50 %' in rm; assert 'Rentehevingen på 60 sekunder' in rm; assert 'Sjekk og sammenlign boliglån nå' in rm; assert rm.count('data-renteblitz="v1"')==1
           for f in ['index.html','boliglan.html','ta-sparesjekken.html','min-rente-vs-markedet.html']:
               p=Path(f)
               if p.exists():
-                  z=p.read_text(encoding='utf-8'); assert z.count('data-rate-decision="20260924"')==1, f
+                  z=p.read_text(encoding='utf-8'); assert z.count('data-rate-decision="20260924"')==1, f; assert 'Renten er hevet – er boliglånet ditt fortsatt konkurransedyktig?' in z, f; assert 'origin=rate-hike-20260924' in z, f
           post=json.loads(Path('data/rentemote-post-event-pack.json').read_text(encoding='utf-8')); assert post['norges_bank']['fields']['policy_rate_after']==4.50; assert post['norges_bank']['status']=='decision_published'
           cc=Path('sjekk/kredittkort/index.html').read_text(encoding='utf-8')
           assert 'data-credit-card-partners="v3"' in cc
@@ -74,9 +75,7 @@ jobs:
           assert 'credit_card_match_complete' in ccm
           rp=Path('rentegap-presse.html').read_text(encoding='utf-8'); assert '/favicon.svg' in rp and 'data/rentegap-summary.json' in rp and 'rentegap-data.html' in rp and 'post@sparesjekk.no' in rp and 'rentegap-presse.html' in sm
           rd=Path('rentegap-data.html').read_text(encoding='utf-8'); assert 'data/rentegap-history.csv' in rd and 'data/rentegap-history.json' in rd and 'data/rentegap-summary.json' in rd and 'Rentegap = boliglånsrente' in rd and 'rentegap-data.html' in sm
-          print('Sep 24 rate decision QA PASS')
-          print('Credit card entry matcher cleanup QA PASS')
-          print('Credit card needs matcher QA PASS')
+          print('Sep 24 rate hike conversion QA PASS')
           print('Credit card direct-partner + attribution QA PASS')
           print('Rentegap history QA PASS',hist['observations'],hist['period_start'],hist['period_end'])
           print('Favicon QA PASS')
