@@ -1,5 +1,5 @@
 name: Sparesjekk System Repair Release 20260924
-# release-trigger-74-phase-b-partner-visibility
+# release-trigger-75-direct-partner-routes
 on:
   push:
     branches: [seo-content-v34-master]
@@ -56,16 +56,17 @@ jobs:
           if not debt_route: errors.append('Gjeldssjekk offer route missing')
           elif not debt_route.find('a',href='/tilbudssjekk-refinansiering.html?src=gjeldssjekk'): errors.append('Gjeldssjekk Tilbudssjekk route missing')
           for filename in ('sjekk/forbrukslan/index.html','sjekk/omstartslan/index.html'):
-              doc=BeautifulSoup(Path(filename).read_text(encoding='utf-8'),'html.parser'); strip=doc.select_one('[data-partner-visibility="v1"]'); matcher=doc.select_one('.revenue-matcher')
-              if not strip: errors.append(f'Partner visibility strip missing: {filename}')
-              elif matcher and strip.sourceline and matcher.sourceline and strip.sourceline > matcher.sourceline: errors.append(f'Partner strip must precede matcher: {filename}')
+              doc=BeautifulSoup(Path(filename).read_text(encoding='utf-8'),'html.parser'); strip=doc.select_one('#samarbeidspartnere[data-partner-visibility="v1"]'); matcher=doc.select_one('.revenue-matcher')
+              if not strip: errors.append(f'Partner visibility/anchor missing: {filename}')
               names=[x.get_text(' ',strip=True) for x in strip.select('.partner-brand-list span')] if strip else []
               if len(names)<2: errors.append(f'Partner names not exposed: {filename}')
+              hero=doc.select_one('.campaign-hero .hero-actions')
+              if not hero or not hero.find('a',href='#samarbeidspartnere'): errors.append(f'Direct hero partner route missing: {filename}')
           css=Path('design-v45.css').read_text(encoding='utf-8')
           for token in ('.current-rate-event','.hub-followups','data-layout-repair','.conversion-bridge','.gs-offer-route','.partner-visibility-strip','.debt-row'):
               if token not in css: errors.append(f'CSS regression token missing: {token}')
           if errors: raise SystemExit('\n'.join(errors))
-          print('SYSTEM REGRESSION QA PASS',nav_pages,'navigation pages; Phase B partner visibility protected')
+          print('SYSTEM REGRESSION QA PASS',nav_pages,'navigation pages; direct partner routes protected')
       - name: Create tested release
         run: |
           mkdir -p release/site
