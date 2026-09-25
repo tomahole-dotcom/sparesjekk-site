@@ -1,9 +1,9 @@
 name: Sparesjekk System Repair Release 20260924
-# release-trigger-83-belaningsgrad-v2
+# release-trigger-84-deploy-trigger-fix
 on:
   push:
     branches: [seo-content-v34-master]
-    paths: ['.github/workflows/refinancing-gjeldssjekk-release-20260922.yml']
+  workflow_dispatch:
 permissions:
   contents: read
 concurrency:
