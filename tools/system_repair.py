@@ -20,6 +20,14 @@ def ensure_css(soup):
         for extra in links[1:]:extra.decompose()
     else:soup.head.append(soup.new_tag('link', rel='stylesheet', href=SYSTEM_CSS))
 
+def canonical_logo(soup):
+    logo=soup.select_one('header.header a.logo')
+    if not logo:return
+    logo.clear();logo['href']='/'
+    img=soup.new_tag('img',src='/assets/sparesjekk-logo-blue.svg',alt='Sparesjekk')
+    img['width']='180';img['height']='46';img['style']='display:block;width:180px;max-width:100%;height:auto'
+    logo.append(img)
+
 def canonical_nav(soup):
     nav=soup.select_one('header.header .topnav')
     if not nav:return
@@ -128,7 +136,7 @@ changed=0
 for path in ROOT.rglob('*.html'):
     if any(x in path.parts for x in ('.git','release')):continue
     original=path.read_text(encoding='utf-8');soup=BeautifulSoup(original,'html.parser')
-    ensure_css(soup);canonical_nav(soup);add_rate_notice(path,soup);ensure_home_fast_routes(path,soup);repair_boliglan(path,soup);repair_offer(path,soup);ensure_conversion_bridge(path,soup);ensure_debt_offer_route(path,soup);expose_partner_brands(path,soup);make_partner_route_obvious(path,soup);protect_credit_partner_clarity(path,soup);consolidate_restart_end(path,soup)
+    ensure_css(soup);canonical_logo(soup);canonical_nav(soup);add_rate_notice(path,soup);ensure_home_fast_routes(path,soup);repair_boliglan(path,soup);repair_offer(path,soup);ensure_conversion_bridge(path,soup);ensure_debt_offer_route(path,soup);expose_partner_brands(path,soup);make_partner_route_obvious(path,soup);protect_credit_partner_clarity(path,soup);consolidate_restart_end(path,soup)
     new=str(soup)
     if new!=original:path.write_text(new,encoding='utf-8');changed+=1
-print(f'SYSTEM REPAIR PASS: {changed} HTML files normalized; cache-safe stylesheet and homepage fast routes applied')
+print(f'SYSTEM REPAIR PASS: {changed} HTML files normalized; canonical logo, cache-safe stylesheet and homepage fast routes applied')
