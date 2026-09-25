@@ -1,5 +1,5 @@
 name: Sparesjekk System Repair Release 20260924
-# release-trigger-79-homepage-fast-routes
+# release-trigger-80-cache-safe-homepage-css
 on:
   push:
     branches: [seo-content-v34-master]
@@ -36,7 +36,8 @@ jobs:
                   nav_pages+=1; hrefs={a.get('href') for a in nav.find_all('a',href=True)}
                   for href,label in required.items():
                       if href not in hrefs: errors.append(f'{label} missing from nav: {p}')
-                  if not s.find('link',href=lambda x:isinstance(x,str) and 'design-v45.css' in x): errors.append(f'V45 missing: {p}')
+                  csslinks=[x.get('href') for x in s.find_all('link',href=True) if 'design-v45.css' in x.get('href','')]
+                  if csslinks != ['/design-v45.css?v=20260925-r80']: errors.append(f'Cache-safe V45 stylesheet missing/duplicated: {p} {csslinks}')
           home=BeautifulSoup(Path('index.html').read_text(encoding='utf-8'),'html.parser')
           if not home.select_one('[data-current-rate-event="2026-09-24"]'): errors.append('Homepage rate decision missing')
           fast=home.select_one('[data-home-fast-routes="v1"]')
@@ -70,10 +71,10 @@ jobs:
           restart=BeautifulSoup(Path('omstartslan.html').read_text(encoding='utf-8'),'html.parser'); article=restart.select_one('article#omstartslan-hub-guide')
           if not article or not article.select_one('[data-restart-end-flow="v1"]'): errors.append('Omstartslan consolidated end flow missing')
           css=Path('design-v45.css').read_text(encoding='utf-8')
-          for token in ('.current-rate-event','.home-fast-routes','.home-fast-grid','.hub-followups','.conversion-bridge','.partner-visibility-strip'):
+          for token in ('.current-rate-event','.home-fast-routes','.home-fast-grid','.home-fast-card','.hub-followups','.conversion-bridge','.partner-visibility-strip'):
               if token not in css: errors.append(f'CSS regression token missing: {token}')
           if errors: raise SystemExit('\n'.join(errors))
-          print('SYSTEM REGRESSION QA PASS',nav_pages,'navigation pages; homepage fast conversion routes protected')
+          print('SYSTEM REGRESSION QA PASS',nav_pages,'navigation pages; cache-safe homepage fast routes protected')
       - name: Create tested release
         run: |
           mkdir -p release/site
