@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 ROOT = Path(__file__).resolve().parents[1]
 NAV = [('/boliglan.html','Boliglån'),('/forbrukslan.html','Forbrukslån'),('/omstartslan.html','Omstartslån'),('/kredittkort.html','Kredittkort'),('/problemloser.html','Problemløser'),('/tilbudssjekk-refinansiering.html','Tilbudssjekken'),('/guider.html','Guider'),('/om.html','Om oss')]
 RATE_ID='2026-09-24'
+SYSTEM_CSS='/design-v45.css?v=20260925-r80'
 RATE_HTML='''<section class="current-rate-event" data-current-rate-event="2026-09-24"><div><p class="eyebrow">RENTEBESLUTNING 24. SEPTEMBER</p><h2>Norges Bank hever styringsrenten til 4,50 %</h2><p>Styringsrenten er satt opp fra 4,25 til 4,50 prosent. Har du lån, er dette et naturlig tidspunkt å sjekke renten du faktisk betaler og sammenligne alternativer.</p></div><div class="rate-event-actions"><a class="cta" href="/min-rente-vs-markedet.html">Sjekk renten min →</a><a class="secondary-cta" href="/boliglanskalkulator-renteforskjell.html">Se hva renteforskjellen betyr →</a></div><p class="rate-event-source">Kilde: Norges Bank, rentebeslutning 24.09.2026.</p></section>'''
 HOME_FAST_HTML='''<section class="home-fast-routes" data-home-fast-routes="v1"><div class="section-head"><p class="eyebrow">VET DU ALLEREDE HVA DU VIL SJEKKE?</p><h2>Gå raskt til alternativer og samarbeidspartnere</h2><p>Velg område og gå direkte til siden der du kan se relevante alternativer. Du bestemmer selv om du vil gå videre til en samarbeidspartner.</p></div><div class="home-fast-grid"><a class="home-fast-card" data-revenue-event="home_fast_route" data-revenue-context="home_fast_mortgage" href="/boliglan.html#sammenlign"><small>BOLIGLÅN</small><strong>Sjekk rente og alternativer</strong><span>Gå til boliglån →</span></a><a class="home-fast-card" data-revenue-event="home_fast_route" data-revenue-context="home_fast_refi" href="/sjekk/forbrukslan/?intent=refinansiering&amp;origin=homepage-fast"><small>REFINANSIERING</small><strong>Se alternativer for dyr gjeld</strong><span>Se refinansiering →</span></a><a class="home-fast-card" data-revenue-event="home_fast_route" data-revenue-context="home_fast_consumer" href="/sjekk/forbrukslan/?intent=nytt-lan&amp;origin=homepage-fast"><small>FORBRUKSLÅN</small><strong>Se aktuelle samarbeidspartnere</strong><span>Se forbrukslån →</span></a><a class="home-fast-card" data-revenue-event="home_fast_route" data-revenue-context="home_fast_credit" href="/sjekk/kredittkort/#samarbeidspartnere"><small>KREDITTKORT</small><strong>Se kort og sammenligningstjenester</strong><span>Se kredittkort →</span></a></div><div class="home-fast-help"><span>Usikker på hva som passer situasjonen din?</span><a href="/ta-sparesjekken.html?src=homepage-fast-help">Ta Sparesjekken →</a></div><p class="home-fast-disclosure">ANNONSE / REKLAME – enkelte sider inneholder samarbeidspartnere. Sparesjekk kan motta provisjon dersom du går videre.</p></section>'''
 CARD_BRIDGE_HTML='''<section class="conversion-bridge card-conversion-bridge" data-conversion-bridge="kredittkort-v1"><div><p class="eyebrow">KLAR FOR NESTE STEG?</p><h2>Finn riktig vei før du velger kort</h2><p>Du trenger ikke lese hele guiden først. Velg det som passer situasjonen din nå – eller fortsett nedover hvis du vil forstå detaljene.</p></div><div class="conversion-bridge-actions"><a class="cta" data-revenue-event="commercial_route" data-revenue-context="card_bridge_match_v1" href="/kredittkort-match.html">Finn kort som passer bruken min →</a><a class="secondary-cta" data-revenue-event="commercial_route" data-revenue-context="card_bridge_compare_v1" href="/sjekk/kredittkort/">Se kort og samarbeidspartnere →</a></div><p class="conversion-bridge-note">Har du kredittkortgjeld som blir stående? <a href="/gjeldssjekk.html?src=kredittkort-bridge">Start heller med Gjeldssjekken.</a></p></section>'''
@@ -12,7 +13,12 @@ OFFER_ROUTE_HTML='''<div class="gs-offer-route" data-offer-route="gjeldssjekk-v1
 RESTART_END_HTML='''<section class="revenue-next-step restart-next-step" data-restart-end-flow="v1"><p class="eyebrow">NESTE STEG</p><h2>Klar til å vurdere omstartslån?</h2><p>Har du kontroll på dagens gjeld, risikoen ved pant og samlet kostnad, kan du gå videre. Hvis ikke, start med før/etter-regnestykket.</p><div class="conversion-bridge-actions"><a class="cta" data-revenue-context="restart_end_commercial_v1" data-revenue-event="commercial_route" href="sjekk/omstartslan/?intent=sikkerhet&amp;origin=omstartslan-end">Se relevante alternativer →</a><a class="secondary-cta" data-revenue-context="restart_end_calc_v1" data-revenue-event="tool_route" href="refinansiering-kalkulator.html">Regn før og etter →</a></div><p class="partner-note">ANNONSE / REKLAME – går du videre til en kommersiell partner kan Sparesjekk motta provisjon.</p></section>'''
 
 def ensure_css(soup):
-    if soup.head and not soup.find('link', href=lambda x:isinstance(x,str) and 'design-v45.css' in x): soup.head.append(soup.new_tag('link', rel='stylesheet', href='/design-v45.css?v=20260924-system'))
+    if not soup.head:return
+    links=soup.find_all('link',href=lambda x:isinstance(x,str) and 'design-v45.css' in x)
+    if links:
+        links[0]['href']=SYSTEM_CSS
+        for extra in links[1:]:extra.decompose()
+    else:soup.head.append(soup.new_tag('link', rel='stylesheet', href=SYSTEM_CSS))
 
 def canonical_nav(soup):
     nav=soup.select_one('header.header .topnav')
@@ -30,9 +36,7 @@ def add_rate_notice(path,soup):
 def ensure_home_fast_routes(path,soup):
     if path.name!='index.html' or path.parent!=ROOT:return
     for old in soup.select('[data-home-fast-routes]'):old.decompose()
-    rate=soup.select_one('[data-current-rate-event="2026-09-24"]')
-    start=soup.select_one('#start')
-    frag=BeautifulSoup(HOME_FAST_HTML,'html.parser').section
+    rate=soup.select_one('[data-current-rate-event="2026-09-24"]');start=soup.select_one('#start');frag=BeautifulSoup(HOME_FAST_HTML,'html.parser').section
     if rate:rate.insert_after(frag)
     elif start:start.insert_before(frag)
 
@@ -102,8 +106,7 @@ def protect_credit_partner_clarity(path,soup):
     if path.relative_to(ROOT).as_posix()!='sjekk/kredittkort/index.html':return
     zone=soup.select_one('[data-credit-card-partners]')
     if not zone:return
-    zone['id']='samarbeidspartnere'
-    hero=soup.select_one('.campaign-hero .hero-actions a.cta')
+    zone['id']='samarbeidspartnere';hero=soup.select_one('.campaign-hero .hero-actions a.cta')
     if hero:hero['href']='#samarbeidspartnere';hero.string='Se kort og samarbeidspartnere'
     disclosure=zone.select_one('.partner-disclosure')
     if disclosure:disclosure.string='ANNONSE / REKLAME – Sparesjekk kan motta provisjon dersom du går videre'
@@ -117,8 +120,7 @@ def consolidate_restart_end(path,soup):
     article=soup.select_one('article#omstartslan-hub-guide')
     if not article:return
     for old in article.select('[data-restart-end-flow], .revenue-next-step, [data-secured-refi-revenue]'):old.decompose()
-    note=article.select_one('.article-note')
-    frag=BeautifulSoup(RESTART_END_HTML,'html.parser').section
+    note=article.select_one('.article-note');frag=BeautifulSoup(RESTART_END_HTML,'html.parser').section
     if note:note.insert_before(frag)
     else:article.append(frag)
 
@@ -129,4 +131,4 @@ for path in ROOT.rglob('*.html'):
     ensure_css(soup);canonical_nav(soup);add_rate_notice(path,soup);ensure_home_fast_routes(path,soup);repair_boliglan(path,soup);repair_offer(path,soup);ensure_conversion_bridge(path,soup);ensure_debt_offer_route(path,soup);expose_partner_brands(path,soup);make_partner_route_obvious(path,soup);protect_credit_partner_clarity(path,soup);consolidate_restart_end(path,soup)
     new=str(soup)
     if new!=original:path.write_text(new,encoding='utf-8');changed+=1
-print(f'SYSTEM REPAIR PASS: {changed} HTML files normalized; homepage fast routes and protected flows applied')
+print(f'SYSTEM REPAIR PASS: {changed} HTML files normalized; cache-safe stylesheet and homepage fast routes applied')
