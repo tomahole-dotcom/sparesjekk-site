@@ -1,5 +1,5 @@
 name: Sparesjekk System Repair Release 20260924
-# release-trigger-82-direct-category-conversion
+# release-trigger-83-belaningsgrad-v2
 on:
   push:
     branches: [seo-content-v34-master]
@@ -72,8 +72,13 @@ jobs:
               if not doc.select_one('#samarbeidspartnere[data-partner-visibility="v1"]'): errors.append(f'Partner visibility missing: {filename}')
           credit=BeautifulSoup(Path('sjekk/kredittkort/index.html').read_text(encoding='utf-8'),'html.parser')
           if not credit.select_one('#samarbeidspartnere[data-credit-card-partners]'): errors.append('Credit-card partner zone missing')
+          ltv=BeautifulSoup(Path('belaningsgrad-sjekk.html').read_text(encoding='utf-8'),'html.parser')
+          if not ltv.select_one('main[data-ltv-layout="v2"]'): errors.append('Belaningsgrad v2 layout missing')
+          if not ltv.select_one('[data-ltv-result="v2"]'): errors.append('Belaningsgrad v2 result missing')
+          if len(ltv.select('.metrics > .metric')) != 3: errors.append('Belaningsgrad result metrics regression')
+          if not ltv.select_one('.next-actions .primary[href="min-rente-vs-markedet.html"]'): errors.append('Belaningsgrad primary next action missing')
           if errors: raise SystemExit('\n'.join(errors))
-          print('SYSTEM REGRESSION QA PASS',nav_pages,'navigation pages; 3 direct category conversion routes + contrast protected')
+          print('SYSTEM REGRESSION QA PASS',nav_pages,'navigation pages; category routes + belaningsgrad v2 protected')
       - name: Create tested release
         run: |
           mkdir -p release/site
