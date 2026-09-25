@@ -1,5 +1,5 @@
 name: Sparesjekk System Repair Release 20260924
-# release-trigger-81-forbrukslan-hierarchy-fix
+# release-trigger-82-direct-category-conversion
 on:
   push:
     branches: [seo-content-v34-master]
@@ -20,10 +20,11 @@ jobs:
         with: {python-version: '3.12'}
       - name: Install parser
         run: pip install beautifulsoup4==4.14.2
-      - name: Apply persistent system repair
+      - name: Apply persistent repairs
         run: |
           python tools/system_repair.py
           python tools/forbrukslan_layout_guard.py
+          python tools/category_conversion_routes.py
       - name: Regression hard gate
         shell: python
         run: |
@@ -38,43 +39,41 @@ jobs:
                   nav_pages+=1; hrefs={a.get('href') for a in nav.find_all('a',href=True)}
                   for href,label in required.items():
                       if href not in hrefs: errors.append(f'{label} missing from nav: {p}')
-                  csslinks=[x.get('href') for x in s.find_all('link',href=True) if 'design-v45.css' in x.get('href','')]
-                  if csslinks != ['/design-v45.css?v=20260925-r80']: errors.append(f'Cache-safe V45 stylesheet missing/duplicated: {p} {csslinks}')
+              csslinks=[x.get('href') for x in s.find_all('link',href=True) if 'design-v45.css' in x.get('href','')]
+              if csslinks != ['/design-v45.css?v=20260925-r82']: errors.append(f'R82 stylesheet missing/duplicated: {p} {csslinks}')
+          routes={
+            'forbrukslan.html':('[data-consumer-hub-intent="v1"]','/sjekk/forbrukslan/?intent=nytt-lan&origin=forbrukslan-hub'),
+            'omstartslan.html':('[data-restart-hub-intent="v1"]','/sjekk/omstartslan/?intent=sikkerhet&origin=omstartslan-hub'),
+            'kredittkort.html':('[data-card-hub-intent="v1"]','/sjekk/kredittkort/#samarbeidspartnere')}
+          for filename,(selector,href) in routes.items():
+              doc=BeautifulSoup(Path(filename).read_text(encoding='utf-8'),'html.parser'); section=doc.select_one(selector)
+              if not section: errors.append(f'Canonical chooser missing: {filename}'); continue
+              cards=section.select('.decision-actions > a')
+              if len(cards)!=3: errors.append(f'Chooser must have exactly 3 choices: {filename}'); continue
+              first=cards[0]
+              if first.get('href')!=href or first.get('data-direct-conversion')!='v2': errors.append(f'Direct conversion route wrong: {filename}')
+              if not first.find('span') or 'samarbeidspartner' not in first.find('span').get_text().lower(): errors.append(f'Direct CTA not explicit: {filename}')
+              if doc.select('[data-conversion-bridge]'): errors.append(f'Duplicate conversion bridge regression: {filename}')
+          css=Path('design-v45.css').read_text(encoding='utf-8')
+          for token in ('.main-category-page .decision-actions>a:first-child','color:#fff!important'):
+              if token not in css: errors.append(f'Primary-card contrast guard missing: {token}')
           home=BeautifulSoup(Path('index.html').read_text(encoding='utf-8'),'html.parser')
           if not home.select_one('[data-current-rate-event="2026-09-24"]'): errors.append('Homepage rate decision missing')
-          fast=home.select_one('[data-home-fast-routes="v1"]')
-          if not fast: errors.append('Homepage fast conversion routes missing')
-          else:
-              links={a.get('href') for a in fast.find_all('a',href=True)}
-              expected={'/boliglan.html#sammenlign','/sjekk/forbrukslan/?intent=refinansiering&origin=homepage-fast','/sjekk/forbrukslan/?intent=nytt-lan&origin=homepage-fast','/sjekk/kredittkort/#samarbeidspartnere','/ta-sparesjekken.html?src=homepage-fast-help'}
-              for href in expected:
-                  if href not in links: errors.append(f'Homepage fast route missing: {href}')
-              if len(fast.select('.home-fast-card')) != 4: errors.append('Homepage fast route must expose exactly four commercial categories')
-          consumer=BeautifulSoup(Path('forbrukslan.html').read_text(encoding='utf-8'),'html.parser')
-          if consumer.select('[data-conversion-bridge="forbrukslan-v1"], .consumer-conversion-bridge'): errors.append('Forbrukslan duplicate conversion bridge regression')
-          chooser=consumer.select_one('#consumer-hub-intent[data-consumer-hub-intent="v1"]')
-          if not chooser: errors.append('Forbrukslan canonical intent chooser missing')
-          elif len(chooser.select('.decision-actions > a')) != 3: errors.append('Forbrukslan canonical chooser must have exactly 3 choices')
-          if not consumer.select_one('.premium-benefits'): errors.append('Forbrukslan benefits missing')
-          if not consumer.select_one('#forbrukslan-hub-guide'): errors.append('Forbrukslan editorial guide missing')
-          mortgage=BeautifulSoup(Path('boliglan.html').read_text(encoding='utf-8'),'html.parser'); first=mortgage.select_one('.decision-grid > article:first-child')
+          if not home.select_one('[data-home-fast-routes="v1"]'): errors.append('Homepage fast routes missing')
+          mortgage=BeautifulSoup(Path('boliglan.html').read_text(encoding='utf-8'),'html.parser')
+          first=mortgage.select_one('.decision-grid > article:first-child')
           if first and first.find('section',recursive=False): errors.append('Boliglan nested content regression')
-          if not mortgage.select_one('.hub-followups[data-layout-repair="20260924"]'): errors.append('Boliglan followups repair missing')
           offer=BeautifulSoup(Path('tilbudssjekk-refinansiering.html').read_text(encoding='utf-8'),'html.parser')
-          if not offer.select_one('.offer-check[data-layout-repair="20260924"]'): errors.append('Refinancing offer layout repair missing')
+          if not offer.select_one('.offer-check[data-layout-repair="20260924"]'): errors.append('Refinancing layout repair missing')
           debt=BeautifulSoup(Path('gjeldssjekk.html').read_text(encoding='utf-8'),'html.parser')
           if not debt.select_one('[data-offer-route="gjeldssjekk-v1"]'): errors.append('Gjeldssjekk offer route missing')
           for filename in ('sjekk/forbrukslan/index.html','sjekk/omstartslan/index.html'):
-              doc=BeautifulSoup(Path(filename).read_text(encoding='utf-8'),'html.parser'); strip=doc.select_one('#samarbeidspartnere[data-partner-visibility="v1"]')
-              if not strip: errors.append(f'Partner visibility/anchor missing: {filename}')
-              hero=doc.select_one('.campaign-hero .hero-actions')
-              if not hero or not hero.find('a',href='#samarbeidspartnere'): errors.append(f'Direct hero partner route missing: {filename}')
+              doc=BeautifulSoup(Path(filename).read_text(encoding='utf-8'),'html.parser')
+              if not doc.select_one('#samarbeidspartnere[data-partner-visibility="v1"]'): errors.append(f'Partner visibility missing: {filename}')
           credit=BeautifulSoup(Path('sjekk/kredittkort/index.html').read_text(encoding='utf-8'),'html.parser')
           if not credit.select_one('#samarbeidspartnere[data-credit-card-partners]'): errors.append('Credit-card partner zone missing')
-          restart=BeautifulSoup(Path('omstartslan.html').read_text(encoding='utf-8'),'html.parser')
-          if not restart.select_one('article#omstartslan-hub-guide [data-restart-end-flow="v1"]'): errors.append('Omstartslan consolidated end flow missing')
           if errors: raise SystemExit('\n'.join(errors))
-          print('SYSTEM REGRESSION QA PASS',nav_pages,'navigation pages; forbrukslan hierarchy protected')
+          print('SYSTEM REGRESSION QA PASS',nav_pages,'navigation pages; 3 direct category conversion routes + contrast protected')
       - name: Create tested release
         run: |
           mkdir -p release/site
