@@ -41,9 +41,9 @@
       "payout_event": "cpa",
       "conversion_rate_60d": 0.024,
       "epc_nok_30d": 21.00,
-      "tracking_url": null,
-      "tracking_url_status": "needs_full_url",
-      "source": "Adtraction values supplied by site owner 2026-09-26"
+      "tracking_url": "https://go.adt231.net/t/t?a=1923321285&as=2102543040&t=2&tk=1",
+      "tracking_url_status": "verified_from_owner",
+      "source": "Adtraction values and tracking URL supplied by site owner 2026-09-26"
     },
     {
       "name": "Zen Finans",
