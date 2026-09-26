@@ -22,14 +22,17 @@
     },
     {
       "name": "Sambla",
-      "segments": ["forbrukslan", "refinansiering_usikret"],
+      "segments": ["forbrukslan", "refinansiering_usikret", "kredittkort"],
       "payout_nok": 1170,
-      "payout_event": "cpa",
+      "payout_event": "cpa_refinansiering",
       "conversion_rate_60d": 0.027,
       "epc_nok_30d": 51.08,
-      "tracking_url": null,
-      "tracking_url_status": "needs_full_url",
-      "source": "Adtraction values supplied by site owner 2026-09-26"
+      "tracking_urls": {
+        "refinansiering_usikret": "https://go.adt246.net/t/t?a=2021427585&as=2102543040&t=2&tk=1",
+        "kredittkort": "https://go.adt246.net/t/t?a=2020411608&as=2102543040&t=2&tk=1"
+      },
+      "tracking_url_status": "verified_from_owner",
+      "source": "Adtraction values and product-specific tracking URLs supplied by site owner 2026-09-26"
     },
     {
       "name": "DigiFinans",
