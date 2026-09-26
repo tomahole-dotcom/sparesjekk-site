@@ -16,9 +16,9 @@
       "payout_event": "lead_usikret_lan",
       "conversion_rate_60d": 0.019,
       "epc_nok_30d": 62.53,
-      "tracking_url": null,
-      "tracking_url_status": "needs_full_url",
-      "source": "Adtraction values supplied by site owner 2026-09-26"
+      "tracking_url": "https://go.adt256.com/t/t?a=1638602458&as=2102543040&t=2&tk=1",
+      "tracking_url_status": "verified_from_owner",
+      "source": "Adtraction values and tracking URL supplied by site owner 2026-09-26"
     },
     {
       "name": "Sambla",
