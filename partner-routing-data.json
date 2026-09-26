@@ -1,0 +1,90 @@
+{
+  "updated": "2026-09-26",
+  "purpose": "Commercial routing inputs. Route only among partners relevant to the user's requested product. Do not expose commission or internal scores in consumer-facing copy.",
+  "rules": {
+    "eligibility_before_revenue": true,
+    "optimize_for": "observed_epc_then_expected_value",
+    "fallback": "commission_x_conversion_rate",
+    "own_data_over_network_data_when_sample_is_sufficient": true,
+    "keep_credit_cards_separate": true
+  },
+  "partners": [
+    {
+      "name": "Zensum",
+      "segments": ["forbrukslan", "refinansiering_usikret"],
+      "payout_nok": 2500,
+      "payout_event": "lead_usikret_lan",
+      "conversion_rate_60d": 0.019,
+      "epc_nok_30d": 62.53,
+      "tracking_url": null,
+      "tracking_url_status": "needs_full_url",
+      "source": "Adtraction values supplied by site owner 2026-09-26"
+    },
+    {
+      "name": "Sambla",
+      "segments": ["forbrukslan", "refinansiering_usikret"],
+      "payout_nok": 1170,
+      "payout_event": "cpa",
+      "conversion_rate_60d": 0.027,
+      "epc_nok_30d": 51.08,
+      "tracking_url": null,
+      "tracking_url_status": "needs_full_url",
+      "source": "Adtraction values supplied by site owner 2026-09-26"
+    },
+    {
+      "name": "DigiFinans",
+      "segments": ["forbrukslan", "refinansiering_usikret"],
+      "payout_nok": 1170,
+      "payout_event": "cpa",
+      "conversion_rate_60d": 0.024,
+      "epc_nok_30d": 21.00,
+      "tracking_url": null,
+      "tracking_url_status": "needs_full_url",
+      "source": "Adtraction values supplied by site owner 2026-09-26"
+    },
+    {
+      "name": "Zen Finans",
+      "segments": ["forbrukslan"],
+      "payout_nok": 2000,
+      "payout_event": "godkjent_soknad_forbrukslan",
+      "conversion_rate_60d": 0.027,
+      "epc_nok_30d": null,
+      "tracking_url": "https://ion.zenfinans.no/t/t?a=2103897882&as=2102543040&t=2&tk=1",
+      "tracking_url_status": "verified_from_owner",
+      "source": "Adtraction values and tracking URL supplied by site owner 2026-09-26"
+    },
+    {
+      "name": "Okida",
+      "segments": ["omstartslan", "refinansiering_med_sikkerhet"],
+      "payout_nok": 1350,
+      "payout_event": "lead_sikkerhet_i_bolig",
+      "conversion_rate_60d": 0.046,
+      "epc_nok_30d": 80.71,
+      "tracking_url": "https://at.okida.no/t/t?a=1259715125&as=2102543040&t=2&tk=1",
+      "tracking_url_status": "verified_from_owner",
+      "source": "Adtraction values and tracking URL supplied by site owner 2026-09-26"
+    },
+    {
+      "name": "Gjeldsmegleren Norge",
+      "segments": ["omstartslan", "refinansiering_med_sikkerhet"],
+      "payout_nok": 2800,
+      "payout_event": "godkjent_soknad_omstartslan",
+      "conversion_rate_60d": 0.016,
+      "epc_nok_30d": null,
+      "tracking_url": "https://at.gjeldsmeglerennorge.no/t/t?a=2069312844&as=2102543040&t=2&tk=1",
+      "tracking_url_status": "verified_from_owner",
+      "source": "Adtraction values and tracking URL supplied by site owner 2026-09-26"
+    },
+    {
+      "name": "Tjenestetorget Finans",
+      "segments": ["omstartslan", "refinansiering_med_sikkerhet", "forbrukslan"],
+      "payout_nok": null,
+      "payout_event": "varies_by_product",
+      "conversion_rate_60d": 0.0,
+      "epc_nok_30d": null,
+      "tracking_url": null,
+      "tracking_url_status": "normal_links_disabled_or_missing",
+      "source": "Adtraction values supplied by site owner 2026-09-26"
+    }
+  ]
+}
