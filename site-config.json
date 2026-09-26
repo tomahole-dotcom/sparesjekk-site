@@ -5,50 +5,31 @@
     "ga4": "G-XYRPP78DJ5"
   },
   "categories": [
-    {
-      "key": "boliglan",
-      "label": "Boliglån",
-      "page": "boliglan.html",
-      "landing": "sjekk/boliglan/"
-    },
-    {
-      "key": "forbrukslan",
-      "label": "Forbrukslån",
-      "page": "forbrukslan.html",
-      "landing": "sjekk/forbrukslan/"
-    },
-    {
-      "key": "omstartslan",
-      "label": "Omstartslån",
-      "page": "omstartslan.html",
-      "landing": "sjekk/omstartslan/"
-    },
-    {
-      "key": "kredittkort",
-      "label": "Kredittkort",
-      "page": "kredittkort.html",
-      "landing": "sjekk/kredittkort/"
-    }
+    {"key":"boliglan","label":"Boliglån","page":"boliglan.html","landing":"sjekk/boliglan/"},
+    {"key":"forbrukslan","label":"Forbrukslån","page":"forbrukslan.html","landing":"sjekk/forbrukslan/"},
+    {"key":"omstartslan","label":"Omstartslån","page":"omstartslan.html","landing":"sjekk/omstartslan/"},
+    {"key":"kredittkort","label":"Kredittkort","page":"kredittkort.html","landing":"sjekk/kredittkort/"},
+    {"key":"refinansiering","label":"Refinansiering","page":"forbrukslan.html","landing":"sjekk/refinansiering/"}
   ],
-  "partners": [],
+  "partners": [
+    {"name":"Zen Finans","status":"active","categories":["forbrukslan"],"priority":10,"url":"https://ion.zenfinans.no/t/t?a=2103897882&as=2102543040&t=2&tk=1","description":"Undersøk forbrukslån og se tilbudet du eventuelt får før du bestemmer deg.","badges":["Forbrukslån"]},
+    {"name":"Zensum","status":"active","categories":["refinansiering"],"priority":10,"url":"https://go.adt256.com/t/t?a=1638602458&as=2102543040&t=2&tk=1","description":"Undersøk muligheten for refinansiering av usikret gjeld.","badges":["Refinansiering"]},
+    {"name":"Sambla","status":"active","categories":["refinansiering"],"priority":20,"url":"https://go.adt246.net/t/t?a=2021427585&as=2102543040&t=2&tk=1","description":"Undersøk refinansiering og sammenlign tilbud dersom du får et.","badges":["Refinansiering"]},
+    {"name":"DigiFinans","status":"active","categories":["refinansiering"],"priority":30,"url":"https://go.adt231.net/t/t?a=1923321285&as=2102543040&t=2&tk=1","description":"Et alternativ for å undersøke refinansiering av usikret gjeld.","badges":["Refinansiering"]},
+    {"name":"Okida","status":"active","categories":["omstartslan"],"priority":10,"url":"https://at.okida.no/t/t?a=1259715125&as=2102543040&t=2&tk=1","description":"Alternativ for deg som vil undersøke refinansiering med sikkerhet i bolig.","badges":["Sikkerhet i bolig"]},
+    {"name":"Gjeldsmegleren Norge","status":"active","categories":["omstartslan"],"priority":20,"url":"https://at.gjeldsmeglerennorge.no/t/t?a=2069312844&as=2102543040&t=2&tk=1","description":"Alternativ for deg som vil undersøke omstartslån og refinansiering med sikkerhet.","badges":["Omstartslån"]},
+    {"name":"re:member Gold","status":"active","categories":["kredittkort"],"priority":10,"url":"https://go.adt212.net/t/t?a=2113489407&as=2102543040&t=2&tk=1","description":"Se gjeldende priser, fordeler og vilkår direkte hos re:member før du søker.","badges":["Kredittkort"]},
+    {"name":"re:member Black","status":"active","categories":["kredittkort"],"priority":20,"url":"https://go.adt212.net/t/t?a=2113489171&as=2102543040&t=2&tk=1","description":"Se gjeldende priser, fordeler og vilkår direkte hos re:member før du søker.","badges":["Kredittkort"]},
+    {"name":"Sambla","status":"active","categories":["kredittkort"],"priority":30,"url":"https://go.adt246.net/t/t?a=2020411608&as=2102543040&t=2&tk=1","description":"Se kredittkortalternativet og gjeldende vilkår hos samarbeidspartneren.","badges":["Kredittkort"]}
+  ],
   "rules": {
     "only_approved_partners": true,
     "preserve_existing_seo": true,
     "affiliate_disclosure_required": true
   },
   "automation": {
-    "generated_blocks": [
-      "commercial partner cards on /sjekk/ landing pages",
-      "sitemap.xml"
-    ],
-    "seo_fields_locked": [
-      "title",
-      "meta description",
-      "canonical",
-      "robots",
-      "h1",
-      "JSON-LD"
-    ],
+    "generated_blocks": ["commercial partner cards on /sjekk/ landing pages","sitemap.xml"],
+    "seo_fields_locked": ["title","meta description","canonical","robots","h1","JSON-LD"],
     "release_rule": "build + full QA must pass"
   }
 }
