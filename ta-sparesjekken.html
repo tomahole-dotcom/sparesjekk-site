@@ -34,7 +34,7 @@ document.getElementById('ss-back').onclick=function(){if(step>1){step--;show()}}
 document.getElementById('ss-next').onclick=function(){
  var need=step===1?['mortgage']:step===2?['mortgageRate']:step===3?['debt']:step===4?(state.difficulty==='yes'?['difficulty','security']:['difficulty']):['card'];
  if(need.some(function(k){return !state[k]})){alert('Velg et svar før du går videre.');return}
- if(step<steps){step++;show()}else finish()
+ if(step<steps){step++;event('savings_check_step',{revenue_stage:'tool_progress',step_number:step,total_steps:steps});show()}else finish()
 };
 function card(kind,title,why,href,cta,context,primary){
  return '<article class="ss-result '+(primary?'primary':'')+'"><p class="ss-kicker">'+kind+'</p><h2>'+title+'</h2><p>'+why+'</p><a class="cta" data-ss-route="'+context+'" href="'+href+'">'+cta+' →</a></article>'

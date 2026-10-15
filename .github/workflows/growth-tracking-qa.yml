@@ -1,0 +1,22 @@
+name: Growth tracking QA
+
+on:
+  pull_request:
+    branches:
+      - seo-content-v34-master
+  push:
+    branches:
+      - seo-content-v34-master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  conversion-tracking:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out site
+        uses: actions/checkout@v4
+      - name: Check growth event instrumentation
+        run: python3 tools/check_growth_tracking.py
