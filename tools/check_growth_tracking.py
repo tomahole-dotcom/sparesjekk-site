@@ -22,6 +22,12 @@ checks = {
         "commercial_route",
         "savings_check_restart",
     ],
+    "kredittkort-match.html": [
+        "credit_card_match_complete",
+        "gtag('event','credit_card_match_complete'",
+        "gjeldssjekk.html?src=kredittkort-match",
+        'data-revenue-event="credit_card_match_debt_check"',
+    ],
     "gjeldssjekk.html": [
         "debt_check_start",
         "debt_check_complete",
